@@ -1,9 +1,11 @@
 package com.ms.hoopi.product.model;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 @Builder
 public class ProductDetailResponseDto {
     private ProductResponseDto product;

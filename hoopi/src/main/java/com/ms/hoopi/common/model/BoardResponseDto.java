@@ -1,11 +1,13 @@
 package com.ms.hoopi.common.model;
 
 import jakarta.persistence.Column;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 @Builder
-@Data
 public class BoardResponseDto {
     private String boardCode;
     private String name;

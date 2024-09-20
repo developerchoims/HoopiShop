@@ -1,10 +1,13 @@
 package com.ms.hoopi.model.dto;
 
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 public class UserJoinDto {
     private String id;
     private String pwd;

@@ -1,11 +1,13 @@
 package com.ms.hoopi.admin.article.model;
 
 import com.ms.hoopi.model.entity.Board;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 @Builder
-@Data
 public class ArticleRequestDto {
     private String id;
     private String articleTitle;

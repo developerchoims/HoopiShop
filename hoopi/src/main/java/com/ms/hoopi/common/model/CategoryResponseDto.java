@@ -1,9 +1,11 @@
 package com.ms.hoopi.common.model;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 @Builder
 public class CategoryResponseDto {
     private Integer id;

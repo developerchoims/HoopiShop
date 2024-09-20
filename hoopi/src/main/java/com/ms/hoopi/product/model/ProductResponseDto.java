@@ -1,11 +1,13 @@
 package com.ms.hoopi.product.model;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 @Builder
 public class ProductResponseDto {
     private String productCode;

@@ -1,10 +1,12 @@
 package com.ms.hoopi.admin.article.model;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 @Builder
-@Data
 public class ArticleCreationRequestDto {
     private ProductRequestDto product;
     private ArticleRequestDto article;
