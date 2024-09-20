@@ -1,14 +1,16 @@
 package com.ms.hoopi.admin.user.model.dto;
 
 import com.ms.hoopi.model.entity.OrderDetail;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import org.springframework.core.annotation.Order;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 @Builder
 public class UserOrderSelectDto {
     private String orderCode;

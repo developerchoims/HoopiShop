@@ -2,12 +2,14 @@ package com.ms.hoopi.admin.user.model.dto;
 
 import com.ms.hoopi.model.entity.OrderDetailId;
 import jakarta.persistence.Column;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 @Builder
 public class UserOrderDetailSelectDto {
     private OrderDetailId orderDetailId;

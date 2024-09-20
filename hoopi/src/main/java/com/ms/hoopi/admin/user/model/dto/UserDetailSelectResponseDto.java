@@ -1,14 +1,16 @@
 package com.ms.hoopi.admin.user.model.dto;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 @Builder
 public class UserDetailSelectResponseDto {
     private String code;

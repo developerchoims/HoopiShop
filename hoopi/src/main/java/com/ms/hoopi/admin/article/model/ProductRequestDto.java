@@ -1,12 +1,14 @@
 package com.ms.hoopi.admin.article.model;
 
 import jakarta.persistence.Column;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 @Builder
-@Data
 public class ProductRequestDto {
     private String name;
     private Long price;

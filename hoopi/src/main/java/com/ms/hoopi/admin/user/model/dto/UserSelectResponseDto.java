@@ -1,9 +1,11 @@
 package com.ms.hoopi.admin.user.model.dto;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 @Builder
 public class UserSelectResponseDto {
     private String code;
