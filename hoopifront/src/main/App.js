@@ -65,7 +65,6 @@ function App() {
                             <Route path='/login' element={<Login />}/>
                             <Route path='/admin/*' element={<AdminMain/>}/>
                             <Route path='/product' element={<Product/>}/>
-
                         </Routes>
                     </SearchProvider>
                 </div>
