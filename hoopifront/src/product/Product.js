@@ -41,12 +41,12 @@ const Product = () => {
         <>
             <div className='product-container'>
                 {products?.content?.map((product, index) => (
-                    <Link to={`/product/${product.name}`} key={index}>
+                    <Link to={`/product/${product.product.name}`} key={index}>
                         <div className="product-box">
-                            <img src={product.imgUrl} alt={product.name} className="product-img"/>
+                            <img src={product.imgUrl} alt={product.product.name} className="product-img"/>
                             <div className="product-content">
-                                <h4>{product.name}</h4>
-                                <p>{product.price}원</p>
+                                <h4>{product.product.name}</h4>
+                                <p>{product.product.price}원</p>
                             </div>
                         </div>
                     </Link>
