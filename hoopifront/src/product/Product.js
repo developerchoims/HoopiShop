@@ -43,7 +43,9 @@ const Product = () => {
                 {products?.content?.map((product, index) => (
                     <Link to={`/product/${product.product.name}`} key={index}>
                         <div className="product-box">
-                            <img src={product.imgUrl} alt={product.product.name} className="product-img"/>
+                            <div className="product-img-container">
+                                <img src={product.imgUrl} alt={product.product.name} className="product-img"/>
+                            </div>
                             <div className="product-content">
                                 <h4>{product.product.name}</h4>
                                 <p>{product.product.price}원</p>
