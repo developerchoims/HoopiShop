@@ -9,6 +9,7 @@ import './axios/axiosInterceptor.js';
 import AdminMain from "../admin/adminMain";
 import {SearchProvider} from "../searchMenu/SearchContext";
 import Menu from "../searchMenu/Menu";
+import Product from "../product/Product";
 
 // Context 생성
 const UserContext = createContext(null);
@@ -63,6 +64,8 @@ function App() {
                             <Route path='/join' element={<Join />}/>
                             <Route path='/login' element={<Login />}/>
                             <Route path='/admin/*' element={<AdminMain/>}/>
+                            <Route path='/product' element={<Product/>}/>
+
                         </Routes>
                     </SearchProvider>
                 </div>
