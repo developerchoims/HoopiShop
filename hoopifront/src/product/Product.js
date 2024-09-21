@@ -25,10 +25,14 @@ const Product = () => {
     }, [currentPage, keyword, searchCate]);
 
     const getProduct = async (role, page) => {
-        const response = await axios.get('http://hoopi.p-e.kr/api/hoopi/product', {
-            params:{role: role, keyword: keyword, searchCate: searchCate, page: page-1, size: 10}
-        });
-        setProducts(response.data);
+        try{
+            const response = await axios.get('http://hoopi.p-e.kr/api/hoopi/product', {
+                params:{role: role, keyword: keyword, searchCate: searchCate, page: page-1, size: 10}
+            });
+            setProducts(response.data);
+        } catch (e) {
+            console.error(e);
+        }
     }
 
 
@@ -36,7 +40,7 @@ const Product = () => {
     return(
         <>
             <div className='product-container'>
-                {products.content.map((product, index) => (
+                {products?.content?.map((product, index) => (
                     <Link to={`/product/${product.name}`} key={index}>
                         <div className="product-box">
                             <img src={product.imgUrl} alt={product.name} className="product-img"/>
@@ -51,6 +55,6 @@ const Product = () => {
             <Pagination count={products.totalPages} page={currentPage} onChange={handlePageChange}
                         variant="outlined" color="primary"/>
         </>
-    )
+    );
 }
 export default Product;
