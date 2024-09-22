@@ -1,6 +1,7 @@
 import './productDetail.css'
 import {useParams} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import axios from "axios";
 const ProductDetail = () => {
 
     const role = localStorage.getItem("role");
