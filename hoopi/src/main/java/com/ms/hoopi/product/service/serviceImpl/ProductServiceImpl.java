@@ -1,6 +1,7 @@
 package com.ms.hoopi.product.service.serviceImpl;
 
 import com.ms.hoopi.common.service.FileUploadService;
+import com.ms.hoopi.constants.Constants;
 import com.ms.hoopi.model.entity.Article;
 import com.ms.hoopi.model.entity.Product;
 import com.ms.hoopi.model.entity.ProductImg;
@@ -10,12 +11,14 @@ import com.ms.hoopi.product.service.ProductService;
 import com.ms.hoopi.repository.ArticleRepository;
 import com.ms.hoopi.repository.ProductImgRepository;
 import com.ms.hoopi.repository.ProductRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -93,8 +96,20 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<ProductDetailResponseDto> getProduct(int page, int size, String searchCate, String keyword, String role) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<Product> products = productRepository.findAll(pageable);
         List<ProductDetailResponseDto> details = new ArrayList<>();
+
+        Page<Product> products;
+        // keyword가 없을 때
+        if(keyword == null || keyword.isEmpty()){
+            products = productRepository.findAll(pageable);
+        } else {
+            // keyword가 있을 때
+            products = switch (searchCate) {
+                case "productName" -> productRepository.searchByNameKeyword(keyword);
+                case "productContent" -> productRepository.searchByContentKeyword(keyword);
+                default -> productRepository.findAll(pageable);
+            };
+        }
 
         if (role.equals("admin") || role.equals("user")) {
             for (Product p : products) {
@@ -134,6 +149,44 @@ public class ProductServiceImpl implements ProductService {
             }
         }
         return new PageImpl<>(details, pageable, products.getTotalElements());
+    }
+
+    @Override
+    public ResponseEntity<?> getProductDetail(String productCode) {
+        try{
+            // product 정보 가져오기
+            Product product = productRepository.findByProductCode(productCode)
+                    .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_PRODUCT));
+            ProductResponseDto p = ProductResponseDto.builder()
+                    .productCode(product.getProductCode())
+                    .name(product.getName())
+                    .price(product.getPrice())
+                    .createdAt(product.getCreatedAt())
+                    .build();
+
+            // product Img 정보 가져오기
+            ProductImg productImg = productImgRepository.findByProductCode(productCode);
+            String imgUrl = fileUploadService.getS3(productImg.getImgKey());
+            ProductImg boardImg = productImgRepository.findBoardImgByProductCode(productCode);
+            String boardImgUrl = fileUploadService.getS3(boardImg.getImgKey());
+
+            // boardContent가져오기
+            String boardContent = articleRepository.findByProductCode(productCode);
+
+            // productDetail 정보 build
+            ProductDetailResponseDto productDetail = ProductDetailResponseDto.builder()
+                                                                            .product(p)
+                                                                            .imgUrl(imgUrl)
+                                                                            .boardImgUrl(boardImgUrl)
+                                                                            .boardContent(boardContent)
+                                                                            .build();
+
+            return ResponseEntity.ok(productDetail);
+
+        } catch (Exception e) {
+            log.error(Constants.NONE_PRODUCT, e);
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }

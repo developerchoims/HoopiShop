@@ -41,7 +41,7 @@ const Product = () => {
         <>
             <div className='product-container'>
                 {products?.content?.map((product, index) => (
-                    <Link to={`/product/${product.product.name}`} key={index}>
+                    <Link to={`/product/${product.product.productCode}/${product.product.name}`} key={index}>
                         <div className="product-box">
                             <div className="product-img-container">
                                 <img src={product.imgUrl} alt={product.product.name} className="product-img"/>

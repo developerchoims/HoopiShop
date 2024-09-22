@@ -10,5 +10,6 @@ import lombok.*;
 public class ProductDetailResponseDto {
     private ProductResponseDto product;
     private String imgUrl;
+    private String boardImgUrl;
     private String boardContent;
 }
