@@ -18,6 +18,7 @@ const ProductDetail = () => {
         try{
             const response = await axios.get(`http://hoopi.p-e.kr/api/hoopi/product/${productCode}`, {});
             setProductDetail(response.data);
+            console.log(response.data);
         } catch (error) {
             console.log(error);
         }

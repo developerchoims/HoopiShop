@@ -155,13 +155,13 @@ public class ProductServiceImpl implements ProductService {
     public ResponseEntity<?> getProductDetail(String productCode) {
         try{
             // product 정보 가져오기
-            Product product = productRepository.findByProductCode(productCode)
+            Product productEntity = productRepository.findByProductCode(productCode)
                     .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_PRODUCT));
-            ProductResponseDto p = ProductResponseDto.builder()
-                    .productCode(product.getProductCode())
-                    .name(product.getName())
-                    .price(product.getPrice())
-                    .createdAt(product.getCreatedAt())
+            ProductResponseDto product = ProductResponseDto.builder()
+                    .productCode(productEntity.getProductCode())
+                    .name(productEntity.getName())
+                    .price(productEntity.getPrice())
+                    .createdAt(productEntity.getCreatedAt())
                     .build();
 
             // product Img 정보 가져오기
@@ -175,7 +175,7 @@ public class ProductServiceImpl implements ProductService {
 
             // productDetail 정보 build
             ProductDetailResponseDto productDetail = ProductDetailResponseDto.builder()
-                                                                            .product(p)
+                                                                            .product(product)
                                                                             .imgUrl(imgUrl)
                                                                             .boardImgUrl(boardImgUrl)
                                                                             .boardContent(boardContent)
