@@ -39,7 +39,6 @@ public class ProductImg {
     private String imgKey;
 
     @NotNull
-    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
