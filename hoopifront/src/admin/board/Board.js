@@ -52,7 +52,7 @@ const Board = () => {
     const handleFileChange = (event) => {
         const selectedFiles = Array.from(event.target.files);
 
-        // 기존 파일과 새로운 파일을 합칩니다.
+        // 기존 파일과 새로운 파일을 합침
         const updatedFiles = [...files, ...selectedFiles];
         setFiles(updatedFiles);  // 전체 파일 목록 업데이트
 
@@ -102,11 +102,11 @@ const Board = () => {
         try {
             const response = await axios.post('http://hoopi.p-e.kr/api/hoopi/article', formData);
             alert(response.data);
-            navigate(-1);
             setArticle(null);
             setProduct(null);
             setFiles(null);
             setImagePreviews(null);
+            navigate(-2);
         } catch (error) {
             console.error(error);
         }

@@ -43,7 +43,7 @@ const ProductDetail = () => {
                         <h4>{productDetail?.product.name}</h4>
                         <p>{productDetail?.product.price}</p>
                         <div className='productDetail-price'>
-                            <input type='number' min='1' max='5' step='1' onChange={handleTotalPrice}/>
+                            <input type='number' min='1' max='5' step='1' defaultValue='1' onChange={handleTotalPrice}/>
                             총 금액 : {totalPrice}원
                         </div>
                         <div className='productDetail-info-button'>
