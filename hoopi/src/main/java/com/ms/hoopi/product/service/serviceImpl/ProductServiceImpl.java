@@ -105,8 +105,8 @@ public class ProductServiceImpl implements ProductService {
         } else {
             // keyword가 있을 때
             products = switch (searchCate) {
-                case "productName" -> productRepository.searchByNameKeyword(keyword);
-                case "productContent" -> productRepository.searchByContentKeyword(keyword);
+                case "productName" -> productRepository.searchByNameKeyword(keyword, pageable);
+                case "productContent" -> productRepository.searchByContentKeyword(keyword, pageable);
                 default -> productRepository.findAll(pageable);
             };
         }

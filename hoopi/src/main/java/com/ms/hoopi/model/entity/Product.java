@@ -47,7 +47,6 @@ public class Product {
     private Set<ProductImg> productImgs = new LinkedHashSet<>();
 
     @NotNull
-    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
