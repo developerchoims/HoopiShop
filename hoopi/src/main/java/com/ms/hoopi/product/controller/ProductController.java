@@ -5,12 +5,14 @@ import com.ms.hoopi.product.model.ProductDetailResponseDto;
 import com.ms.hoopi.product.model.ProductResponseDto;
 import com.ms.hoopi.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("hoopi")
@@ -39,6 +41,7 @@ public class ProductController {
 
     @GetMapping("/product/{productCode}")
     public ResponseEntity<?> getProductDetail(@PathVariable String productCode) {
+        log.info("productCode:{}",productCode);
         return productService.getProductDetail(productCode);
     }
 
