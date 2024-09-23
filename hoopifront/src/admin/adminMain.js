@@ -1,8 +1,10 @@
 import Header from "./header";
 import UserBody from "./user/userBody";
 import {useEffect} from "react";
-import {useLocation} from "react-router-dom";
+import {Outlet, useLocation} from "react-router-dom";
 import Board from "./board/Board";
+import Product from "../product/Product";
+import {ProductDetail} from "../product/ProductDetail";
 
 const AdminMain = () => {
     const id = localStorage.getItem("id");
@@ -25,9 +27,7 @@ const AdminMain = () => {
     return(
         <div>
             <Header/>
-            {path.includes('admin/user')||path.includes('admin/main')?<UserBody/>
-            :path.includes('admin')&&path.includes('write')?<Board/>
-            :<UserBody/>}
+            <Outlet/>
         </div>
     );
 }

@@ -11,6 +11,7 @@ import {SearchProvider} from "../searchMenu/SearchContext";
 import Menu from "../searchMenu/Menu";
 import Product from "../product/Product";
 import {ProductDetail} from "../product/ProductDetail";
+import UserBody from "../admin/user/userBody";
 
 // Context 생성
 const UserContext = createContext(null);
@@ -64,7 +65,12 @@ function App() {
                             <Route path='/' element={<Main/>}/>
                             <Route path='/join' element={<Join />}/>
                             <Route path='/login' element={<Login />}/>
-                            <Route path='/admin/*' element={<AdminMain/>}/>
+                            <Route path='/admin' element={<AdminMain/>}>
+                                <Route path='product' element={<Product/>}>
+                                    <Route path=':productCode/:name' element={<ProductDetail/>}/>
+                                </Route>
+                                <Route path='user' element={<UserBody/>}/>
+                            </Route>
                             <Route path='/product' element={<Product/>}/>
                             <Route path='/product/:productCode/:name' element={<ProductDetail/>}/>
                         </Routes>
