@@ -23,19 +23,27 @@ const ProductDetail = () => {
         }
     }
 
+    // 주문 가격
+    const [totalPrice, setTotalPrice] = useState(productDetail?.product?.price ?? 0);
+    const handleTotlaPrice = (e) => {
+        let quantity = e.target.value;
+        let price = productDetail?.product?.price ?? 0;
+        setTotalPrice(price * quantity);
+    }
+
     return(
         <div className='productDetail-container'>
             <div className='productDetail-box'>
                 <div className='productDetail-header'>
                     <div className='productDetail-img'>
-                        <img src={productDetail.imgUrl} alt='logo'/>
+                        <img src={productDetail?.imgUrl} alt='logo'/>
                     </div>
                     <div className='productDetail-info'>
-                        <h4>{productDetail.product.name}</h4>
-                        <p>{productDetail.product.price}</p>
+                        <h4>{productDetail?.product.name}</h4>
+                        <p>{productDetail?.product.price}</p>
                         <div className='productDetail-price'>
                             <input type='number' min='1' max='5' step='1' />
-                            총 금액 : 00000원
+                            총 금액 : {totalPrice}원
                         </div>
                         <div className='productDetail-info-button'>
                             <button>장바구니</button>
@@ -45,7 +53,7 @@ const ProductDetail = () => {
                 </div>
                 <div className='productDetail-body'>
                     <div className='productDetail-body-img'>
-                        <img src='/logo192.png' alt='logo'/>
+                        <img src={productDetail?.boardImgUrl ?? productDetail?.imgUrl} alt='logo'/>
                     </div>
                     <div className='productDetail-body-info'>
                         배송비 별도 : 3,500원
