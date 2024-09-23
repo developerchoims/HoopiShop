@@ -44,7 +44,8 @@ public class JwtFilter extends OncePerRequestFilter {
             "/hoopi/menu",
             "/hoopi/product-new",
             "/hoopi/product-popular",
-            "/hoopi/product"
+            "/hoopi/product",
+            "/hoopi/product/*"
     );
 
     private AntPathMatcher pathMatcher = new AntPathMatcher();
