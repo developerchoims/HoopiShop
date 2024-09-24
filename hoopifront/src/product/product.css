@@ -61,3 +61,8 @@
 .product-content p {
     font-size: 2.5vh;
 }
+.product-pagination-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
