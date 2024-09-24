@@ -33,6 +33,7 @@ const NoticeDetail = () => {
                 </div>
                 <div className="notice-detail-content-box">
                     <img src={noticeDetail?.imgUrl} alt={noticeDetail?.articleTitle}/>
+                    <br/>
                     {noticeDetail?.boardContent}
                 </div>
             </div>
