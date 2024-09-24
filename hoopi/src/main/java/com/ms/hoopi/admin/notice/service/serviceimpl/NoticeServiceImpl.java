@@ -69,7 +69,7 @@ public class NoticeServiceImpl implements NoticeService {
                     .articleCode(article.getArticleCode())
                     .articleTitle(article.getArticleTitle())
                     .boardContent(article.getBoardContent())
-                    .imgUrl(article.getArticleImgs().stream().map(m->m.getImgKey()).toString())
+                    .imgUrl(fileUploadService.getS3(article.getArticleImgs().stream().map(m->m.getImgKey()).toString()))
                     .articleDate(article.getArticleDate())
                     .build();
             return noticeDetail;
