@@ -15,12 +15,14 @@
     width: 100%;
     border : 1px solid #c9dcf9;
     border-radius: 10px;
-    border-collapse: collapse;
+    border-collapse: separate;
     text-align: center;
+    margin: 20px 0;
 }
 
 .notice-box>table td, .notice-box>table th{
     border: 3px solid #c9dcf9;
+    padding: 10px;
 }
 
 .notice-box>table th{
