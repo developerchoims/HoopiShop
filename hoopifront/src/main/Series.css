@@ -23,6 +23,9 @@
     white-space: nowrap;
 }
 
+.series-img-container a{
+    width: 100%;
+}
 
 .series-img-box {
     display: flex;

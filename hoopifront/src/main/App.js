@@ -12,6 +12,7 @@ import Menu from "../searchMenu/Menu";
 import Product from "../product/Product";
 import {ProductDetail} from "../product/ProductDetail";
 import UserBody from "../admin/user/userBody";
+import Board from "../admin/board/Board";
 
 // Context 생성
 const UserContext = createContext(null);
@@ -68,6 +69,7 @@ function App() {
                             <Route path='/admin' element={<AdminMain/>}>
                                 <Route path='product' element={<Product/>}>
                                     <Route path=':productCode/:name' element={<ProductDetail/>}/>
+                                    <Route path='write' element={<Board/>}/>
                                 </Route>
                                 <Route path='user' element={<UserBody/>}/>
                             </Route>

@@ -60,7 +60,7 @@ public class FileUploadService {
 
 
     public String getS3(String key) {
-        return amazonS3.getUrl(bucket, key).toString();
+        return amazonS3.getUrl(bucket, key).toString() == null? "" : amazonS3.getUrl(bucket, key).toString();
     }
 
 }

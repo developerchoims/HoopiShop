@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Dongle:wght@300;400;700&family=Noto+Sans+KR:wght@100..900&display=swap');
 
 .join-container {
-    border : 1px solid black;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -9,7 +8,6 @@
 }
 
 .join-table {
-    border : 1px solid black;
     margin : auto;
 }
 
