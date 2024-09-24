@@ -23,7 +23,7 @@ const Notice = () => {
     const getNotice = async() => {
         try{
             const response = await axios.get('http://hoopi.p-e.kr/api/hoopi/notice', {
-                params:{page: currentPage, size: 10, searchCate: searchCate, keyword: keyword}
+                params:{page: page-1, size: 10, searchCate: searchCate, keyword: keyword}
             });
             console.log(response.data);
             setNotice(response.data);
