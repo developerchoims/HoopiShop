@@ -1,6 +1,7 @@
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import './noticeDetail.css'
 
 const NoticeDetail = () => {
     // 게시글 정보

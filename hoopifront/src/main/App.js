@@ -77,7 +77,7 @@ function App() {
                                 <Route path=':boardId/write' element={<Board/>}/>
                             </Route>
                             <Route path='/product' element={<Product/>}/>
-                            <Route path='/product:productCode/:name' element={<ProductDetail/>}/>
+                            <Route path='/product/:productCode/:name' element={<ProductDetail/>}/>
                             <Route path="/notice" element={<Notice/>}/>
                             <Route path='/notice/:articleCode/:articleTitle' element={<NoticeDetail/>}/>
                         </Routes>
