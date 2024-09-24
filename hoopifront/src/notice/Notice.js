@@ -27,6 +27,7 @@ const Notice = () => {
             });
             console.log(response.data);
             setNotice(response.data);
+
         } catch (e){
             console.log(e);
         }
@@ -45,13 +46,13 @@ const Notice = () => {
                     </thead>
                     <tbody>
                     {notice?.content?.map((n, index) => (
-                        <Link to={`/notice/${n.articleCode}/${n.articleTitle}`} key={n.articleCode}>
-                            <tr>
-                                <td>{index}</td>
-                                <td>{n.articleTitle}</td>
-                                <td>{n.articleDate}</td>
-                            </tr>
-                        </Link>
+                        <tr>
+                            <Link to={`/admin/notice/${n.articleCode}/${n.articleTitle}`} key={n.articleCode}>
+                            <td>{index}</td>
+                            <td>{n.articleTitle}</td>
+                            <td>{n.articleDate}</td>
+                            </Link>
+                        </tr>
                     ))}
                     </tbody>
                 </table>
