@@ -44,18 +44,24 @@ const Notice = () => {
                     </thead>
                     <tbody>
                     {notice?.content?.map((n, index) => (
-                        <tr key={n.articleCode}>
-                            <td>{index}</td>
-                            <td>{n.articleTitle}</td>
-                            <td>{n.articleDate}</td>
-                        </tr>
+                        <Link to={`/notice/${n.articleCode}`} key={n.articleCode}>
+                            <tr>
+                                <td>{index}</td>
+                                <td>{n.articleTitle}</td>
+                                <td>{n.articleDate}</td>
+                            </tr>
+                        </Link>
                     ))}
                     </tbody>
                 </table>
+
+                <div className="notice-pagination-box">
+                    <Pagination count={notice?.totalPages} page={currentPage} onChange={handlePageChange}
+                                variant="outlined" color="primary"/>
+                </div>
             </div>
-            <Pagination count={notice?.totalPages} page={currentPage} onChange={handlePageChange}
-                        variant="outlined" color="primary"/>
         </div>
+
     );
 }
 export default Notice;

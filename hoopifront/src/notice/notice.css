@@ -1,15 +1,14 @@
 .notice-container{
     width:100%;
-    margin:auto;
+    display:flex;
+    justify-content: center;
+    align-items: center;
     font-family: 'LeeSeoyun', sans-serif;
     color: grey;
 }
 
 .notice-box{
     width: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .notice-box>table{
@@ -32,15 +31,27 @@
     font-size: 3vh;
 }
 
-.notice-box>table th:first-child{
+.notice-box>table>thead>tr th:first-child{
     border-top-left-radius: 10px;
 }
-.notice-box>table th:last-child{
+.notice-box>table>thead>tr th:last-child{
     border-top-right-radius: 10px;
 }
-.notice-box>table tr:last-child td:first-child{
+.notice-box>table>tbody>tr:last-child td:first-child{
     border-bottom-left-radius: 10px;
 }
-.notice-box>table tr:last-child td:last-child{
+.notice-box>table>tbody>tr:last-child td:last-child{
     border-bottom-right-radius: 10px;
+}
+
+.notice-box>table a{
+    text-decoration: none;
+    color: grey;
+}
+
+.notice-pagination-box{
+    width: 100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
 }
