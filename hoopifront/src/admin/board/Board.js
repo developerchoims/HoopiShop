@@ -106,7 +106,7 @@ const Board = () => {
             setProduct(null);
             setFiles(null);
             setImagePreviews(null);
-            navigate(-2);
+            navigate(-1);
         } catch (error) {
             console.error(error);
         }
@@ -119,9 +119,9 @@ const Board = () => {
         <div className='admin-article-container'>
             <div className='admin-product-container' style={{display: visible?'block':'none'}}>
                 <div className='admin-product-box'>
-                    상품명 : <input type='text' id='name' value={product.name} onChange={handleProduct}/> <br/>
-                    가 격 : <input type='text' id='price' value={product.price} onChange={handleProduct}/> <br/>
-                    재 고 : <input type='text' id='stock' value={product.stock} onChange={handleProduct}/> <br/>
+                    상품명 : <input type='text' id='name' value={product?.name} onChange={handleProduct}/> <br/>
+                    가 격 : <input type='text' id='price' value={product?.price} onChange={handleProduct}/> <br/>
+                    재 고 : <input type='text' id='stock' value={product?.stock} onChange={handleProduct}/> <br/>
                 </div>
             </div>
             <div className='admin-article-box'>
