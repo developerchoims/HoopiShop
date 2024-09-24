@@ -24,6 +24,7 @@ const Notice = () => {
             const response = await axios.get('http://hoopi.p-e.kr/api/hoopi/notice', {
                 params:{page: currentPage, size: 10, searchCate: searchCate, keyword: keyword}
             });
+            console.log(response.data);
             setNotice(response.data);
         } catch (e){
             console.log(e);
@@ -42,7 +43,7 @@ const Notice = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {notice?.map((n, index) => (
+                    {notice?.content?.map((n, index) => (
                         <tr key={n.articleCode}>
                             <td>{index}</td>
                             <td>{n.articleTitle}</td>
@@ -52,7 +53,7 @@ const Notice = () => {
                     </tbody>
                 </table>
             </div>
-            <Pagination size={notice.totalPages} pageSize={currentPage} onChange={handlePageChange}
+            <Pagination count={notice.totalPages} page={currentPage} onChange={handlePageChange}
                         variant="outlined" color="primary"/>
         </div>
     );
