@@ -45,7 +45,7 @@ const Notice = () => {
                     </thead>
                     <tbody>
                     {notice?.content?.map((n, index) => (
-                        <Link to={`/notice/${n.articleCode}`} key={n.articleCode}>
+                        <Link to={`/notice/${n.articleCode}/${n.articleTitle}`} key={n.articleCode}>
                             <tr>
                                 <td>{index}</td>
                                 <td>{n.articleTitle}</td>
