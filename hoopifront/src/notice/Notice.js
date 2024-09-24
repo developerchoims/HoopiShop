@@ -2,6 +2,7 @@ import {useSearch} from "../searchMenu/SearchContext";
 import Pagination from "@mui/material/Pagination";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import './notice.css';
 
 const Notice = () => {
     const{searchCate, setSearchCate, keyword, setKeyword} = useSearch();
@@ -31,25 +32,27 @@ const Notice = () => {
 
     return(
         <div className="notice-container">
-            <table>
-                <thead>
-                <tr>
-                    <th>순번</th>
-                    <th>제목</th>
-                    <th>날짜</th>
-                </tr>
-                </thead>
-                <tbody>
-                {notice?.map((n, index)=> (
-                    <tr key={n.articleCode}>
-                        <td>{index}</td>
-                        <td>{n.articleTitle}</td>
-                        <td>{n.articleDate}</td>
+            <div className='notice-box'>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>순번</th>
+                        <th>제목</th>
+                        <th>날짜</th>
                     </tr>
-                ))}
-                </tbody>
-            </table>
-            <Pagination count={notice.totalPages} page={currentPage} onChange={handlePageChange}
+                    </thead>
+                    <tbody>
+                    {notice?.map((n, index) => (
+                        <tr key={n.articleCode}>
+                            <td>{index}</td>
+                            <td>{n.articleTitle}</td>
+                            <td>{n.articleDate}</td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            </div>
+            <Pagination size={notice.totalPages} pageSize={currentPage} onChange={handlePageChange}
                         variant="outlined" color="primary"/>
         </div>
     );
