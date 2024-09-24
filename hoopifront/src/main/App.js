@@ -74,7 +74,7 @@ function App() {
                                     <Route path=':productCode/:name' element={<ProductDetail/>}/>
                                 </Route>
                                 <Route path='user' element={<UserBody/>}/>
-                                <Route path="notice" element={<Notice/>}>
+                                <Route path='notice' element={<Notice/>}>
                                     <Route path=':articleCode/:articleTitle' element={<NoticeDetail/>}/>
                                 </Route>
                             </Route>
