@@ -36,7 +36,7 @@ const Notice = () => {
     // noticeDetail페이지로 이동
     const navigate = useNavigate();
     const handleNoticeDetail = (n) => {
-        navigate(`/admin/notice/${n.articleCode}/${n.articleTitle}`);
+        navigate(`/notice/${n.articleCode}/${n.articleTitle}`);
     }
 
     return(
