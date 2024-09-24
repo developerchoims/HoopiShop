@@ -7,6 +7,7 @@ import com.ms.hoopi.constants.Constants;
 import com.ms.hoopi.model.entity.Article;
 import com.ms.hoopi.repository.ArticleImgRepository;
 import com.ms.hoopi.repository.ArticleRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -54,6 +55,25 @@ public class NoticeServiceImpl implements NoticeService {
             return new PageImpl<>(notices, pageable, notices.size());
 
         } catch (Exception e){
+            log.error(Constants.NONE_ARTICLE, e);
+            return null;
+        }
+    }
+
+    @Override
+    public NoticeResponseDto getNoticeDetail(String articleCode) {
+        Article article = articleRepository.findByArticleCode(articleCode)
+                                            .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_ARTICLE));
+        try{
+            NoticeResponseDto noticeDetail = NoticeResponseDto.builder()
+                    .articleCode(article.getArticleCode())
+                    .articleTitle(article.getArticleTitle())
+                    .boardContent(article.getBoardContent())
+                    .imgUrl(fileUploadService.getS3(article.getArticleImgs().stream().map(m->m.getImgKey()).toString()))
+                    .articleDate(article.getArticleDate())
+                    .build();
+            return noticeDetail;
+        }catch (Exception e){
             log.error(Constants.NONE_ARTICLE, e);
             return null;
         }
