@@ -25,6 +25,8 @@
 
 .main-new-product-container a{
     width: 100%;
+    text-decoration: none;
+    color: grey;
 }
 
 .main-new-product-box {
