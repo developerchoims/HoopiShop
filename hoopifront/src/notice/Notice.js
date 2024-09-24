@@ -53,7 +53,7 @@ const Notice = () => {
                     </tbody>
                 </table>
             </div>
-            <Pagination count={notice.totalPages} page={currentPage} onChange={handlePageChange}
+            <Pagination count={notice?.totalPages} page={currentPage} onChange={handlePageChange}
                         variant="outlined" color="primary"/>
         </div>
     );
