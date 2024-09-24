@@ -1,8 +1,6 @@
 .notice-container{
     width:100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin:auto;
     font-family: 'LeeSeoyun', sans-serif;
     color: grey;
 }
@@ -27,11 +25,11 @@
 }
 
 .notice-box>table th{
-    font-size: 2.5vh;
+    font-size: 3vh;
 }
 
 .notice-box>table td{
-    font-size: 2vh;
+    font-size: 3vh;
 }
 
 .notice-box>table th:first-child{
