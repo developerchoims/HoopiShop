@@ -69,13 +69,12 @@ function App() {
                             <Route path='/join' element={<Join />}/>
                             <Route path='/login' element={<Login />}/>
                             <Route path='/admin' element={<AdminMain/>}>
+                                <Route path=':boardId/write' element={<Board/>}/>
                                 <Route path='product' element={<Product/>}>
-                                    <Route path='write' element={<Board/>}/>
                                     <Route path=':productCode/:name' element={<ProductDetail/>}/>
                                 </Route>
                                 <Route path='user' element={<UserBody/>}/>
                                 <Route path="notice" element={<Notice/>}>
-                                    <Route path='write' element={<Board/>}/>
                                     <Route path=':articleCode/:articleTitle' element={<NoticeDetail/>}/>
                                 </Route>
                             </Route>

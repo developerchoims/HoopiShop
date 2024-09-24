@@ -22,4 +22,7 @@ public interface ArticleRepository extends JpaRepository<Article, String> {
 
     @Query("SELECT a FROM Article a WHERE a.boardCode.boardId = 'notice' AND a.boardContent LIKE CONCAT('%', :keyword, '%')")
     List<Article> findNoticeByContent(String keyword);
+
+    @Query("SELECT a FROM Article a WHERE a.articleCode = :articleCode")
+    Optional<Article> findByArticleCode(String articleCode);
 }

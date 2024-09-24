@@ -6,10 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("hoopi")
@@ -25,5 +22,10 @@ public class NoticeController {
                                              @RequestParam String searchCate,
                                              @RequestParam String keyword){
         return noticeService.getNotice(page, size, searchCate, keyword);
+    }
+
+    @GetMapping("/notice-detail/{articleCode}")
+    public NoticeResponseDto getNoticeDetail(@PathVariable String articleCode){
+        return noticeService.getNoticeDetail(articleCode);
     }
 }
