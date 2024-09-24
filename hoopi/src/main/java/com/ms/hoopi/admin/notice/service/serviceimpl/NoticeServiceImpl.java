@@ -42,12 +42,18 @@ public class NoticeServiceImpl implements NoticeService {
             }
             List<NoticeResponseDto> notices = new ArrayList<>();
             for(Article a : article){
+                String imgUrl = fileUploadService.getS3(
+                    a.getArticleImgs().stream()
+                                .map(m -> m.getImgKey())
+                                .findFirst()
+                                .orElse(null)
+                );
                 NoticeResponseDto noticeResponseDto = NoticeResponseDto.builder()
                         .articleCode(a.getArticleCode())
                         .articleTitle(a.getArticleTitle())
                         .boardContent(a.getBoardContent())
                         .articleDate(a.getArticleDate())
-                        .imgUrl(fileUploadService.getS3(a.getArticleImgs().stream().map(m->m.getImgKey()).toString()))
+                        .imgUrl(imgUrl)
                         .build();
                 notices.add(noticeResponseDto);
             }
@@ -65,11 +71,18 @@ public class NoticeServiceImpl implements NoticeService {
         Article article = articleRepository.findByArticleCode(articleCode)
                                             .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_ARTICLE));
         try{
+            String imgUrl = fileUploadService.getS3(
+                    article.getArticleImgs().stream()
+                            .map(m -> m.getImgKey())
+                            .findFirst()
+                            .orElse(null)
+            );
+
             NoticeResponseDto noticeDetail = NoticeResponseDto.builder()
                     .articleCode(article.getArticleCode())
                     .articleTitle(article.getArticleTitle())
                     .boardContent(article.getBoardContent())
-                    .imgUrl(fileUploadService.getS3(article.getArticleImgs().stream().map(m->m.getImgKey()).toString()))
+                    .imgUrl(imgUrl)
                     .articleDate(article.getArticleDate())
                     .build();
             return noticeDetail;
