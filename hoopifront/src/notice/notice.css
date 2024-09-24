@@ -17,7 +17,7 @@
     border-radius: 10px;
     border-collapse: separate;
     text-align: center;
-    margin: 20px 0;
+    border-spacing: 0;
 }
 
 .notice-box>table td, .notice-box>table th{
@@ -33,17 +33,17 @@
     font-size: 3vh;
 }
 
-.notice-box>table>thead>tr th:first-child{
-    border-top-left-radius: 10px;
+.notice-box>table>thead>tr>th:first-child{
+    border-radius: 10px 0 0 0;
 }
-.notice-box>table>thead>tr th:last-child{
-    border-top-right-radius: 10px;
+.notice-box>table>thead>tr>th:last-child{
+    border-radius: 0 10px 0 0;
 }
-.notice-box>table>tbody>tr:last-child td:first-child{
-    border-bottom-left-radius: 10px;
+.notice-box>table>tbody>tr:last-child>td:first-child{
+    border-radius: 0 0 0 10px;
 }
-.notice-box>table>tbody>tr:last-child td:last-child{
-    border-bottom-right-radius: 10px;
+.notice-box>table>tbody>tr:last-child>td:last-child{
+    border-radius: 0 0 10px 0;
 }
 
 .notice-box>table a{
