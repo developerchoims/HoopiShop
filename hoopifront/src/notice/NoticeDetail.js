@@ -16,8 +16,9 @@ const NoticeDetail = () => {
 
     const fetchNoticeDetail = async () => {
         try{
-            const response = await axios.get(`http://hoopi.p-e.kr/hoopi/notice-detail/${articleCode}`, {});
+            const response = await axios.get(`http://hoopi.p-e.kr/api/hoopi/notice-detail/${articleCode}`, {});
             setNoticeDetail(response.data);
+            console.log(response.data);
         } catch (e) {
             console.log(e);
         }
