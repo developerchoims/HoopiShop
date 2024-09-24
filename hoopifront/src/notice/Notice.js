@@ -3,7 +3,7 @@ import Pagination from "@mui/material/Pagination";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import './notice.css';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 const Notice = () => {
     const{searchCate, setSearchCate, keyword, setKeyword} = useSearch();
@@ -33,6 +33,12 @@ const Notice = () => {
         }
     }
 
+    // noticeDetail페이지로 이동
+    const navigate = useNavigate();
+    const handleNoticeDetail = (n) => {
+        navigate(`/notice/${n.articleCode}/${n.articleTitle}`);
+    }
+
     return(
         <div className="notice-container">
             <div className='notice-box'>
@@ -46,12 +52,10 @@ const Notice = () => {
                     </thead>
                     <tbody>
                     {notice?.content?.map((n, index) => (
-                        <tr>
-                            <Link to={`/admin/notice/${n.articleCode}/${n.articleTitle}`} key={n.articleCode}>
-                            <td>{index}</td>
+                        <tr onClick = {() => handleNoticeDetail(n)} key={index}>
+                            <td>{index+1}</td>
                             <td>{n.articleTitle}</td>
                             <td>{n.articleDate}</td>
-                            </Link>
                         </tr>
                     ))}
                     </tbody>
