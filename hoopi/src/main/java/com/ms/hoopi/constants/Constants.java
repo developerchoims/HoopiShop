@@ -28,4 +28,5 @@ public class Constants {
     public static final String AWS_S3_FAIL = "S3에 파일을 업로드 하는 중에 문제가 발생하였습니다.";
     public static final String AWS_S3_CLIENT_FAIL = "AWS S3 CLIENT 문제입니다.";
     public static final String NONE_PRODUCT = "상품 정보를 찾을 수 없습니다.";
+    public static final String NONE_ARTICLE = "게시글 정보를 찾을 수 없습니다.";
 }

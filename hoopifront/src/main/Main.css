@@ -23,6 +23,9 @@
     white-space: nowrap;
 }
 
+.main-new-product-container a{
+    width: 100%;
+}
 
 .main-new-product-box {
     display: flex;
