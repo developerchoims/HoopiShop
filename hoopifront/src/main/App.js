@@ -69,14 +69,17 @@ function App() {
                             <Route path='/login' element={<Login />}/>
                             <Route path='/admin' element={<AdminMain/>}>
                                 <Route path='product' element={<Product/>}>
-                                    <Route path=':productCode/:name' element={<ProductDetail/>}/>
                                     <Route path='write' element={<Board/>}/>
+                                    <Route path=':productCode/:name' element={<ProductDetail/>}/>
                                 </Route>
                                 <Route path='user' element={<UserBody/>}/>
-                                <Route path='notice' element={<Notice/>}/>
+                                <Route path="/notice" element={<Notice/>}>
+                                    <Route path='write' element={<Board/>}/>
+                                </Route>
                             </Route>
-                            <Route path='/product' element={<Product/>}/>
-                            <Route path='/product/:productCode/:name' element={<ProductDetail/>}/>
+                            <Route path='/product' element={<Product/>}>
+                                <Route path=':productCode/:name' element={<ProductDetail/>}/>
+                            </Route>
                             <Route path="/notice" element={<Notice/>}/>
                         </Routes>
                     </SearchProvider>
