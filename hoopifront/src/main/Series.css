@@ -25,6 +25,8 @@
 
 .series-img-container a{
     width: 100%;
+    text-decoration: none;
+    color: grey;
 }
 
 .series-img-box {
