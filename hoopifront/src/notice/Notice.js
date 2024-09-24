@@ -3,6 +3,7 @@ import Pagination from "@mui/material/Pagination";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import './notice.css';
+import {Link} from "react-router-dom";
 
 const Notice = () => {
     const{searchCate, setSearchCate, keyword, setKeyword} = useSearch();
