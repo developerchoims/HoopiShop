@@ -17,10 +17,10 @@ const Notice = () => {
     // notice정보
     const [notice, setNotice] = useState();
     useEffect(() => {
-        getNotice();
+        getNotice(currentPage);
     }, [currentPage, keyword, searchCate]);
 
-    const getNotice = async() => {
+    const getNotice = async(page) => {
         try{
             const response = await axios.get('http://hoopi.p-e.kr/api/hoopi/notice', {
                 params:{page: page-1, size: 10, searchCate: searchCate, keyword: keyword}
