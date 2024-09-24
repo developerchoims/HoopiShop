@@ -54,8 +54,10 @@ const Product = () => {
                     </Link>
                 ))}
             </div>
+            <div className='product-pagination-box'>
             <Pagination count={products.totalPages} page={currentPage} onChange={handlePageChange}
                         variant="outlined" color="primary"/>
+            </div>
         </>
     );
 }
