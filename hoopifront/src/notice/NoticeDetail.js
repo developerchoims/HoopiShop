@@ -26,7 +26,7 @@ const NoticeDetail = () => {
 
     // 날짜 형식 지정
     const modifiedDateTime = (time) => {
-        return time ? time.split(".")[0] : '';
+        return time ? time.split(".")[0].replace("T", " ") : '';
     }
 
     return(
