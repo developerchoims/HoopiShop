@@ -37,7 +37,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 10px;
 }
 
 .product-img {
@@ -46,6 +45,7 @@
     height: auto;
     max-height: 100%;
     object-fit: contain;
+    border-radius: 10px;
 }
 
 .product-content {

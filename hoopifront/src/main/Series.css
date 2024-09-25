@@ -16,7 +16,7 @@
     justify-content: flex-start; /* 플렉스 아이템들을 왼쪽 정렬 */
     align-items: center;
     box-sizing: border-box;
-    margin: 0 0 5% 0;
+    margin: 5% 0 5% 0;
     width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
@@ -109,5 +109,6 @@
 .series-img-box > table>thead>tr>td>div>img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* 이미지가 div를 꽉 채우면서 비율을 유지 */
+    object-fit: cover;
+    border-radius: 10px;
 }

@@ -41,7 +41,7 @@
 
 .notice-detail-content-box{
     display: flex;
-    vertical-align: center;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
