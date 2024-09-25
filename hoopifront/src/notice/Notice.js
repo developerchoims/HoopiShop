@@ -39,6 +39,11 @@ const Notice = () => {
         navigate(`/notice/${n.articleCode}/${n.articleTitle}`);
     }
 
+    // 날짜 형식 지정
+    const modifiedDateTime = (time) => {
+        return time ? time.split(".")[0] : '';
+    }
+
     return(
         <div className="notice-container">
             <div className='notice-box'>
@@ -55,7 +60,7 @@ const Notice = () => {
                         <tr onClick = {() => handleNoticeDetail(n)} key={index}>
                             <td>{index+1}</td>
                             <td>{n.articleTitle}</td>
-                            <td>{n.articleDate}</td>
+                            <td>{modifiedDateTime(n.articleDate)}</td>
                         </tr>
                     ))}
                     </tbody>
