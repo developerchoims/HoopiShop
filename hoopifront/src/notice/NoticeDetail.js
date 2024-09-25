@@ -24,12 +24,17 @@ const NoticeDetail = () => {
         }
     }
 
+    // 날짜 형식 지정
+    const modifiedDateTime = (time) => {
+        return time.split(".")[0];
+    }
+
     return(
         <div className="notice-detail-container">
             <div className="notice-detail-box">
                 <div className="notice-detail-title-box">
                     <div>{noticeDetail?.articleTitle}</div>
-                    <div>{noticeDetail?.articleDate}</div>
+                    <div>{modifiedDateTime(noticeDetail?.articleDate)}</div>
                 </div>
                 <div className="notice-detail-content-box">
                     <img src={noticeDetail?.imgUrl} alt={noticeDetail?.articleTitle}/>
