@@ -27,12 +27,6 @@ jobs:
           mkdir -p hoopi/src/java/com/ms/hoopi/config
           echo "$CON" | base64 --decode > hoopi/src/java/com/ms/hoopi/config/RedisConfig.java
 
-      - name: Upload application.yml artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: application-yml
-          path: hoopi/src/main/resources/application.yml
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
