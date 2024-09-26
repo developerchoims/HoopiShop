@@ -7,47 +7,68 @@ const ProductDetail = () => {
     const role = localStorage.getItem("role");
     const id = localStorage.getItem("id");
 
-    useEffect(() => {
-        fetchProductDetail();
-    }, [])
-
-    //productCode값 가져와서 productDetail값 가져오기
-    const {productCode, name} = useParams();
+    const { productCode, name } = useParams();
     const [productDetail, setProductDetail] = useState();
     const [totalPrice, setTotalPrice] = useState();
+    const [cartRequestDto, setCartRequestDto] = useState({
+        id: id,
+        productCode: productCode,
+        quantity: 1,
+        cartAmount: 0, // 초기값으로 0 설정
+    });
+
+// productDetail이 변경될 때 cartAmount 업데이트
+    useEffect(() => {
+        if (productDetail && productDetail.product?.price) {
+            setTotalPrice(productDetail.product.price);
+            setCartRequestDto((prevState) => ({
+                ...prevState,
+                cartAmount: productDetail.product.price, // price로 초기값 설정
+            }));
+        }
+    }, [productDetail]);
+
+// productCode값 가져와서 productDetail값 가져오기
+    useEffect(() => {
+        fetchProductDetail();
+    }, []);
+
     const fetchProductDetail = async () => {
-        try{
-            const response = await axios.get(`http://hoopi.p-e.kr/api/hoopi/product/${productCode}`, {});
+        try {
+            const response = await axios.get(
+                `http://hoopi.p-e.kr/api/hoopi/product/${productCode}`
+            );
             setProductDetail(response.data);
-            setTotalPrice(response.data.product.price);
             console.log(response.data);
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
-    // 장바구니에 담길 객체 설정
-    const [cartRequestDto, setCartRequestDto] = useState({'id':id, 'productCode':productCode, 'quantity': 1, 'cartAmount': totalPrice });
+// handleTotalPrice 함수
     const handleTotalPrice = (e) => {
         let quantity = e.target.value;
-        let price = productDetail?.product?.price
+        let price = productDetail?.product?.price;
         setTotalPrice(price * quantity);
-        setCartRequestDto((prevState) =>({
+        setCartRequestDto((prevState) => ({
             ...prevState,
-            "quantity" : quantity,
-            "cartAmount": price * quantity
+            quantity: quantity,
+            cartAmount: price * quantity, // cartAmount 업데이트
         }));
-    }
-    // 장바구니 담기 구현
+    };
+
+// 장바구니 담기 구현
     const handleCart = () => {
-        axios.post(`http://hoopi.p-e.kr/api/hoopi/cart`, cartRequestDto)
-            .then(response => {
+        axios
+            .post(`http://hoopi.p-e.kr/api/hoopi/cart`, cartRequestDto)
+            .then((response) => {
                 alert(response.data);
             })
-            .catch(error => {
+            .catch((error) => {
                 console.log(error);
-            })
-    }
+            });
+    };
+
 
 
     return(
