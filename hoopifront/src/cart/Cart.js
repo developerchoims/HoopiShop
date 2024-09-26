@@ -1,4 +1,24 @@
+import {useState} from "react";
+import axios from "axios";
+
 const Cart = () => {
+
+    const id = localStorage.getItem("id");
+    const [cartdetail, setCartdetail] = useState(null);
+
+    useEffect(() => {
+        fetchCart();
+    }, [])
+
+    const fetchCart = async () => {
+        try{
+            const response = await axios.get(`http://hoopi.p-e.kr/api/hoopi/cart`,{params:{id:id}});
+            console.log(response.data);
+            setCartdetail(response.data);
+        }catch(e){
+            console.log(e);
+        }
+    }
 
     return(
         <div className="cart-container">
@@ -17,13 +37,19 @@ const Cart = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td><input type="checkbox" className="cart-checkbox"/></td>
-                        <td><img/></td>
-                        <td>수량</td>
-                        <td>가격</td>
-                        <td><button>주문</button></td>
-                    </tr>
+                    {
+                        cartdetail?.map((product, index) => (
+                            <tr key={product.productCode}>
+                                <td><input type="checkbox" className="cart-checkbox"/></td>
+                                <td><img src={product.imgUrl} alt={product.imgUrl}/></td>
+                                <td>{product.quantity}</td>
+                                <td>{product.cartAmount}</td>
+                                <td>
+                                    <button>주문</button>
+                                </td>
+                            </tr>
+                        ))
+                    }
                     </tbody>
                 </table>
             </div>
