@@ -12,7 +12,7 @@ import java.util.Optional;
 @Transactional
 @Repository
 public interface CartDetailRepository extends JpaRepository<CartDetail, Long> {
-    @Query("SELECT cd FROM CartDetail cd WHERE cd.cartCode.cartCode = :cartCode AND cd.productCode.productCode = :prodctCode")
+    @Query("SELECT cd FROM CartDetail cd WHERE cd.cartCode.cartCode = :cartCode AND cd.productCode.productCode = :productCode")
     Optional<CartDetail> findByCartCodeAndProductCode(String cartCode, String productCode);
 
 }
