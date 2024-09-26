@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 
 const Cart = () => {
@@ -18,6 +18,15 @@ const Cart = () => {
         }catch(e){
             console.log(e);
         }
+    }
+
+    // 수량 변경 시 DB 수정
+    const handleUpdate = (e, productCode) => {
+        const quantity = e.target.value;
+        axios.post(`http://hoopi-p.e.kr/api/hoopi/cart-update`, {productCode: productCode, quantity: quantity})
+            .catch(e=>{
+                console.log(e);
+            });
     }
 
     return(
@@ -42,7 +51,10 @@ const Cart = () => {
                             <tr key={product.productCode}>
                                 <td><input type="checkbox" className="cart-checkbox"/></td>
                                 <td><img src={product.imgUrl} alt={product.imgUrl}/></td>
-                                <td>{product.quantity}</td>
+                                <td>
+                                    <input type='number' defaultValue={product.quantity}
+                                    onChange={(e) => handleUpdate(e, product.productCode)}/>
+                                </td>
                                 <td>{product.cartAmount}</td>
                                 <td>
                                     <button>주문</button>
