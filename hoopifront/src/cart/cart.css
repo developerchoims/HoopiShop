@@ -1,0 +1,25 @@
+.cart-container{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'LeeSeoyun', sans-serif;
+    color: grey;
+}
+
+.cart-box{
+    width: 50%;
+}
+
+.cart-box>table{
+    width: 100%;
+}
+.cart-box>table>tr{
+    border-bottom: 2px solid #c9dcf9;
+}
+.cart-box>table img{
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    border-radius: 10px;
+}
