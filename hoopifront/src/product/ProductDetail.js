@@ -25,7 +25,7 @@ const ProductDetail = () => {
     }
 
     // 장바구니에 담길 객체 설정
-    const [cartRequestDto, setCartRequestDto] = useState({'id':id, 'productCode':productCode });
+    const [cartRequestDto, setCartRequestDto] = useState({'id':id, 'productCode':productCode, 'quantity': 1, 'cartAmount': productDetail?.product?.price });
     const [totalPrice, setTotalPrice] = useState(productDetail?.product?.price);
     const handleTotalPrice = (e) => {
         let quantity = e.target.value;
