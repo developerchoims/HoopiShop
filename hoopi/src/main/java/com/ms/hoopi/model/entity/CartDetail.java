@@ -30,4 +30,13 @@ public class CartDetail {
     @Column(name = "cart_amount", nullable = false)
     private Long cartAmount;
 
+    @Builder
+    public CartDetail(CartDetailId id, Product productCode, Cart cartCode, Long quantity, Long cartAmount) {
+        this.id = id;
+        this.productCode = productCode;
+        this.cartCode = cartCode;
+        this.quantity = quantity;
+        this.cartAmount = cartAmount;
+    }
+
 }
