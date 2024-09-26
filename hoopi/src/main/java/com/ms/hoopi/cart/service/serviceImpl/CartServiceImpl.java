@@ -24,10 +24,9 @@ public class CartServiceImpl implements CartService {
 
     private final UserRepository userRepository;
     private final CartRepository cartRepository;
-    private final CartDetailRepository CartDetailRepository;
     private final ProductRepository productRepository;
-    private final CommonUtil commonUtil;
     private final CartDetailRepository cartDetailRepository;
+    private final CommonUtil commonUtil;
 
     @Override
     public ResponseEntity<String> addCart(CartRequestDto cartRequestDto) {
