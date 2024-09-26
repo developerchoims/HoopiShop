@@ -15,6 +15,7 @@ import UserBody from "../admin/user/userBody";
 import Board from "../admin/board/Board";
 import Notice from "../notice/Notice";
 import NoticeDetail from "../notice/NoticeDetail";
+import Cart from "../cart/Cart";
 
 // Context 생성
 const UserContext = createContext(null);
@@ -43,7 +44,14 @@ function App() {
             <Router>
                 <div className='mainNav-container'>
                     <div className='mainNav-sns-box'>
-
+                        {role == null || role === '' || id == null || id === '' ? (
+                            <></>
+                        ) : (
+                            <>
+                                <Link to="/cart">장바구니</Link>
+                                <Link to="/my-page">마이페이지</Link>
+                            </>
+                        )}
                     </div>
                     <div className='mainNav-img-box'>
                         <Link to='/'><img src='/nata_logo.png' /></Link>
@@ -80,6 +88,7 @@ function App() {
                             <Route path='/product/:productCode/:name' element={<ProductDetail/>}/>
                             <Route path="/notice" element={<Notice/>}/>
                             <Route path='/notice/:articleCode/:articleTitle' element={<NoticeDetail/>}/>
+                            <Route path='/cart' element={<Cart/>}/>
                         </Routes>
                     </SearchProvider>
                 </div>

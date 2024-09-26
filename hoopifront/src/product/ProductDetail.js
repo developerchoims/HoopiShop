@@ -24,13 +24,30 @@ const ProductDetail = () => {
         }
     }
 
-    // 주문 가격
+    // 장바구니에 담길 객체 설정
+    const [cartRequestDto, setCartRequestDto] = useState({'id':id, 'productCode':productCode });
     const [totalPrice, setTotalPrice] = useState(productDetail?.product?.price ?? 0);
     const handleTotalPrice = (e) => {
         let quantity = e.target.value;
-        let price = productDetail?.product?.price ?? 0;
+        let price = productDetail?.product?.price
         setTotalPrice(price * quantity);
+        setCartRequestDto((...prevState) =>({
+            ...prevState,
+            "quantity" : quantity,
+            "totalPrice": price
+        }));
     }
+    // 장바구니 담기 구현
+    const handleCart = () => {
+        axios.post(`http://hoopi.p-e.kr/api/hoopi/cart`, {cartRequestDto})
+            .then(response => {
+                alert(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
 
     return(
         <div className='productDetail-container'>
@@ -43,11 +60,11 @@ const ProductDetail = () => {
                         <h4>{productDetail?.product.name}</h4>
                         <p>{productDetail?.product.price}</p>
                         <div className='productDetail-price'>
-                            <input type='number' min='1' max='5' step='1' defaultValue='1' onChange={handleTotalPrice}/>
-                            총 금액 : {totalPrice}원
+                            <input type='number' min='1' max='5' step='1' defaultValue='1' id='quantity' onChange={handleTotalPrice}/>
+                            총 금액 : {totalPrice?? productDetail?.product?.price}원
                         </div>
                         <div className='productDetail-info-button'>
-                            <button>장바구니</button>
+                            <button onClick={handleCart}>장바구니</button>
                             <button>결제하기</button>
                         </div>
                     </div>

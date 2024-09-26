@@ -26,4 +26,10 @@ public class Cart {
     @OneToMany(mappedBy = "cartCode")
     private Set<CartDetail> cartDetails = new LinkedHashSet<>();
 
+    @Builder
+    public Cart(String cartCode, User code) {
+        this.cartCode = cartCode;
+        this.code = code;
+    }
+
 }
