@@ -38,29 +38,70 @@ public class CartServiceImpl implements CartService {
                 .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_PRODUCT));
 
         try{
-            // cart 정보 생성
-            String cartCode = commonUtil.createCode();
-            Cart cart = Cart.builder()
-                    .cartCode(cartCode)
-                    .code(user)
-                    .build();
-            // cart 정보 저장
-            cartRepository.save(cart);
+            Cart cart = cartRepository.findByUserCode(cartRequestDto.getId()).orElse(null);
+            // 주문 상태가 N인 user정보가 같은 Cart 정보가 없는 경우
+            if (cart == null) {
+                // cart 정보 생성
+                String cartCode = commonUtil.createCode();
+                Cart newCart = Cart.builder()
+                        .cartCode(cartCode)
+                        .code(user)
+                        .build();
+                // cart 정보 저장
+                cartRepository.save(newCart);
 
-            // cartDetail 정보 생성
-            CartDetailId cartDetailId = CartDetailId.builder()
-                    .cartCode(cartCode)
-                    .productCode(cartRequestDto.getProductCode())
-                    .build();
-            CartDetail cartDetail = CartDetail.builder()
-                    .id(cartDetailId)
-                    .cartCode(cart)
-                    .productCode(product)
-                    .quantity(cartRequestDto.getQuantity())
-                    .cartAmount(cartRequestDto.getCartAmount())
-                    .build();
-            // cartDetail 정보 저장
-            cartDetailRepository.save(cartDetail);
+                // cartDetail 정보 생성
+                CartDetailId cartDetailId = CartDetailId.builder()
+                        .cartCode(cartCode)
+                        .productCode(cartRequestDto.getProductCode())
+                        .build();
+                CartDetail cartDetail = CartDetail.builder()
+                        .id(cartDetailId)
+                        .cartCode(cart)
+                        .productCode(product)
+                        .quantity(cartRequestDto.getQuantity())
+                        .cartAmount(cartRequestDto.getCartAmount())
+                        .build();
+                // cartDetail 정보 저장
+                cartDetailRepository.save(cartDetail);
+            } else {
+            // 주문 상태가 N인 user정보가 같은 Cart 정보가 있는 경우
+                CartDetail cartDetail = cartDetailRepository.findByCartCodeAndProductCode(cart.getCartCode(),cartRequestDto.getProductCode())
+                        .orElse(null);
+                // cartDetail 정보에 같은 상품이 담기지 않은 경우
+                if(cartDetail == null) {
+                    CartDetailId cartDetailId = CartDetailId.builder()
+                            .cartCode(cartDetail.getCartCode().getCartCode())
+                            .productCode(cartRequestDto.getProductCode())
+                            .build();
+                    CartDetail newCartDetail = CartDetail.builder()
+                            .id(cartDetailId)
+                            .cartCode(cart)
+                            .productCode(product)
+                            .quantity(cartRequestDto.getQuantity())
+                            .cartAmount(cartRequestDto.getCartAmount())
+                            .build();
+                    // cartDetail 정보 저장
+                    cartDetailRepository.save(cartDetail);
+                } else {
+                // cartDetail 정보에 같은 상품이 담겨있는 경우
+                    Long quantity = cartDetail.getQuantity() + cartRequestDto.getQuantity();
+                    Long cartAmount = cartDetail.getCartAmount() + cartRequestDto.getCartAmount();
+                    CartDetail newCartDetail = CartDetail.builder()
+                            .id(cartDetail.getId())
+                            .cartCode(cartDetail.getCartCode())
+                            .productCode(cartDetail.getProductCode())
+                            .quantity(quantity)
+                            .cartAmount(cartAmount)
+                            .build();
+                    // cartDetail 정보 수정
+                    cartDetailRepository.save(newCartDetail);
+                }
+            }
+
+            // CartDetail 안에 같은 product
+
+
             return ResponseEntity.ok(Constants.CART_ADD_SUCCESS);
         } catch (Exception e){
             log.error(Constants.CART_ADD_FAIL,e);
