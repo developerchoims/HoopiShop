@@ -34,7 +34,7 @@ const ProductDetail = () => {
         setCartRequestDto((...prevState) =>({
             ...prevState,
             "quantity" : quantity,
-            "totalPrice": price
+            "cartAmount": totalPrice
         }));
     }
     // 장바구니 담기 구현
