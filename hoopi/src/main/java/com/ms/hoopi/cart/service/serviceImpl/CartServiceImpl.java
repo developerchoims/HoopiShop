@@ -45,6 +45,7 @@ public class CartServiceImpl implements CartService {
                 Cart newCart = Cart.builder()
                         .cartCode(cartCode)
                         .code(user)
+                        .status("N")
                         .build();
                 // cart 정보 저장
                 cartRepository.save(newCart);
@@ -106,6 +107,7 @@ public class CartServiceImpl implements CartService {
             log.error(Constants.CART_ADD_FAIL,e);
             return ResponseEntity.badRequest().body(Constants.CART_ADD_FAIL);
         }
-
     }
+
+
 }
