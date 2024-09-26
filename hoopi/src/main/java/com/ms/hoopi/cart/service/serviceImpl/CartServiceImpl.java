@@ -1,6 +1,7 @@
 package com.ms.hoopi.cart.service.serviceImpl;
 
 import com.ms.hoopi.cart.model.dto.CartRequestDto;
+import com.ms.hoopi.cart.model.dto.CartResponseDto;
 import com.ms.hoopi.cart.service.CartService;
 import com.ms.hoopi.common.util.CommonUtil;
 import com.ms.hoopi.constants.Constants;
@@ -15,6 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -57,7 +61,7 @@ public class CartServiceImpl implements CartService {
                         .build();
                 CartDetail cartDetail = CartDetail.builder()
                         .id(cartDetailId)
-                        .cartCode(cart)
+                        .cartCode(newCart)
                         .productCode(product)
                         .quantity(cartRequestDto.getQuantity())
                         .cartAmount(cartRequestDto.getCartAmount())
@@ -71,7 +75,7 @@ public class CartServiceImpl implements CartService {
                 // cartDetail 정보에 같은 상품이 담기지 않은 경우
                 if(cartDetail == null) {
                     CartDetailId cartDetailId = CartDetailId.builder()
-                            .cartCode(cartDetail.getCartCode().getCartCode())
+                            .cartCode(cart.getCartCode())
                             .productCode(cartRequestDto.getProductCode())
                             .build();
                     CartDetail newCartDetail = CartDetail.builder()
@@ -82,7 +86,7 @@ public class CartServiceImpl implements CartService {
                             .cartAmount(cartRequestDto.getCartAmount())
                             .build();
                     // cartDetail 정보 저장
-                    cartDetailRepository.save(cartDetail);
+                    cartDetailRepository.save(newCartDetail);
                 } else {
                 // cartDetail 정보에 같은 상품이 담겨있는 경우
                     Long quantity = cartDetail.getQuantity() + cartRequestDto.getQuantity();
@@ -98,15 +102,34 @@ public class CartServiceImpl implements CartService {
                     cartDetailRepository.save(newCartDetail);
                 }
             }
-
-            // CartDetail 안에 같은 product
-
-
             return ResponseEntity.ok(Constants.CART_ADD_SUCCESS);
         } catch (Exception e){
             log.error(Constants.CART_ADD_FAIL,e);
             return ResponseEntity.badRequest().body(Constants.CART_ADD_FAIL);
         }
+    }
+
+    @Override
+    public ResponseEntity<?> getCart(String id) {
+        // 장바구니 정보 가져오기
+        Cart cart = cartRepository.findByUserId(id)
+                .orElse(null);
+        // 장바구니에 담긴 게 없는 경우
+        if(cart == null){
+            return ResponseEntity.ok(null);
+        }
+        // 장바구니에 담긴 게 있는 경우
+        List<CartResponseDto> cartResponseDtos = new ArrayList<>();
+        List<CartDetail> cartDetails = cartDetailRepository.findAllByCartCode(cart);
+        for(CartDetail cartDetail : cartDetails){
+            CartResponseDto cartResponseDto = CartResponseDto.builder()
+                    .productCode(cartDetail.getProductCode().getProductCode())
+                    .quantity(cartDetail.getQuantity())
+                    .cartAmount(cartDetail.getCartAmount())
+                    .build();
+            cartResponseDtos.add(cartResponseDto);
+        }
+        return ResponseEntity.ok(cartResponseDtos);
     }
 
 
