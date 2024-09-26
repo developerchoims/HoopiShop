@@ -13,13 +13,33 @@
 
 .cart-box>table{
     width: 100%;
+    text-align: center;
 }
-.cart-box>table>tr{
+.cart-box>table tr{
     border-bottom: 2px solid #c9dcf9;
 }
+.cart-box>table th{
+    font-size: 3vh;
+}
+.cart-box>table td{
+    font-size: 2.5vh;
+}
 .cart-box>table img{
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
     object-fit: contain;
     border-radius: 10px;
+}
+.cart-box>button{
+    width: 100px;
+    height: 50px;
+    border: 2px solid #c9dcf9;
+    color: grey;
+    font-size: 2vh;
+}
+.cart-box>table input{
+    width: 50px;
+    border: 2px solid #c9dcf9;
+    color: grey;
+    font-family: 'LeeSeoyun', sans-serif;
 }
