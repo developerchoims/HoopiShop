@@ -18,6 +18,7 @@ const ProductDetail = () => {
         try{
             const response = await axios.get(`http://hoopi.p-e.kr/api/hoopi/product/${productCode}`, {});
             setProductDetail(response.data);
+            setTotalPrice(response.data.product.price);
             console.log(response.data);
         } catch (error) {
             console.log(error);
@@ -25,16 +26,16 @@ const ProductDetail = () => {
     }
 
     // 장바구니에 담길 객체 설정
-    const [cartRequestDto, setCartRequestDto] = useState({'id':id, 'productCode':productCode, 'quantity': 1, 'cartAmount': productDetail?.product?.price });
     const [totalPrice, setTotalPrice] = useState(productDetail?.product?.price);
+    const [cartRequestDto, setCartRequestDto] = useState({'id':id, 'productCode':productCode, 'quantity': 1, 'cartAmount': totalPrice });
     const handleTotalPrice = (e) => {
         let quantity = e.target.value;
         let price = productDetail?.product?.price
         setTotalPrice(price * quantity);
-        setCartRequestDto((...prevState) =>({
+        setCartRequestDto((prevState) =>({
             ...prevState,
             "quantity" : quantity,
-            "cartAmount": totalPrice
+            "cartAmount": price * quantity
         }));
     }
     // 장바구니 담기 구현
