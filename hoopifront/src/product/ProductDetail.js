@@ -14,6 +14,7 @@ const ProductDetail = () => {
     //productCode값 가져와서 productDetail값 가져오기
     const {productCode, name} = useParams();
     const [productDetail, setProductDetail] = useState();
+    const [totalPrice, setTotalPrice] = useState();
     const fetchProductDetail = async () => {
         try{
             const response = await axios.get(`http://hoopi.p-e.kr/api/hoopi/product/${productCode}`, {});
@@ -26,7 +27,6 @@ const ProductDetail = () => {
     }
 
     // 장바구니에 담길 객체 설정
-    const [totalPrice, setTotalPrice] = useState(productDetail?.product?.price);
     const [cartRequestDto, setCartRequestDto] = useState({'id':id, 'productCode':productCode, 'quantity': 1, 'cartAmount': totalPrice });
     const handleTotalPrice = (e) => {
         let quantity = e.target.value;
