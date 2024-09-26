@@ -3,13 +3,11 @@ package com.ms.hoopi.cart.service.serviceImpl;
 import com.ms.hoopi.cart.model.dto.CartRequestDto;
 import com.ms.hoopi.cart.model.dto.CartResponseDto;
 import com.ms.hoopi.cart.service.CartService;
+import com.ms.hoopi.common.service.FileUploadService;
 import com.ms.hoopi.common.util.CommonUtil;
 import com.ms.hoopi.constants.Constants;
 import com.ms.hoopi.model.entity.*;
-import com.ms.hoopi.repository.CartDetailRepository;
-import com.ms.hoopi.repository.CartRepository;
-import com.ms.hoopi.repository.ProductRepository;
-import com.ms.hoopi.repository.UserRepository;
+import com.ms.hoopi.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,8 +27,10 @@ public class CartServiceImpl implements CartService {
     private final UserRepository userRepository;
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
+    private final ProductImgRepository productImgRepository;
     private final CartDetailRepository cartDetailRepository;
     private final CommonUtil commonUtil;
+    private final FileUploadService fileUploadService;
 
     @Override
     public ResponseEntity<String> addCart(CartRequestDto cartRequestDto) {
@@ -122,10 +122,14 @@ public class CartServiceImpl implements CartService {
         List<CartResponseDto> cartResponseDtos = new ArrayList<>();
         List<CartDetail> cartDetails = cartDetailRepository.findAllByCartCode(cart);
         for(CartDetail cartDetail : cartDetails){
+            //이미지 가져오기
+            String imgKey = productImgRepository.findByProductCode(cartDetail.getProductCode().getProductCode()).getImgKey();
+            String imgUrl = fileUploadService.getS3(imgKey);
             CartResponseDto cartResponseDto = CartResponseDto.builder()
                     .productCode(cartDetail.getProductCode().getProductCode())
                     .quantity(cartDetail.getQuantity())
                     .cartAmount(cartDetail.getCartAmount())
+                    .imgUrl(imgUrl)
                     .build();
             cartResponseDtos.add(cartResponseDto);
         }
