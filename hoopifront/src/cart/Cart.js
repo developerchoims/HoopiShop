@@ -133,7 +133,7 @@ const Cart = () => {
                                     <input type='number' value={product.quantity} min='1'
                                     onChange={(e) => handleUpdate(e, product.productCode, product.quantity, product.cartAmount)}/>
                                 </td>
-                                <td><p defaultValue={product.cartAmount}>{product.cartAmount * product.quantity}</p></td>
+                                <td><p defaultValue={product.cartAmount}>{product.cartAmount}</p></td>
                                 <td>
                                     <button>주문</button>
                                 </td>
