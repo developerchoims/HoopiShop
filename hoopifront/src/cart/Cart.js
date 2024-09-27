@@ -10,7 +10,7 @@ const Cart = () => {
 
     useEffect(() => {
         fetchCart();
-    }, [])
+    }, [cartdetail])
 
     const fetchCart = async () => {
         try{
@@ -60,6 +60,7 @@ const Cart = () => {
     // 선택된 체크 박스의 아이디 불러오기
     const [selectedIds, setSelectedIds] = useState([]);
     const handleSelectPart = (event) => {
+        console.log("event확인",event);
         const { id, checked } = event.target;
         if (checked) {
             // 체크된 경우, id 추가
@@ -72,6 +73,7 @@ const Cart = () => {
 
     // 상품 부분 삭제 시 DB 수정
     const handleDeletePart = () => {
+        console.log("selectedIds확인",selectedIds);
         axios.delete('http://hoopi.p-e.kr/api/hoopi/cart-part', {params:{
             cartCode: cartdetail[0].cartCode,
             productCodes: selectedIds
