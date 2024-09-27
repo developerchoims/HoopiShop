@@ -10,7 +10,7 @@ const Cart = () => {
 
     useEffect(() => {
         fetchCart();
-    }, [cartdetail])
+    }, [])
 
     const fetchCart = async () => {
         try{
@@ -34,6 +34,7 @@ const Cart = () => {
             , cartAmount: newCartAmount})
             .then(response => {
                 console.log(response.data);
+                fetchCart();
             })
             .catch(error => {
                 console.log(error);
@@ -80,6 +81,7 @@ const Cart = () => {
             }})
             .then(response => {
                 alert(response.data);
+                fetchCart();
             })
             .catch(error=>{
                 console.log(error);
@@ -91,6 +93,7 @@ const Cart = () => {
         axios.delete('http://hoopi.p-e.kr/api/hoopi/cart-all', {params:{cartCode: cartdetail[0].cartCode}})
             .then(response =>{
                 alert(response.data);
+                fetchCart();
             })
             .catch(error=>{
                 console.log(error);
