@@ -49,25 +49,41 @@ const Cart = () => {
             return quantity;
         }
     }
-    // checkBox 전체 선택
+    // 전체 선택/해제 핸들러
+    const [allChecked, setAllChecked] = useState(false);
     const handleSelectAll = (event) => {
-        const isChecked = event.target.checked;
-        $(".cart-checkbox").each(function() {
-            $(this).prop("checked", isChecked);
-        });
+        const { checked } = event.target;
+        if (checked) {
+            const allIds = cartdetail.map(product => product.productCode);
+            setSelectedIds(allIds);
+        } else {
+            setSelectedIds([]);
+        }
+        setAllChecked(checked);
     };
 
     // 선택된 체크 박스의 아이디 불러오기
     const [selectedIds, setSelectedIds] = useState([]);
     const handleSelectPart = (event) => {
-        console.log("event확인",event);
         const { id, checked } = event.target;
         if (checked) {
             // 체크된 경우, id 추가
-            setSelectedIds(prev => [...prev, id]);
+            setSelectedIds(prev => {
+                const newSelectedIds = [...prev, id];
+                // 모든 아이템이 선택되었는지 확인
+                if (newSelectedIds.length === cartdetail.length) {
+                    setAllChecked(true);
+                }
+                return newSelectedIds;
+            });
         } else {
             // 체크 해제된 경우, id 제거
-            setSelectedIds(prev => prev.filter(x => x !== id));
+            setSelectedIds(prev => {
+                const newSelectedIds = prev.filter(x => x !== id);
+                // 하나라도 해제되면 전체 선택 체크 해제
+                setAllChecked(false);
+                return newSelectedIds;
+            });
         }
     };
 
@@ -106,7 +122,8 @@ const Cart = () => {
                 <table>
                     <thead>
                     <tr>
-                        <th><input type="checkbox" className="cart-checkbox" onClick={handleSelectAll}/></th>
+                        <th><input type="checkbox" className="cart-checkbox checkbox-parents"
+                                   checked={allChecked} onChange={handleSelectAll}/></th>
                         <th>
                             <button onClick={handleDeletePart}>선택 삭제</button>
                             <button onClick={handleDeleteAll}>전체 삭제</button>
@@ -127,7 +144,8 @@ const Cart = () => {
                             </tr>
                         :cartdetail?.map((product, index) => (
                             <tr key={product.productCode}>
-                                <td><input type="checkbox" className="cart-checkbox" id={product.productCode} onChange={handleSelectPart}/></td>
+                                <td><input type="checkbox" className="cart-checkbox checkbox-child" id={product.productCode}
+                                           checked={selectedIds.includes(product.productCode)} onChange={handleSelectPart}/></td>
                                 <td><img src={product.imgUrl} alt={product.imgUrl}/></td>
                                 <td>
                                     <input type='number' value={product.quantity} min='1'
