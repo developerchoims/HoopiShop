@@ -58,7 +58,7 @@ const Cart = () => {
     };
 
     // 선택된 체크 박스의 아이디 불러오기
-    const [selectedIds, setSelectedIds] = useState([]);
+    const [selectedIds, setSelectedIds] = useState();
     const handleSelectPart = (event) => {
         console.log("event확인",event);
         const { id, checked } = event.target;
@@ -76,7 +76,7 @@ const Cart = () => {
         console.log("selectedIds확인",selectedIds);
         axios.delete('http://hoopi.p-e.kr/api/hoopi/cart-part', {params:{
             cartCode: cartdetail[0].cartCode,
-            'productCodes[]': selectedIds
+            'productCodes': selectedIds
             }})
             .then(response => {
                 alert(response.data);
