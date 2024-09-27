@@ -154,6 +154,7 @@ public class CartServiceImpl implements CartService {
                                                 .build();
             // 수정된 cartDetail 정보로 수정하기
             cartDetailRepository.save(newCartDetail);
+            return ResponseEntity.ok(Constants.CART_UPDATE_SUCCESS);
         } catch (Exception e){
             log.error(Constants.CART_UPDATE_FAIL, e);
             return ResponseEntity.badRequest().body(Constants.CART_UPDATE_FAIL);
