@@ -30,11 +30,9 @@ const Cart = () => {
             , productCode: productCode
             , quantity: quantity
             , cartAmount: quantity * cartAmount})
-            .catch(e=>{
-                console.log(e);
-            })
             .then(response => {
                 setCartAmount(quantity * cartAmount);
+                console.log(response.data);
             })
             .catch(error => {
                 console.log(error);
