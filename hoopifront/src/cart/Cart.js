@@ -117,7 +117,11 @@ const Cart = () => {
                     </thead>
                     <tbody>
                     {
-                        cartdetail?.map((product, index) => (
+                        cartdetail==null?
+                            <tr>
+                                <td colSpan={5}>"장바구니에 담긴 상품이 없습니다."</td>
+                            </tr>
+                        :cartdetail?.map((product, index) => (
                             <tr key={product.productCode}>
                                 <td><input type="checkbox" className="cart-checkbox" id={product.productCode} onChange={(e)=>handleSelectPart}/></td>
                                 <td><img src={product.imgUrl} alt={product.imgUrl}/></td>
@@ -125,7 +129,7 @@ const Cart = () => {
                                     <input type='number' defaultValue={product.quantity} min='1'
                                     onChange={(e) => handleUpdate(e, product.productCode, product.cartAmount)}/>
                                 </td>
-                                <td><p id={cartAmount} defaultValue={product.cartAmount}>{cartAmount ?? product.cartAmount}</p></td>
+                                <td><p id={cartAmount} defaultValue={product.cartAmount}>{product.cartAmount * product.quantity}</p></td>
                                 <td>
                                     <button>주문</button>
                                 </td>
