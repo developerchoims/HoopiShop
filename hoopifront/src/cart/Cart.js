@@ -26,12 +26,11 @@ const Cart = () => {
     const handleUpdate = (e, productCode, quantity, cartAmount) => {
         const newQuantity = handleQuantityChange(e.target.value);
         const rawPrice = cartAmount/quantity;
-        const newCartAmount = rawPrice * newQuantity;
         axios.put(`http://hoopi.p-e.kr/api/hoopi/cart`, {
             cartCode: cartdetail[0].cartCode
             , productCode: productCode
             , quantity: newQuantity
-            , cartAmount: newCartAmount})
+            , cartAmount: rawPrice * newQuantity})
             .then(response => {
                 console.log(response.data);
                 fetchCart();
@@ -128,10 +127,10 @@ const Cart = () => {
                             </tr>
                         :cartdetail?.map((product, index) => (
                             <tr key={product.productCode}>
-                                <td><input type="checkbox" className="cart-checkbox" id={product.productCode} onChange={(e)=>handleSelectPart}/></td>
+                                <td><input type="checkbox" className="cart-checkbox" id={product.productCode} onChange={handleSelectPart}/></td>
                                 <td><img src={product.imgUrl} alt={product.imgUrl}/></td>
                                 <td>
-                                    <input type='number' defaultValue={product.quantity} min='1'
+                                    <input type='number' value={product.quantity} min='1'
                                     onChange={(e) => handleUpdate(e, product.productCode, product.quantity, product.cartAmount)}/>
                                 </td>
                                 <td><p defaultValue={product.cartAmount}>{product.cartAmount * product.quantity}</p></td>
