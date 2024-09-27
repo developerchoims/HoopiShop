@@ -76,7 +76,7 @@ const Cart = () => {
         console.log("selectedIds확인",selectedIds);
         axios.delete('http://hoopi.p-e.kr/api/hoopi/cart-part', {params:{
             cartCode: cartdetail[0].cartCode,
-            productCodes: selectedIds
+            'productCodes[]': selectedIds
             }})
             .then(response => {
                 alert(response.data);
