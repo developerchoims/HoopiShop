@@ -23,16 +23,16 @@ const Cart = () => {
     }
 
     // 수량 변경, 가격 변경 시 DB 수정
-    const [cartAmount, setCartAmount] = useState();
-    const handleUpdate = (e, productCode, cartAmount) => {
-        const quantity = handleQuantityChange(e.target.value);
+    const handleUpdate = (e, productCode, quantity, cartAmount) => {
+        const newQuantity = handleQuantityChange(e.target.value);
+        const rawPrice = cartAmount/quantity;
+        const newCartAmount = rawPrice * newQuantity;
         axios.put(`http://hoopi.p-e.kr/api/hoopi/cart`, {
             cartCode: cartdetail[0].cartCode
             , productCode: productCode
-            , quantity: quantity
-            , cartAmount: quantity * cartAmount})
+            , quantity: newQuantity
+            , cartAmount: newCartAmount})
             .then(response => {
-                setCartAmount(quantity * cartAmount);
                 console.log(response.data);
             })
             .catch(error => {
@@ -127,9 +127,9 @@ const Cart = () => {
                                 <td><img src={product.imgUrl} alt={product.imgUrl}/></td>
                                 <td>
                                     <input type='number' defaultValue={product.quantity} min='1'
-                                    onChange={(e) => handleUpdate(e, product.productCode, product.cartAmount)}/>
+                                    onChange={(e) => handleUpdate(e, product.productCode, product.quantity, product.cartAmount)}/>
                                 </td>
-                                <td><p id={cartAmount} defaultValue={product.cartAmount}>{product.cartAmount * product.quantity}</p></td>
+                                <td><p defaultValue={product.cartAmount}>{product.cartAmount * product.quantity}</p></td>
                                 <td>
                                     <button>주문</button>
                                 </td>
