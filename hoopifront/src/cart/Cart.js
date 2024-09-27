@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 import './cart.css';
+import $ from 'jquery';
 
 const Cart = () => {
 
