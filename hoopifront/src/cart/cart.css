@@ -30,16 +30,20 @@
     object-fit: contain;
     border-radius: 10px;
 }
-.cart-box>button{
+.cart-box>table button{
     width: 100px;
     height: 50px;
     border: 2px solid #c9dcf9;
+    border-radius: 5px;
     color: grey;
     font-size: 2vh;
 }
 .cart-box>table input{
     width: 50px;
+    height: 40px;
     border: 2px solid #c9dcf9;
+    border-radius: 5px;
     color: grey;
     font-family: 'LeeSeoyun', sans-serif;
+    text-align: center;
 }
