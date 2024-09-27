@@ -47,10 +47,10 @@ function App() {
                         {role == null || role === '' || id == null || id === '' ? (
                             <></>
                         ) : (
-                            <>
+                            <div className='mainNav-nav-box'>
                                 <Link to="/cart"><p>장바구니</p></Link>
                                 <Link to="/my-page"><p>마이페이지</p></Link>
-                            </>
+                            </div>
                         )}
                     </div>
                     <div className='mainNav-img-box'>
