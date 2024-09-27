@@ -37,4 +37,9 @@ public class CartController {
     public ResponseEntity<String> deleteCartPart(@RequestParam String cartCode, @RequestParam List<String> productCodes) {
         return cartService.deleteCartPart(cartCode, productCodes);
     }
+
+    @DeleteMapping("/cart-all")
+    public ResponseEntity<String> deleteCartAll(@RequestParam String cartCode) {
+        return cartService.deleteCartAll(cartCode);
+    }
 }

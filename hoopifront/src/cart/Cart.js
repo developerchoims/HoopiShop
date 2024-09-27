@@ -61,12 +61,24 @@ const Cart = () => {
     };
 
     // 상품 부분 삭제 시 DB 수정
-    const handleDelete = () => {
+    const handleDeletePart = () => {
         axios.delete('http://hoopi-p.e.kr/api/hoopi/cart-part', {params:{
             cartCode: cartdetail.cartCode,
             productCodes: selectedIds
             }})
             .then(response => {
+                alert(response.data);
+            })
+            .catch(error=>{
+                console.log(error);
+            });
+    }
+
+    // 상품 전체 삭제 시 DB 수정
+    const handleDeleteAll = () => {
+        const productCodes = cartdetail.map(m=>m.productCode);
+        axios.delete('http://hoopi.p-e.kr/api/hoopi/cart-all', {params:{cartCode: cartdetail.cartCode}})
+            .then(response =>{
                 alert(response.data);
             })
             .catch(error=>{
@@ -83,8 +95,8 @@ const Cart = () => {
                     <tr>
                         <th><input type="checkbox" className="cart-checkbox" onClick={handleSelectAll}/></th>
                         <th>
-                            <button>선택 삭제</button>
-                            <button>전체 삭제</button>
+                            <button onClick={handleDeletePart}>선택 삭제</button>
+                            <button onClick={handleDeleteAll}>전체 삭제</button>
                         </th>
                         <th>수량</th>
                         <th>가격</th>

@@ -174,5 +174,19 @@ public class CartServiceImpl implements CartService {
         }
     }
 
+    @Override
+    public ResponseEntity<String> deleteCartAll(String cartCode) {
+        try{
+            // cartDetail 삭제
+           cartDetailRepository.deleteByCartCode(cartCode);
+           // cart status 'Y'로 변경
+           cartRepository.deleteByCartCode(cartCode);
+           return ResponseEntity.ok(Constants.CART_DELETE_SUCCESS);
+        } catch (Exception e){
+            log.error(Constants.CART_DELETE_FAIL, e);
+            return ResponseEntity.badRequest().body(Constants.CART_DELETE_FAIL);
+        }
+    }
+
 
 }
