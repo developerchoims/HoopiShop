@@ -21,14 +21,60 @@ const Cart = () => {
         }
     }
 
-    // 수량 변경 시 DB 수정
-    const handleUpdate = (e, productCode) => {
+    // 수량 변경, 가격 변경 시 DB 수정
+    const [cartAmount, setCartAmount] = useState();
+    const handleUpdate = (e, productCode, cartAmount) => {
         const quantity = e.target.value;
-        axios.post(`http://hoopi-p.e.kr/api/hoopi/cart-update`, {productCode: productCode, quantity: quantity})
+        axios.put(`http://hoopi-p.e.kr/api/hoopi/cart`, {
+            cartCode: cartdetail.cartCode
+            , productCode: productCode
+            , quantity: quantity
+            , cartAmount: quantity * cartAmount})
             .catch(e=>{
                 console.log(e);
+            })
+            .then(response => {
+                setCartAmount(quantity * cartAmount);
+            })
+            .catch(error => {
+                console.log(error);
             });
     }
+    // checkBox 전체 선택
+    const handleSelectAll = (event) => {
+        const isChecked = event.target.checked;
+        $(".cart-checkbox").each(function() {
+            $(this).prop("checked", isChecked);
+        });
+    };
+
+    // 선택된 체크 박스의 아이디 불러오기
+    const [selectedIds, setSelectedIds] = useState([]);
+    const handleSelectPart = (event) => {
+        const { id, checked } = event.target;
+        if (checked) {
+            // 체크된 경우, id 추가
+            setSelectedIds(prev => [...prev, id]);
+        } else {
+            // 체크 해제된 경우, id 제거
+            setSelectedIds(prev => prev.filter(x => x !== id));
+        }
+    };
+
+    // 상품 부분 삭제 시 DB 수정
+    const handleDelete = () => {
+        axios.delete('http://hoopi-p.e.kr/api/hoopi/cart-part', {params:{
+            cartCode: cartdetail.cartCode,
+            productCodes: selectedIds
+            }})
+            .then(response => {
+                alert(response.data);
+            })
+            .catch(error=>{
+                console.log(error);
+            });
+    }
+
 
     return(
         <div className="cart-container">
@@ -36,27 +82,30 @@ const Cart = () => {
                 <table>
                     <thead>
                     <tr>
-                        <th><input type="checkbox" className="cart-checkbox"/></th>
+                        <th><input type="checkbox" className="cart-checkbox" onClick={handleSelectAll}/></th>
                         <th>
-                            <button>상품 삭제</button>
+                            <button>선택 삭제</button>
                             <button>전체 삭제</button>
                         </th>
                         <th>수량</th>
                         <th>가격</th>
-                        <th>주문</th>
+                        <th>
+                            <button>선택 주문</button>
+                            <button>전체 주문</button>
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
                     {
                         cartdetail?.map((product, index) => (
                             <tr key={product.productCode}>
-                                <td><input type="checkbox" className="cart-checkbox"/></td>
+                                <td><input type="checkbox" className="cart-checkbox" id={product.productCode} onChange={(e)=>handleSelectPart}/></td>
                                 <td><img src={product.imgUrl} alt={product.imgUrl}/></td>
                                 <td>
-                                    <input type='number' defaultValue={product.quantity}
-                                    onChange={(e) => handleUpdate(e, product.productCode)}/>
+                                    <input type='number' defaultValue={product.quantity} min='1'
+                                    onChange={(e) => handleUpdate(e, product.productCode, product.cartAmount)}/>
                                 </td>
-                                <td>{product.cartAmount}</td>
+                                <td><p id={cartAmount} defaultValue={product.cartAmount}>{cartAmount ?? product.cartAmount}</p></td>
                                 <td>
                                     <button>주문</button>
                                 </td>

@@ -48,8 +48,8 @@ function App() {
                             <></>
                         ) : (
                             <>
-                                <Link to="/cart">장바구니</Link>
-                                <Link to="/my-page">마이페이지</Link>
+                                <Link to="/cart"><p>장바구니</p></Link>
+                                <Link to="/my-page"><p>마이페이지</p></Link>
                             </>
                         )}
                     </div>

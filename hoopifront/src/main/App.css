@@ -23,6 +23,19 @@
     height: 100%;
     object-fit: cover;
 }
+.mainNav-sns-box>a{
+    font-size: 3.5vh;
+    text-decoration: none;
+    color: grey;
+    margin: 0 10px 0 10px;
+}
+.mainNav-sns-box>a>p{
+    border: 3px solid #c9dcf9;
+    border-radius: 5px;
+    width: 120px;
+    height: 60px;
+
+}
 
 .mainNav-link-box{
     font-size: 3.5vh;
@@ -75,3 +88,4 @@
 option:focus{
     background: #c9dcf9;
 }
+

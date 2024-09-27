@@ -1,5 +1,6 @@
 package com.ms.hoopi.cart.service.serviceImpl;
 
+import com.ms.hoopi.cart.model.dto.CartPutRequestDto;
 import com.ms.hoopi.cart.model.dto.CartRequestDto;
 import com.ms.hoopi.cart.model.dto.CartResponseDto;
 import com.ms.hoopi.cart.service.CartService;
@@ -126,6 +127,7 @@ public class CartServiceImpl implements CartService {
             String imgKey = productImgRepository.findByProductCode(cartDetail.getProductCode().getProductCode()).getImgKey();
             String imgUrl = fileUploadService.getS3(imgKey);
             CartResponseDto cartResponseDto = CartResponseDto.builder()
+                    .cartCode(cart.getCartCode())
                     .productCode(cartDetail.getProductCode().getProductCode())
                     .quantity(cartDetail.getQuantity())
                     .cartAmount(cartDetail.getCartAmount())
@@ -134,6 +136,41 @@ public class CartServiceImpl implements CartService {
             cartResponseDtos.add(cartResponseDto);
         }
         return ResponseEntity.ok(cartResponseDtos);
+    }
+
+    @Override
+    public ResponseEntity<String> updateCart(CartPutRequestDto cartPutRequestDto) {
+        try{
+            // 기존 cartDetail 정보 불러오기
+            CartDetail cartDetail = cartDetailRepository.findByCartCodeAndProductCode(cartPutRequestDto.getCartCode(), cartPutRequestDto.getProductCode())
+                    .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_CART));
+            // 수정된 cartDetail 정보
+            CartDetail newCartDetail = CartDetail.builder()
+                                                .id(cartDetail.getId())
+                                                .cartCode(cartDetail.getCartCode())
+                                                .productCode(cartDetail.getProductCode())
+                                                .quantity(cartPutRequestDto.getQuantity())
+                                                .cartAmount(cartPutRequestDto.getCartAmount())
+                                                .build();
+            // 수정된 cartDetail 정보로 수정하기
+            cartDetailRepository.save(newCartDetail);
+        } catch (Exception e){
+            log.error(Constants.CART_UPDATE_FAIL, e);
+            return ResponseEntity.badRequest().body(Constants.CART_UPDATE_FAIL);
+        }
+    }
+
+    @Override
+    public ResponseEntity<String> deleteCartPart(String cartCode, List<String> productCodes) {
+        try{
+            for(String productCode : productCodes){
+                cartDetailRepository.deleteByCartCodeAndProductCode(cartCode, productCode);
+            }
+            return ResponseEntity.ok(Constants.CART_DELETE_SUCCESS);
+        }catch (Exception e){
+            log.error(Constants.CART_DELETE_FAIL, e);
+            return ResponseEntity.badRequest().body(Constants.CART_DELETE_FAIL);
+        }
     }
 
 

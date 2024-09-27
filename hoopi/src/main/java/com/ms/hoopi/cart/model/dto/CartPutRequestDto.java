@@ -2,15 +2,14 @@ package com.ms.hoopi.cart.model.dto;
 
 import lombok.*;
 
-@Builder
 @Getter
 @Setter
+@Builder
 @ToString
 @EqualsAndHashCode
-public class CartResponseDto {
-    private String cartCode;
+public class CartPutRequestDto {
+    private String CartCode;
     private String productCode;
     private Long quantity;
     private Long cartAmount;
-    private String imgUrl;
 }
