@@ -31,12 +31,13 @@
     border-radius: 10px;
 }
 .cart-box>table button{
-    width: 100px;
-    height: 50px;
+    width: 80px;
+    height: 40px;
     border: 2px solid #c9dcf9;
     border-radius: 5px;
     color: grey;
     font-size: 2vh;
+    margin: 0 5px 0 5px;
 }
 .cart-box>table input{
     width: 50px;
