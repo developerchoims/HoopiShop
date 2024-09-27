@@ -20,9 +20,11 @@ public interface CartDetailRepository extends JpaRepository<CartDetail, Long> {
     @Query("SELECT cd FROM CartDetail cd WHERE cd.cartCode = :cart")
     List<CartDetail> findAllByCartCode(Cart cart);
 
+    @Modifying
     @Query("DELETE CartDetail cd WHERE cd.cartCode.cartCode = :cartCode AND cd.productCode.productCode = :productCode")
     void deleteByCartCodeAndProductCode(String cartCode, String productCode);
 
+    @Modifying
     @Query("DELETE CartDetail cd WHERE cd.cartCode.cartCode = :cartCode")
     void deleteByCartCode(String cartCode);
 }

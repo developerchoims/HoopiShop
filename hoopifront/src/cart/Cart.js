@@ -25,7 +25,7 @@ const Cart = () => {
     // 수량 변경, 가격 변경 시 DB 수정
     const [cartAmount, setCartAmount] = useState();
     const handleUpdate = (e, productCode, cartAmount) => {
-        const quantity = e.target.value;
+        const quantity = handleQuantityChange(e.target.value);
         axios.put(`http://hoopi.p-e.kr/api/hoopi/cart`, {
             cartCode: cartdetail[0].cartCode
             , productCode: productCode
@@ -38,6 +38,16 @@ const Cart = () => {
             .catch(error => {
                 console.log(error);
             });
+    }
+
+    // 0보다 작아지는 걸 막기
+    function handleQuantityChange(quantity) {
+        const minValue = 1;
+        if (quantity < minValue) {
+            return minValue;
+        } else {
+            return quantity;
+        }
     }
     // checkBox 전체 선택
     const handleSelectAll = (event) => {
