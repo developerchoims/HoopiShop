@@ -28,13 +28,18 @@
     text-decoration: none;
     color: grey;
     margin: 0 10px 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .mainNav-sns-box>a>p{
     border: 3px solid #c9dcf9;
     border-radius: 5px;
-    width: 120px;
-    height: 60px;
-
+    width: 16vh;
+    height: 4vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .mainNav-link-box{

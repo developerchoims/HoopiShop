@@ -26,7 +26,7 @@ const Cart = () => {
     const [cartAmount, setCartAmount] = useState();
     const handleUpdate = (e, productCode, cartAmount) => {
         const quantity = e.target.value;
-        axios.put(`http://hoopi-p.e.kr/api/hoopi/cart`, {
+        axios.put(`http://hoopi.p-e.kr/api/hoopi/cart`, {
             cartCode: cartdetail.cartCode
             , productCode: productCode
             , quantity: quantity
@@ -62,7 +62,7 @@ const Cart = () => {
 
     // 상품 부분 삭제 시 DB 수정
     const handleDeletePart = () => {
-        axios.delete('http://hoopi-p.e.kr/api/hoopi/cart-part', {params:{
+        axios.delete('http://hoopi.p-e.kr/api/hoopi/cart-part', {params:{
             cartCode: cartdetail.cartCode,
             productCodes: selectedIds
             }})
@@ -76,7 +76,6 @@ const Cart = () => {
 
     // 상품 전체 삭제 시 DB 수정
     const handleDeleteAll = () => {
-        const productCodes = cartdetail.map(m=>m.productCode);
         axios.delete('http://hoopi.p-e.kr/api/hoopi/cart-all', {params:{cartCode: cartdetail.cartCode}})
             .then(response =>{
                 alert(response.data);
