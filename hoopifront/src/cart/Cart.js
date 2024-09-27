@@ -6,7 +6,7 @@ import $ from 'jquery';
 const Cart = () => {
 
     const id = localStorage.getItem("id");
-    const [cartdetail, setCartdetail] = useState(null);
+    const [cartdetail, setCartdetail] = useState([]);
 
     useEffect(() => {
         fetchCart();
@@ -121,7 +121,7 @@ const Cart = () => {
                     </thead>
                     <tbody>
                     {
-                        cartdetail==null?
+                        !Array.isArray(cartdetail) || cartdetail.length === 0 ?
                             <tr>
                                 <td colSpan={5}>"장바구니에 담긴 상품이 없습니다."</td>
                             </tr>
