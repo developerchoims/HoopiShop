@@ -1,11 +1,10 @@
 # Stage 1: Build the React app
 FROM node:16 AS build
 WORKDIR /app
-ENV NODE_OPTIONS=--openssl-legacy-provider
 COPY hoopifront/*.json ./
-RUN npm install
+RUN npm install && npm cache clean --force
 COPY hoopifront ./
-RUN npm run build
+RUN npm run build && npm cache clean --force
 
 # Stage 2: Serve the app with Nginx
 FROM nginx:alpine
