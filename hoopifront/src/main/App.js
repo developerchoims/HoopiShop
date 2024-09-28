@@ -1,5 +1,4 @@
 import React, { useContext, createContext, useState, useEffect } from 'react';
-import axios from 'axios';
 import {BrowserRouter as Router, Route, Routes, Link, useLocation} from 'react-router-dom';
 import Login from '../auth/Login';
 import Join from '../auth/Join';
@@ -16,6 +15,7 @@ import Board from "../admin/board/Board";
 import Notice from "../notice/Notice";
 import NoticeDetail from "../notice/NoticeDetail";
 import Cart from "../cart/Cart";
+import api from "./axios/axiosApi";
 
 // Context 생성
 const UserContext = createContext(null);

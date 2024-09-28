@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import axios from "axios";
 import './cart.css';
 import api from "../main/axios/axiosApi";
 import IamPort from "./IamPort";
