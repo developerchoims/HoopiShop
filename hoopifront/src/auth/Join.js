@@ -108,7 +108,7 @@ function Join() {
 
     // 핸드폰 인증하기
     const handlePhone = () => {
-        api.post("http://hoopi.p-e.kr/api/hoopi/phone", null ,{
+        api.post("hoopi/phone", null ,{
             params: {
                 phone: user.phone
             }
