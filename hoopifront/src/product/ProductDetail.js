@@ -59,7 +59,7 @@ const ProductDetail = () => {
 
 // 장바구니 담기 구현
     const handleCart = () => {
-        api.post(`http://hoopi.p-e.kr/api/hoopi/cart`, cartRequestDto)
+        api.post(`hoopi/cart`, cartRequestDto)
             .then((response) => {
                 alert(response.data);
             })
