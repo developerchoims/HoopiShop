@@ -36,5 +36,7 @@ public class Constants {
     public static final String CART_UPDATE_FAIL = "상품 수량을 수정하는 중에 문제가 발생하였습니다.";
     public static final String CART_DELETE_SUCCESS = "장바구니에 담긴 상품을 삭제하였습니다.";
     public static final String CART_DELETE_FAIL = "장바구니에 담긴 상품을 삭제하는 중 문제가 발생하였습니다.";
-
+    public static final String NONE_CART_PRODUCT = "장바구니에 담긴 상품 정보를 찾을 수 없습니다.";
+    public static final String ORDER_SUCCESS = "주문이 완료되었습니다.";
+    public static final String ORDER_FAIL = "주문 중에 문제가 발생하였습니다.";
 }

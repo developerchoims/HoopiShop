@@ -1,6 +1,6 @@
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import axios from "axios";
+import api from "../main/axios/axiosApi";
 import './noticeDetail.css'
 
 const NoticeDetail = () => {
@@ -16,7 +16,7 @@ const NoticeDetail = () => {
 
     const fetchNoticeDetail = async () => {
         try{
-            const response = await axios.get(`http://hoopi.p-e.kr/api/hoopi/notice-detail/${articleCode}`, {});
+            const response = await api.get(`hoopi/notice-detail/${articleCode}`, {});
             setNoticeDetail(response.data);
             console.log(response.data);
         } catch (e) {

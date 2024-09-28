@@ -15,5 +15,5 @@ public class UserOrderDetailSelectDto {
     private OrderDetailId orderDetailId;
     private Long quantity;
     private Long orderAmount;
-    private BigDecimal totalPrice;
+    private Long totalPrice;
 }

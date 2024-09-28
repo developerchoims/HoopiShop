@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import api from "../main/axios/axiosApi";
 import {UserContext} from "../main/App";
 import './Login.css';
 
@@ -24,7 +25,7 @@ const Login = () => {
         }
 
         try {
-            const response = await axios.post("http://hoopi.p-e.kr/api/hoopi/login", user);
+            const response = await api.post("hoopi/login", user);
             console.log('user:'+user);
             localStorage.setItem("id", response.data.id);
             localStorage.setItem("role", response.data.role);

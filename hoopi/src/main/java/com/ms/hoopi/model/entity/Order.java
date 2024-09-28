@@ -3,6 +3,7 @@ package com.ms.hoopi.model.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -27,6 +28,17 @@ public class Order {
     @Column(name = "order_date")
     private LocalDateTime orderDate;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private Status status = Status.결제완료;
+
+    public enum Status {
+        결제완료,
+        배송중,
+        배송완료,
+        주문취소
+    }
+
     @JsonManagedReference
     @OneToMany(mappedBy = "orderCode")
     private Set<Delivery> deliveries = new LinkedHashSet<>();
@@ -39,4 +51,11 @@ public class Order {
     @OneToMany(mappedBy = "orderCode")
     private Set<Payment> payments = new LinkedHashSet<>();
 
+    @Builder
+    public Order(String orderCode, User code, LocalDateTime orderDate, Status status) {
+        this.orderCode = orderCode;
+        this.code = code;
+        this.orderDate = orderDate;
+        this.status = status;
+    }
 }

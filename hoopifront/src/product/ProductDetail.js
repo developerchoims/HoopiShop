@@ -1,7 +1,7 @@
 import './productDetail.css'
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import axios from "axios";
+import api from "../main/axios/axiosApi";
 const ProductDetail = () => {
 
     const role = localStorage.getItem("role");
@@ -35,8 +35,8 @@ const ProductDetail = () => {
 
     const fetchProductDetail = async () => {
         try {
-            const response = await axios.get(
-                `http://hoopi.p-e.kr/api/hoopi/product/${productCode}`
+            const response = await api.get(
+                `hoopi/product/${productCode}`
             );
             setProductDetail(response.data);
             console.log(response.data);

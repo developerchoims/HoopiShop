@@ -1,6 +1,7 @@
 package com.ms.hoopi.repository;
 
 import com.ms.hoopi.model.entity.Cart;
+import com.ms.hoopi.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -21,4 +22,8 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     @Modifying
     @Query("UPDATE Cart c SET c.status = 'Y' WHERE c.cartCode = :cartCode")
     void deleteByCartCode(String cartCode);
+
+    @Query("SELECT c FROM Cart c WHERE c.cartCode = :cartCode AND c.status = 'N'")
+    Optional<Cart> findByCartCode(String cartCode);
+
 }

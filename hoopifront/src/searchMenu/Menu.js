@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../main/axios/axiosApi";
 import {useEffect, useState} from "react";
 import {Link, useLocation} from "react-router-dom";
 import {useSearch} from "./SearchContext";
@@ -28,7 +28,7 @@ const Menu = () => {
     const fetchMenuCategory = async () => {
         try{
             // 메뉴 설정
-            const response = await axios.get('http://hoopi.p-e.kr/api/hoopi/menu');
+            const response = await api.get('hoopi/menu');
             setMenu(response.data);
             if(role === 'admin'){
                 setVisible(true);
@@ -49,11 +49,11 @@ const Menu = () => {
                 tempBoardId = 'product';
             }
             console.log(tempBoardId);
-            const boardResponse = await axios.get('http://hoopi.p-e.kr/api/hoopi/board', { params: { boardId: tempBoardId } });
+            const boardResponse = await api.get('hoopi/board', { params: { boardId: tempBoardId } });
             setBoardId(tempBoardId);  // boardId 업데이트
             setBoard(boardResponse.data);
 
-            const categoryResponse = await axios.get('http://hoopi.p-e.kr/api/hoopi/category', {params: {boardCode: boardResponse.data.boardCode}});
+            const categoryResponse = await api.get('hoopi/category', {params: {boardCode: boardResponse.data.boardCode}});
             setCategory(categoryResponse.data);
             // 첫 번째 카테고리의 ID를 searchCate 상태에 설정
             if (categoryResponse.data && categoryResponse.data.length > 0) {
