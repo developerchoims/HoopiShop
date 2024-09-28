@@ -18,7 +18,7 @@ axios.interceptors.response.use(
             return Promise.reject(error);
           }
 
-          const tokenResponse = await axios.get('http://hoopi.p-e.kr/api/hoopi/refresh-token', { params: { id: id } });
+          const tokenResponse = await api.get('hoopi/refresh-token', { params: { id: id } });
           if (tokenResponse.status === 200) {
             return axios(originalRequest);
           } else {

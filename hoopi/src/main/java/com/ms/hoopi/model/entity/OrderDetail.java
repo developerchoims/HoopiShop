@@ -33,6 +33,15 @@ public class OrderDetail {
     private Long orderAmount;
 
     @Column(name = "total_price", nullable = false)
-    private BigDecimal totalPrice;
+    private Long totalPrice;
+
+    @Builder
+    public OrderDetail (Product productCode, Order orderCode, Long quantity, Long orderAmount, Long totalPrice) {
+        this.productCode = productCode;
+        this.orderCode = orderCode;
+        this.quantity = quantity;
+        this.orderAmount = orderAmount;
+        this.totalPrice = totalPrice;
+    }
 
 }

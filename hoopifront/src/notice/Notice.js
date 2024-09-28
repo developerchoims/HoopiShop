@@ -1,7 +1,7 @@
 import {useSearch} from "../searchMenu/SearchContext";
 import Pagination from "@mui/material/Pagination";
 import {useEffect, useState} from "react";
-import axios from "axios";
+import api from "../main/axios/axiosApi";
 import './notice.css';
 import {Link, useNavigate} from "react-router-dom";
 
@@ -22,7 +22,7 @@ const Notice = () => {
 
     const getNotice = async(page) => {
         try{
-            const response = await axios.get('http://hoopi.p-e.kr/api/hoopi/notice', {
+            const response = await api.get('hoopi/notice', {
                 params:{page: page-1, size: 10, searchCate: searchCate, keyword: keyword}
             });
             console.log(response.data);

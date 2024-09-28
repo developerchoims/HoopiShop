@@ -2,6 +2,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import './board.css';
+import api from "../../main/axios/axiosApi";
 
 const Board = () => {
 
@@ -36,7 +37,7 @@ const Board = () => {
         try {
             console.log(tempBoardId);
             console.log(path);
-            const response = await axios.get('http://hoopi.p-e.kr/api/hoopi/board', { params: { boardId: tempBoardId } });
+            const response = await api.get('hoopi/board', { params: { boardId: tempBoardId } });
             setBoard(response.data);
             setArticle(prev => ({ ...prev, "id": id, "boardCode": response.data.boardCode }));
 
@@ -100,7 +101,7 @@ const Board = () => {
         });
 
         try {
-            const response = await axios.post('http://hoopi.p-e.kr/api/hoopi/article', formData);
+            const response = await api.post('hoopi/article', formData);
             alert(response.data);
             setArticle(null);
             setProduct(null);

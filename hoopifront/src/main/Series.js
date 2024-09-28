@@ -1,6 +1,7 @@
 import './Series.css'
 import {useEffect, useState} from "react";
 import axios from "axios";
+import api from "../main/axios/axiosApi";
 import {Link} from "react-router-dom";
 
 const Series = () => {
@@ -14,7 +15,7 @@ const Series = () => {
     const[popularProduct, setPopularProduct] = useState([]);
     const productPopular = async () => {
         try{
-            const response = await axios.get('http://hoopi.p-e.kr/api/hoopi/product-popular');
+            const response = await api.get('hoopi/product-popular');
             setPopularProduct(response.data);
             console.log(response.data);
         } catch (e){

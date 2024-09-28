@@ -1,6 +1,7 @@
 import './Main.css';
 import Series from "./Series";
 import {useEffect, useState} from "react";
+import api from "../main/axios/axiosApi";
 import axios from "axios";
 import {Link, useLocation} from "react-router-dom";
 const Main = () => {
@@ -16,7 +17,7 @@ const Main = () => {
     const[newProduct, setNewProduct] = useState([]);
     const productNew = async () => {
         try{
-            const response = await axios.get('http://hoopi.p-e.kr/api/hoopi/product-new');
+            const response = await api.get('hoopi/product-new');
             setNewProduct(response.data);
             console.log(response.data);
         } catch (e){

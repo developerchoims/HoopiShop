@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import axios from "axios";
+import api from "../main/axios/axiosApi";
 import {useSearch} from "../searchMenu/SearchContext";
 import Pagination from "@mui/material/Pagination";
 import './product.css';
@@ -26,7 +26,7 @@ const Product = () => {
 
     const getProduct = async (role, page) => {
         try{
-            const response = await axios.get('http://hoopi.p-e.kr/api/hoopi/product', {
+            const response = await api.get('hoopi/product', {
                 params:{role: role, keyword: keyword, searchCate: searchCate, page: page-1, size: 10}
             });
             setProducts(response.data);

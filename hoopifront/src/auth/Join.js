@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import "./Join.css";
 import DaumPostCode from "./DaumPostCode";
+import api from "../main/axios/axiosApi";
 
 function Join() {
 
@@ -73,7 +74,7 @@ function Join() {
             return false;
         }
 
-        axios.post("http://hoopi.p-e.kr/api/hoopi/email", null, {
+        api.post("hoopi/email", null, {
             params: {
                 email: user.email
             }
@@ -108,7 +109,7 @@ function Join() {
 
     // 핸드폰 인증하기
     const handlePhone = () => {
-        axios.post("http://hoopi.p-e.kr/api/hoopi/phone", null ,{
+        api.post("http://hoopi.p-e.kr/api/hoopi/phone", null ,{
             params: {
                 phone: user.phone
             }
@@ -159,7 +160,7 @@ function Join() {
             alert("이메일과 핸드폰 인증을 마무리해주세요.");
             return false;
         }
-        axios.post("http://hoopi.p-e.kr/api/hoopi/join", user)
+        api.post("hoopi/join", user)
             .then(response => {
                 alert("회원가입이 성공적으로 이루어졌습니다.");
                 window.location.reload('/');

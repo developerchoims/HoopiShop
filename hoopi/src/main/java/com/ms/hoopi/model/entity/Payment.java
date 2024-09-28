@@ -2,10 +2,8 @@ package com.ms.hoopi.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
@@ -41,5 +39,25 @@ public class Payment {
 
     @Column(name = "payment_amount")
     private Long paymentAmount;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private Status status = Status.결제완료;
+
+    public enum Status{
+        결제완료,
+        결제취소
+    }
+
+    @Builder
+    public Payment (String paymentCode, Order orderCode, User code, String method, String bank, LocalDateTime paymentDate, Long paymentAmount, Status status) {
+        this.paymentCode = paymentCode;
+        this.orderCode = orderCode;
+        this.code = code;
+        this.method = method;
+        this.paymentDate = paymentDate;
+        this.paymentAmount = paymentAmount;
+        this.status = status;
+    }
 
 }

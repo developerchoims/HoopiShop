@@ -1,7 +1,8 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 import './cart.css';
-import $ from 'jquery';
+import api from "../main/axios/axiosApi";
+import IamPort from "./IamPort";
 
 const Cart = () => {
 
@@ -14,7 +15,7 @@ const Cart = () => {
 
     const fetchCart = async () => {
         try{
-            const response = await axios.get(`http://hoopi.p-e.kr/api/hoopi/cart`,{params:{id:id}});
+            const response = await api.get(`hoopi/cart`,{params:{id:id}});
             console.log(response.data);
             setCartdetail(response.data);
         }catch(e){
@@ -26,7 +27,7 @@ const Cart = () => {
     const handleUpdate = (e, productCode, quantity, cartAmount) => {
         const newQuantity = handleQuantityChange(e.target.value);
         const rawPrice = cartAmount/quantity;
-        axios.put(`http://hoopi.p-e.kr/api/hoopi/cart`, {
+        api.put(`hoopi/cart`, {
             cartCode: cartdetail[0].cartCode
             , productCode: productCode
             , quantity: newQuantity
@@ -90,7 +91,11 @@ const Cart = () => {
     // 상품 부분 삭제 시 DB 수정
     const handleDeletePart = () => {
         console.log("selectedIds확인",selectedIds);
-        axios.delete('http://hoopi.p-e.kr/api/hoopi/cart-part', {params:{
+        if(selectedIds.length === 0){
+            alert("삭제할 상품을 선택해주세요.");
+            return;
+        }
+        api.delete('hoopi/cart-part', {params:{
             cartCode: cartdetail[0].cartCode,
             productCodes: selectedIds.join(',')
             }})
@@ -105,7 +110,7 @@ const Cart = () => {
 
     // 상품 전체 삭제 시 DB 수정
     const handleDeleteAll = () => {
-        axios.delete('http://hoopi.p-e.kr/api/hoopi/cart-all', {params:{cartCode: cartdetail[0].cartCode}})
+        api.delete('hoopi/cart-all', {params:{cartCode: cartdetail[0].cartCode}})
             .then(response =>{
                 alert(response.data);
                 fetchCart();
@@ -146,21 +151,19 @@ const Cart = () => {
                             <tr key={product.productCode}>
                                 <td><input type="checkbox" className="cart-checkbox checkbox-child" id={product.productCode}
                                            checked={selectedIds.includes(product.productCode)} onChange={handleSelectPart}/></td>
-                                <td><img src={product.imgUrl} alt={product.imgUrl}/></td>
+                                <td colSpan={2}><img src={product.imgUrl} alt={product.imgUrl}/></td>
                                 <td>
                                     <input type='number' value={product.quantity} min='1'
                                     onChange={(e) => handleUpdate(e, product.productCode, product.quantity, product.cartAmount)}/>
                                 </td>
                                 <td><p defaultValue={product.cartAmount}>{product.cartAmount}</p></td>
-                                <td>
-                                    <button>주문</button>
-                                </td>
                             </tr>
                         ))
                     }
                     </tbody>
                 </table>
             </div>
+            <IamPort cartdetail={cartdetail}/>
         </div>
     );
 }

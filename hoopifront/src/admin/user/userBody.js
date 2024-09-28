@@ -4,6 +4,7 @@ import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import './userBody.css'
 import { useSearch } from '../../searchMenu/SearchContext';
+import api from "../../main/axios/axiosApi";
 
 const UserBody = () => {
     const id = localStorage.getItem("id");
@@ -29,7 +30,7 @@ const UserBody = () => {
 
     const fetchUsers = async (page) => {
         try {
-            const response = await axios.get("http://hoopi.p-e.kr/api/hoopi/admin/user", {
+            const response = await api.get("hoopi/admin/user", {
                 params: { searchCate: searchCate, keyword: keyword, page: page - 1, size: 10 }
             });
             console.log("response.data : ", response.data.content);
@@ -41,7 +42,7 @@ const UserBody = () => {
 
     const handleUserDetail = async (code) => {
         try {
-            const response = await axios.get('http://hoopi.p-e.kr/api/hoopi/admin/user-detail', {params: {code: code}});
+            const response = await api.get('hoopi/admin/user-detail', {params: {code: code}});
             setUserDetail(response.data);
             setDetailVisible(true);
         } catch (error) {
@@ -51,7 +52,7 @@ const UserBody = () => {
 
     const handleUserQuit = async () => {
         try {
-            const response = await axios.put('http://hoopi.p-e.kr/api/hoopi/admin/user-quit', null,{params:{id:userDetail.id}});
+            const response = await api.put('hoopi/admin/user-quit', null,{params:{id:userDetail.id}});
             alert("사용자 탈퇴 처리가 완료되었습니다.");
             fetchUsers(currentPage); // 상태 업데이트 후 목록 새로고침
             setDetailVisible(false);

@@ -28,7 +28,7 @@ function App() {
 
 
     const handleLogout =  () => {
-         axios.delete('http://hoopi.p-e.kr/api/hoopi/logout', { params: { id: id } })
+         api.delete('hoopi/logout', { params: { id: id } })
             .then(response => {
                 localStorage.removeItem('id');
                 localStorage.removeItem('role');
