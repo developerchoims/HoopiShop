@@ -1,6 +1,6 @@
-// IamPort.js
-import PortOne from "@portone/browser-sdk";
+
 import api from "../main/axios/axiosApi";
+import PortOne from "@portone/browser-sdk";
 
 const IamPort = ({ cartdetail }) => {
     const handlePayment = async () => {
