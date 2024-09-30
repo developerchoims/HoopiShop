@@ -49,9 +49,10 @@ public class OrderServiceImpl implements OrderService {
             headers.set("Authorization", "PortOne " + secret);
             HttpEntity<String> entity = new HttpEntity<>(headers);
 
-            String url = "https://api.portone.io/payments/" + paymentCode;
+            String url = "https://api.portone.io/payments/" + paymentCode + "/pre-register";
             log.info("url: {}", url);
             ResponseEntity<Map> paymentResponse = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+            log.info("paymentResponse: {}", paymentResponse);
 
             if (!paymentResponse.getStatusCode().is2xxSuccessful()) {
                 throw new Exception(Constants.ORDER_FAIL);
