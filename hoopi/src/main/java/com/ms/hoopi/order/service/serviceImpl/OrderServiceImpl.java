@@ -102,7 +102,7 @@ public class OrderServiceImpl implements OrderService {
         String url = "https://api.portone.io/payments/" + paymentRequestDto.getPaymentCode();
         log.info("Payment URL: {}", url);
         HttpResponse<String> paymentResponse = Unirest.get(url)
-                .header("Authorization", "PortOne" + secret)
+                .header("Authorization", "PortOne " + secret)
                 .header("Content-Type", "application/json")
                 .asString();
         log.info("Payment Response: {}", paymentResponse.getBody());
