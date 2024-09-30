@@ -30,8 +30,9 @@ const IamPort = ({ cartdetail }) => {
 
             let productCodes = cartdetail.map(p => p.productCode);
             let paymentAmount = cartdetail.reduce((sum, p) => sum + p.paymentAmount, 0);
-            if(totalAmount !== paymentAmount){
+            if(totalAmount != paymentAmount){
                 alert("주문 금액과 결제 금액이 일치하지 않습니다.");
+                console.log(totalAmount,"확인하기", paymentAmount);
                 return false;
             }
 
