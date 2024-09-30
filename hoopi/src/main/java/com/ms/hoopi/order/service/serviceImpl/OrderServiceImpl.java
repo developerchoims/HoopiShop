@@ -8,6 +8,9 @@ import com.ms.hoopi.order.model.dto.PaymentRequestDto;
 import com.ms.hoopi.order.service.OrderService;
 import com.ms.hoopi.repository.*;
 import jakarta.persistence.EntityNotFoundException;
+import kong.unirest.HttpResponse;
+import kong.unirest.JsonNode;
+import kong.unirest.Unirest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,21 +45,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseEntity<String> addOrder(OrderRequestDto orderRequestDto) {
         try{
-            PaymentRequestDto paymentRequestDto = orderRequestDto.getPaymentRequestDto();
-            String paymentCode = paymentRequestDto.getPaymentCode();
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "PortOne " + secret);
-            HttpEntity<String> entity = new HttpEntity<>(headers);
-
-            String url = "https://api.portone.io/payments/" + paymentCode + "/pre-register";
-            log.info("url: {}", url);
-            ResponseEntity<Map> paymentResponse = restTemplate.exchange(url, HttpMethod.POST, entity, Map.class);
-            log.info("paymentResponse: {}", paymentResponse);
-
-            if (!paymentResponse.getStatusCode().is2xxSuccessful()) {
-                throw new Exception(Constants.ORDER_FAIL);
-            }
             // cartCode로 cart정보 가져오기
             Cart cart = cartRepository.findByCartCode(orderRequestDto.getCartCode())
                     .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_CART));
@@ -94,10 +82,29 @@ public class OrderServiceImpl implements OrderService {
                 changeCartStatus(cart);
             }
 
-            Map<String, Object> payment = paymentResponse.getBody();
+            PaymentRequestDto paymentRequestDto = orderRequestDto.getPaymentRequestDto();
+            String paymentCode = paymentRequestDto.getPaymentCode();
 
-            if (orderRequestDto.getPaymentRequestDto().getPaymentAmount().toString().equals(payment.get("amount"))) {
-                return switch ((String) payment.get("status")) {
+            String url = "https://api.portone.io/payments/" + paymentCode;
+            log.info("url: {}", url);
+
+            HttpResponse<JsonNode> paymentResponse = Unirest.post(url)
+                    .header("Authorization", "PortOne " + secret)
+                    .header("Content-Type", "application/json")
+                    .body("{}")
+                    .asJson();
+
+            log.info("paymentResponse: {}", paymentResponse.getBody());
+
+            if (!paymentResponse.isSuccess()) {
+                throw new RuntimeException(Constants.ORDER_FAIL);
+            }
+
+            Map<String, Object> payment = (Map<String, Object>) paymentResponse.getBody();
+
+            if (orderRequestDto.getPaymentRequestDto().getPaymentAmount().toString().equals(payment.get("amount").toString())) {
+                String paymentStatus = (String) payment.get("status");
+                return switch (paymentStatus) {
                     case "VIRTUAL_ACCOUNT_ISSUED" ->
                             ResponseEntity.badRequest().body(Constants.ORDER_FAIL_VIRTUAL_ACCOUNT);
                     case "PAID" -> ResponseEntity.ok(Constants.ORDER_SUCCESS);

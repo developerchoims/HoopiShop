@@ -52,6 +52,10 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // 결제 관련
+    implementation 'com.konghq:unirest-java:3.11.11'
+
 }
 
 tasks.named('test') {
