@@ -51,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
 
             String url = "https://api.portone.io/payments/" + paymentCode + "/pre-register";
             log.info("url: {}", url);
-            ResponseEntity<Map> paymentResponse = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+            ResponseEntity<Map> paymentResponse = restTemplate.exchange(url, HttpMethod.POST, entity, Map.class);
             log.info("paymentResponse: {}", paymentResponse);
 
             if (!paymentResponse.getStatusCode().is2xxSuccessful()) {
