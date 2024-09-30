@@ -16,7 +16,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -33,28 +32,16 @@ public class OrderServiceImpl implements OrderService {
     private final CartDetailRepository cartDetailRepository;
     private final PaymentRepository paymentRepository;
     private final CommonUtil commonUtil;
-    private final RestTemplate restTemplate;
 
     @Override
     public ResponseEntity<String> addOrder(OrderRequestDto orderRequestDto) {
         try{
-            PaymentRequestDto paymentRequestDto = orderRequestDto.getPaymentRequestDto();
-            String paymentCode = paymentRequestDto.getPaymentCode();
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "PortOne " + System.getenv("PORTONE_API_SECRET"));
-            HttpEntity<String> entity = new HttpEntity<>(headers);
-
-            String url = "https://api.portone.io/payments/" + paymentCode;
-            ResponseEntity<Map> paymentResponse = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
-
 
             // cartCode로 cart정보 가져오기
             Cart cart = cartRepository.findByCartCode(orderRequestDto.getCartCode())
                     .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_CART));
 
             //반복문
-            Long payAmount = 0L;
             for(String productCode : orderRequestDto.getProductCode()){
                 // cartDetail 정보를 통해 order, orderDetail 정보 새로 만들기
                 CartDetail cartDetail = cartDetailRepository.findByCartCodeAndProductCode(orderRequestDto.getCartCode(), productCode)
@@ -76,29 +63,17 @@ public class OrderServiceImpl implements OrderService {
                         .totalPrice(cartDetail.getCartAmount())
                         .build();
                 orderDetailRepoisitory.save(orderDetail);
-                payAmount += cartDetail.getCartAmount();
 
                 // cartDetail 정보 삭제
                 cartDetailRepository.deleteByCartCodeAndProductCode(orderRequestDto.getCartCode(), productCode);
                 // payment 정보 추가
                 addPayment(order, orderRequestDto.getPaymentRequestDto());
             }
-            Map<String, Object> payment = paymentResponse.getBody();
 
-            if (payAmount.toString().equals(payment.get("amount"))) {
-                switch ((String) payment.get("status")) {
-                    case "VIRTUAL_ACCOUNT_ISSUED":
-                        return ResponseEntity.badRequest().body(Constants.ORDER_FAIL_VIRTUAL_ACCOUNT);
-                    case "PAID":
-                        // cart status Y로 변경하기
-                        changeCartStatus(cart);
-                        return ResponseEntity.ok(Constants.ORDER_SUCCESS);
-                    default:
-                        throw new IllegalStateException(Constants.ORDER_FAIL);
-                }
-            } else {
-                throw new IllegalStateException(Constants.ORDER_FAIL_DO_NOT_MATCH);
-            }
+            // cart status Y로 변경하기
+            changeCartStatus(cart);
+
+            return  ResponseEntity.ok().body(Constants.ORDER_SUCCESS);
 
         } catch (Exception e) {
             log.error(Constants.ORDER_FAIL, e);
