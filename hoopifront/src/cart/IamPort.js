@@ -15,7 +15,7 @@ const IamPort = ({ cartdetail }) => {
                 channelKey: "channel-key-237352d9-f99e-44e9-80fe-8b5a016a0581",
                 paymentId: `payment-${paymentId}`,
                 orderName,
-                totalAmount,
+                totalAmount : 2,
                 currency: "CURRENCY_KRW",
                 payMethod: method,
                 windowType: {
@@ -33,11 +33,11 @@ const IamPort = ({ cartdetail }) => {
 
             const notified = await api.post(`hoopi/order`, {
                 cartCode: cartdetail[0].cartCode,
-                productCode: productCodes.join(','),
+                productCode: productCodes,
                 paymentCode: paymentId,
                 method,
                 bank: '나이스페이먼츠',
-                paymentAmount
+                paymentAmount:1
             });
 
             alert(notified.data);
