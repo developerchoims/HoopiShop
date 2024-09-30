@@ -34,10 +34,12 @@ const IamPort = ({ cartdetail }) => {
             const notified = await api.post(`hoopi/order`, {
                 cartCode: cartdetail[0].cartCode,
                 productCode: productCodes,
-                paymentCode: paymentId,
-                method,
-                bank: '나이스페이먼츠',
-                paymentAmount
+                paymentRequestDto : {
+                    paymentCode: paymentId,
+                    method,
+                    bank: '나이스페이먼츠',
+                    paymentAmount
+                }
             });
 
             alert(notified.data);
@@ -48,9 +50,9 @@ const IamPort = ({ cartdetail }) => {
     };
 
     return (
-        <div>
+        <>
             <button onClick={handlePayment}>전체 주문</button>
-        </div>
+        </>
     );
 };
 
