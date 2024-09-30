@@ -36,12 +36,13 @@ public class OrderDetail {
     private Long totalPrice;
 
     @Builder
-    public OrderDetail (Product productCode, Order orderCode, Long quantity, Long orderAmount, Long totalPrice) {
+    public OrderDetail (OrderDetailId id, Product productCode, Order orderCode, Long quantity, Long orderAmount, Long totalPrice) {
         this.productCode = productCode;
         this.orderCode = orderCode;
         this.quantity = quantity;
         this.orderAmount = orderAmount;
         this.totalPrice = totalPrice;
+        this.id = id;
     }
 
 }

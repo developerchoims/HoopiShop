@@ -63,7 +63,12 @@ public class OrderServiceImpl implements OrderService {
                         .build();
                 Order savedOrder = orderRepository.save(order);
                 // orderDetail 정보 추가
+                OrderDetailId orderDetailId = OrderDetailId.builder()
+                        .orderCode(savedOrder.getOrderCode())
+                        .productCode(productCode)
+                        .build();
                 OrderDetail orderDetail = OrderDetail.builder()
+                        .id(orderDetailId)
                         .orderCode(savedOrder)
                         .productCode(cartDetail.getProductCode())
                         .quantity(cartDetail.getQuantity())
