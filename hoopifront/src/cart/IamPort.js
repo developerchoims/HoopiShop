@@ -18,6 +18,7 @@ const IamPort = ({ cartdetail }) => {
                 totalAmount,
                 currency: "CURRENCY_KRW",
                 payMethod: method,
+                redirectUrl: `/payment-redirect`
             });
 
             if (response.code != null) {
