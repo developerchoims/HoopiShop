@@ -2,10 +2,7 @@ package com.ms.hoopi.order.service.serviceImpl;
 
 import com.ms.hoopi.common.util.CommonUtil;
 import com.ms.hoopi.constants.Constants;
-import com.ms.hoopi.model.entity.Cart;
-import com.ms.hoopi.model.entity.CartDetail;
-import com.ms.hoopi.model.entity.Order;
-import com.ms.hoopi.model.entity.OrderDetail;
+import com.ms.hoopi.model.entity.*;
 import com.ms.hoopi.order.model.dto.OrderRequestDto;
 import com.ms.hoopi.order.model.dto.PaymentRequestDto;
 import com.ms.hoopi.order.service.OrderService;
@@ -139,7 +136,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private void createAndSaveOrderDetail(Order order, CartDetail cartDetail) {
+        OrderDetailId orderDetailId = OrderDetailId.builder()
+                .orderCode(order.getOrderCode())
+                .productCode(cartDetail.getProductCode().getProductCode())
+                .build();
         OrderDetail orderDetail = OrderDetail.builder()
+                .id(orderDetailId)
                 .orderCode(order)
                 .productCode(cartDetail.getProductCode())
                 .quantity(cartDetail.getQuantity())
