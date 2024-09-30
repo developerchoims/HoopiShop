@@ -37,7 +37,7 @@ const IamPort = ({ cartdetail }) => {
                 productCode: productCodes,
                 storeId,
                 paymentRequestDto : {
-                    paymentCode: `payment-${paymentId}`,
+                    paymentCode: paymentId,
                     method,
                     bank: '나이스페이먼츠',
                     paymentAmount
