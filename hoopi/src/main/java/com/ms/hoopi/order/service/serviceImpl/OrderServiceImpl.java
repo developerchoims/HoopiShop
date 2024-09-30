@@ -48,9 +48,7 @@ public class OrderServiceImpl implements OrderService {
             String url = "https://api.portone.io/payments/" + paymentCode;
             ResponseEntity<Map> paymentResponse = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
 
-            if (!paymentResponse.getStatusCode().is2xxSuccessful()) {
-                throw new Exception("Failed to retrieve payment info");
-            }
+
             // cartCode로 cart정보 가져오기
             Cart cart = cartRepository.findByCartCode(orderRequestDto.getCartCode())
                     .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_CART));

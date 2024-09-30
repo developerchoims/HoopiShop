@@ -17,8 +17,7 @@ const IamPort = ({ cartdetail }) => {
                 orderName,
                 totalAmount,
                 currency: "CURRENCY_KRW",
-                payMethod: method,
-                redirectUrl: `https://hoopi.co.kr/order-redirect`
+                payMethod: method
         });
 
             if (response.code != null) {
@@ -35,7 +34,7 @@ const IamPort = ({ cartdetail }) => {
                 paymentCode: paymentId,
                 method,
                 bank: '나이스페이먼츠',
-                paymentAmount : 0
+                paymentAmount
             });
 
             alert(notified.data);
