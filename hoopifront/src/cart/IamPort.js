@@ -15,9 +15,12 @@ const IamPort = ({ cartdetail }) => {
                 channelKey: "channel-key-237352d9-f99e-44e9-80fe-8b5a016a0581",
                 paymentId: `payment-${paymentId}`,
                 orderName,
-                totalAmount,
+                totalAmount : 0,
                 currency: "CURRENCY_KRW",
-                payMethod: method
+                payMethod: method,
+                windowType: {
+                    pc: 'IFRAME',
+                }
         });
 
             if (response.code != null) {
@@ -38,7 +41,7 @@ const IamPort = ({ cartdetail }) => {
                 paymentCode: paymentId,
                 method,
                 bank: '나이스페이먼츠',
-                paymentAmount
+                paymentAmount : 0
             });
 
             alert(notified.data);

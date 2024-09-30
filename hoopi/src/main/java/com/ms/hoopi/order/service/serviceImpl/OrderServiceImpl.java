@@ -16,6 +16,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -32,17 +33,30 @@ public class OrderServiceImpl implements OrderService {
     private final CartDetailRepository cartDetailRepository;
     private final PaymentRepository paymentRepository;
     private final CommonUtil commonUtil;
+    private final RestTemplate restTemplate;
 
     @Override
     public ResponseEntity<String> addOrder(OrderRequestDto orderRequestDto) {
         try{
+            PaymentRequestDto paymentRequestDto = orderRequestDto.getPaymentRequestDto();
+            String paymentCode = paymentRequestDto.getPaymentCode();
 
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "PortOne " + System.getenv("PORTONE_API_SECRET"));
+            HttpEntity<String> entity = new HttpEntity<>(headers);
+
+            String url = "https://api.portone.io/payments/" + paymentCode;
+            ResponseEntity<Map> paymentResponse = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+
+            if (!paymentResponse.getStatusCode().is2xxSuccessful()) {
+                throw new Exception("Failed to retrieve payment info");
+            }
             // cartCode로 cart정보 가져오기
             Cart cart = cartRepository.findByCartCode(orderRequestDto.getCartCode())
                     .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_CART));
 
             //반복문
-            for(String productCode : orderRequestDto.getProductCode()){
+            for(String productCode : orderRequestDto.getProductCode()) {
                 // cartDetail 정보를 통해 order, orderDetail 정보 새로 만들기
                 CartDetail cartDetail = cartDetailRepository.findByCartCodeAndProductCode(orderRequestDto.getCartCode(), productCode)
                         .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_CART_PRODUCT));
@@ -66,16 +80,29 @@ public class OrderServiceImpl implements OrderService {
 
                 // cartDetail 정보 삭제
                 cartDetailRepository.deleteByCartCodeAndProductCode(orderRequestDto.getCartCode(), productCode);
+
                 // payment 정보 추가
                 addPayment(order, orderRequestDto.getPaymentRequestDto());
+
+                // cart status Y로 변경하기
+                changeCartStatus(cart);
             }
 
-            // cart status Y로 변경하기
-            changeCartStatus(cart);
+            Map<String, Object> payment = paymentResponse.getBody();
 
-            return  ResponseEntity.ok().body(Constants.ORDER_SUCCESS);
-
-        } catch (Exception e) {
+            if (orderRequestDto.getPaymentRequestDto().getPaymentAmount().toString().equals(payment.get("amount"))) {
+                switch ((String) payment.get("status")) {
+                    case "VIRTUAL_ACCOUNT_ISSUED":
+                        return ResponseEntity.badRequest().body(Constants.ORDER_FAIL_VIRTUAL_ACCOUNT);
+                    case "PAID":
+                        return ResponseEntity.ok(Constants.ORDER_SUCCESS);
+                    default:
+                        throw new IllegalStateException(Constants.ORDER_FAIL);
+                }
+            } else {
+                return ResponseEntity.badRequest().body(Constants.ORDER_FAIL_DO_NOT_MATCH);
+            }
+        }catch (Exception e){
             log.error(Constants.ORDER_FAIL, e);
             return ResponseEntity.badRequest().body(Constants.ORDER_FAIL);
         }
