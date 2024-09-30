@@ -7,7 +7,7 @@ axios.interceptors.response.use(
     },
     async function (error) {
       const originalRequest = error.config;
-      if ((error.response.status === 401 || error.response.status === 403) && !originalRequest._retry) {
+      if ((error.response.status == 401 || error.response.status == 403) && !originalRequest._retry) {
         originalRequest._retry = true;
 
         try {
@@ -20,7 +20,7 @@ axios.interceptors.response.use(
           }
 
           const tokenResponse = await api.get('hoopi/refresh-token', { params: { id: id } });
-          if (tokenResponse.status === 200) {
+          if (tokenResponse.status == 200) {
             return api(originalRequest);
           } else {
             console.error('리프레시 토큰 갱신 실패:', tokenResponse.statusText);
