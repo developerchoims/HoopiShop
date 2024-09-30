@@ -17,7 +17,7 @@ public class CookieUtil {
         ResponseCookie cookie = ResponseCookie.from(name, value)
                 .path("/")
                 .httpOnly(httpOnly)
-                .secure(false)
+                .secure(secure)
                 .maxAge(expiry)
                 .sameSite("Strict")
                 .build();
@@ -27,7 +27,7 @@ public class CookieUtil {
     // acs token 쿠키 생성
     public void createAccessTokenCookie(HttpServletResponse response, String accessToken, boolean secure) {
         deleteAccessTokenCookie(response, true);
-        create(response, ACCESS_TOKEN_COOKIE_NAME, accessToken, 15 * 60, true, false);
+        create(response, ACCESS_TOKEN_COOKIE_NAME, accessToken, 15 * 60, true, true);
     }
 
     // 쿠키에서 acs token 추출
@@ -49,7 +49,7 @@ public class CookieUtil {
 
     // acs token 쿠키 삭제
     public void deleteAccessTokenCookie(HttpServletResponse response, boolean secure) {
-        create(response, ACCESS_TOKEN_COOKIE_NAME, "", 0, true, false);
+        create(response, ACCESS_TOKEN_COOKIE_NAME, "", 0, true, true);
     }
 
 }
