@@ -18,7 +18,9 @@ const IamPort = ({ cartdetail }) => {
                 totalAmount,
                 currency: "CURRENCY_KRW",
                 payMethod: method,
-                windowType:'IFRAME',
+                windowType: {
+                    pc: 'IFRAME',
+                }
         });
 
             if (response.code != null) {
