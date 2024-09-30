@@ -12,7 +12,7 @@ const IamPort = ({ cartdetail }) => {
 
         try {
             const response = await PortOne.requestPayment({
-                storeId: "store" + storeId,
+                storeId: "store-" + storeId,
                 channelKey: "channel-key-237352d9-f99e-44e9-80fe-8b5a016a0581",
                 paymentId: `payment-${paymentId}`,
                 orderName,
