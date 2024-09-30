@@ -39,4 +39,6 @@ public class Constants {
     public static final String NONE_CART_PRODUCT = "장바구니에 담긴 상품 정보를 찾을 수 없습니다.";
     public static final String ORDER_SUCCESS = "주문이 완료되었습니다.";
     public static final String ORDER_FAIL = "주문 중에 문제가 발생하였습니다.";
+    public static final String ORDER_FAIL_DO_NOT_MATCH = "주문 금액이 일치하지 않아 문제가 발생하였습니다.";
+    public static final String ORDER_FAIL_VIRTUAL_ACCOUNT = "주문 중에 계좌 문제로 오류가 발생하였습니다.";
 }

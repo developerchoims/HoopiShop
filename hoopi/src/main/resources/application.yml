@@ -75,3 +75,4 @@ cloud:
     credentials:
       accessKey: ${S3_ACS_KEY}
       secretKey: ${S3_SECRET_KEY}
+

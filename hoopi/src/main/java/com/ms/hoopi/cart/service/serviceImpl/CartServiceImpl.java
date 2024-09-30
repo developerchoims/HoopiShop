@@ -129,6 +129,7 @@ public class CartServiceImpl implements CartService {
             CartResponseDto cartResponseDto = CartResponseDto.builder()
                     .cartCode(cart.getCartCode())
                     .productCode(cartDetail.getProductCode().getProductCode())
+                    .name(cartDetail.getProductCode().getName())
                     .quantity(cartDetail.getQuantity())
                     .cartAmount(cartDetail.getCartAmount())
                     .imgUrl(imgUrl)

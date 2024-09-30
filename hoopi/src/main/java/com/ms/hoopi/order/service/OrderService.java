@@ -4,5 +4,5 @@ import com.ms.hoopi.order.model.dto.OrderRequestDto;
 import org.springframework.http.ResponseEntity;
 
 public interface OrderService {
-    ResponseEntity<String> addOrderOne(OrderRequestDto orderRequestDto);
+    ResponseEntity<String> addOrder(OrderRequestDto orderRequestDto);
 }
