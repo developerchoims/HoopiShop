@@ -36,7 +36,7 @@ public class OrderServiceImpl implements OrderService {
     private final CommonUtil commonUtil;
     private final RestTemplate restTemplate;
 
-    @Value("${portone.api.secret}")
+    @Value("${PORTONE_API_SECRET}")
     private String secret;
 
     @Override
