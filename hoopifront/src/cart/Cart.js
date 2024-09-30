@@ -128,7 +128,7 @@ const Cart = () => {
                     <tr>
                         <th><input type="checkbox" className="cart-checkbox checkbox-parents"
                                    checked={allChecked} onChange={handleSelectAll}/></th>
-                        <th>
+                        <th colSpan={2}>
                             <button onClick={handleDeletePart}>선택 삭제</button>
                             <button onClick={handleDeleteAll}>전체 삭제</button>
                         </th>
@@ -136,7 +136,7 @@ const Cart = () => {
                         <th>가격</th>
                         <th>
                             <button>선택 주문</button>
-                            <button>전체 주문</button>
+                            <IamPort cartdetail={cartdetail}/>
                         </th>
                     </tr>
                     </thead>
@@ -162,7 +162,6 @@ const Cart = () => {
                     </tbody>
                 </table>
             </div>
-            <IamPort cartdetail={cartdetail}/>
         </div>
     );
 }

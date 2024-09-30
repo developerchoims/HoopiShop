@@ -18,9 +18,7 @@ const IamPort = ({ cartdetail }) => {
                 totalAmount,
                 currency: "CURRENCY_KRW",
                 payMethod: method,
-                windowType: {
-                    pc: 'IFRAME',
-                }
+                windowType:'IFRAME',
         });
 
             if (response.code != null) {
@@ -53,7 +51,7 @@ const IamPort = ({ cartdetail }) => {
 
     return (
         <div>
-            <button onClick={handlePayment}>결제</button>
+            <button onClick={handlePayment}>전체 주문</button>
         </div>
     );
 };
