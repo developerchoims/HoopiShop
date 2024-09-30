@@ -101,11 +101,15 @@ public class OrderServiceImpl implements OrderService {
     private boolean processPayment(PaymentRequestDto paymentRequestDto) {
         String url = "https://api.portone.io/payments/" + paymentRequestDto.getPaymentCode();
         log.info("Payment URL: {}", url);
-        HttpResponse<JsonNode> paymentResponse = Unirest.get(url)
+        HttpResponse<String> paymentResponse = Unirest.get(url)
                 .header("Authorization", "PortOne" + secret)
                 .header("Content-Type", "application/json")
-                .asJson();
+                .asString();
         log.info("Payment Response: {}", paymentResponse.getBody());
+        if(!paymentResponse.isSuccess()){
+            log.error("Failed to process payment: Status={}, Body={}",
+                    paymentResponse.getStatus(), paymentResponse.getBody());
+        }
         return paymentResponse.isSuccess();
     }
 
