@@ -76,3 +76,6 @@ cloud:
       accessKey: ${S3_ACS_KEY}
       secretKey: ${S3_SECRET_KEY}
 
+portone:
+  api:
+    secret: ${PORTONE_API_SECRET}

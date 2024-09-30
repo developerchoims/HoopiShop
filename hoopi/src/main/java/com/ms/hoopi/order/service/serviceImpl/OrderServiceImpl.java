@@ -10,6 +10,7 @@ import com.ms.hoopi.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -35,6 +36,9 @@ public class OrderServiceImpl implements OrderService {
     private final CommonUtil commonUtil;
     private final RestTemplate restTemplate;
 
+    @Value("${portone.api.secret}")
+    private String secret;
+
     @Override
     public ResponseEntity<String> addOrder(OrderRequestDto orderRequestDto) {
         try{
@@ -42,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
             String paymentCode = paymentRequestDto.getPaymentCode();
 
             HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "PortOne " + System.getenv("PORTONE_API_SECRET"));
+            headers.set("Authorization", "PortOne " + secret);
             HttpEntity<String> entity = new HttpEntity<>(headers);
 
             String url = "https://api.portone.io/payments/" + paymentCode;
