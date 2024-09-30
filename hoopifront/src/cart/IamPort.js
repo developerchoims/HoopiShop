@@ -34,7 +34,7 @@ const IamPort = ({ cartdetail }) => {
                 paymentCode: paymentId,
                 method,
                 bank: '나이스페이먼츠',
-                paymentAmount
+                paymentAmount : 0
             });
 
             alert(notified.data);

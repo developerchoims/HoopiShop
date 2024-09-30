@@ -10,6 +10,7 @@ import lombok.*;
 public class CartResponseDto {
     private String cartCode;
     private String productCode;
+    private String name;
     private Long quantity;
     private Long cartAmount;
     private String imgUrl;
