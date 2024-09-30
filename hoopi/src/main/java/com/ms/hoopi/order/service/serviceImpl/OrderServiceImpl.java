@@ -91,14 +91,12 @@ public class OrderServiceImpl implements OrderService {
             Map<String, Object> payment = paymentResponse.getBody();
 
             if (orderRequestDto.getPaymentRequestDto().getPaymentAmount().toString().equals(payment.get("amount"))) {
-                switch ((String) payment.get("status")) {
-                    case "VIRTUAL_ACCOUNT_ISSUED":
-                        return ResponseEntity.badRequest().body(Constants.ORDER_FAIL_VIRTUAL_ACCOUNT);
-                    case "PAID":
-                        return ResponseEntity.ok(Constants.ORDER_SUCCESS);
-                    default:
-                        throw new IllegalStateException(Constants.ORDER_FAIL);
-                }
+                return switch ((String) payment.get("status")) {
+                    case "VIRTUAL_ACCOUNT_ISSUED" ->
+                            ResponseEntity.badRequest().body(Constants.ORDER_FAIL_VIRTUAL_ACCOUNT);
+                    case "PAID" -> ResponseEntity.ok(Constants.ORDER_SUCCESS);
+                    default -> throw new IllegalStateException(Constants.ORDER_FAIL);
+                };
             } else {
                 return ResponseEntity.badRequest().body(Constants.ORDER_FAIL_DO_NOT_MATCH);
             }

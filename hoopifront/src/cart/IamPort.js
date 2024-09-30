@@ -28,6 +28,9 @@ const IamPort = ({ cartdetail }) => {
                 return;
             }
 
+            let productCodes = cartdetail.map(p => p.productCode);
+            let paymentAmount = cartdetail.reduce((sum, p) => sum + p.cartAmount, 0);
+
             const notified = await api.post(`hoopi/order`, {
                 cartCode: cartdetail[0].cartCode,
                 productCode: productCodes.join(','),
