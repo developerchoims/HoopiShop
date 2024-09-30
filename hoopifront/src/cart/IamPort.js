@@ -18,8 +18,8 @@ const IamPort = ({ cartdetail }) => {
                 totalAmount,
                 currency: "CURRENCY_KRW",
                 payMethod: method,
-                redirectUrl: `/payment-redirect`
-            });
+                redirectUrl: `https://hoopi.co.kr/order-redirect`
+        });
 
             if (response.code != null) {
                 alert(response.message);
