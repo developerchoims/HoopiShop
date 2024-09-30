@@ -41,4 +41,10 @@ public class Constants {
     public static final String ORDER_FAIL = "주문 중에 문제가 발생하였습니다.";
     public static final String ORDER_FAIL_DO_NOT_MATCH = "주문 금액이 일치하지 않아 문제가 발생하였습니다.";
     public static final String ORDER_FAIL_VIRTUAL_ACCOUNT = "주문 중에 계좌 문제로 오류가 발생하였습니다.";
+    public static final String ORDER_INVALID_REQUEST = "요청된 입력 정보가 유효하지 않습니다.";
+    public static final String ORDER_UNAUTHORIZED = "인증 정보가 올바르지 않습니다.";
+    public static final String ORDER_FORBIDDEN = "요청이 거절되었습니다.";
+    public static final String ORDER_PAYMENT_NOT_FOUND = "결제 건이 존재하지 않습니다.";
+    public static final String ORDER_PG = "Pg사에서 에러를 전달했습니다.";
+
 }

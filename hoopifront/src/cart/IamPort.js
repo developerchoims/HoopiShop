@@ -8,10 +8,11 @@ const IamPort = ({ cartdetail }) => {
         const totalAmount = cartdetail.reduce((total, p) => total + p.cartAmount, 0);
         const paymentId = crypto.randomUUID();
         const method = "CARD";
+        const storeId = "71704625-36a0-46e1-bdbd-00da604507ef";
 
         try {
             const response = await PortOne.requestPayment({
-                storeId: "store-71704625-36a0-46e1-bdbd-00da604507ef",
+                storeId: "store" + storeId,
                 channelKey: "channel-key-237352d9-f99e-44e9-80fe-8b5a016a0581",
                 paymentId: `payment-${paymentId}`,
                 orderName,
@@ -34,8 +35,9 @@ const IamPort = ({ cartdetail }) => {
             const notified = await api.post(`hoopi/order`, {
                 cartCode: cartdetail[0].cartCode,
                 productCode: productCodes,
+                storeId,
                 paymentRequestDto : {
-                    paymentCode: paymentId,
+                    paymentCode: `payment-${paymentId}`,
                     method,
                     bank: '나이스페이먼츠',
                     paymentAmount

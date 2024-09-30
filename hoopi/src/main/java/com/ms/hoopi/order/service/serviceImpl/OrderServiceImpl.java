@@ -23,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -44,12 +46,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseEntity<String> addOrder(OrderRequestDto orderRequestDto) {
         try {
+            preRegistPayment(orderRequestDto);
 
             PaymentRequestDto paymentRequestDto = orderRequestDto.getPaymentRequestDto();
-
-            if (!processPayment(paymentRequestDto)) {
-                return ResponseEntity.badRequest().body(Constants.ORDER_FAIL);
-            }
+            processPayment(paymentRequestDto);
 
             Cart cart = validateAndGetCart(orderRequestDto.getCartCode());
             Order order = createAndSaveOrder(cart);
@@ -59,6 +59,57 @@ public class OrderServiceImpl implements OrderService {
         } catch (Exception e) {
             log.error(Constants.ORDER_FAIL, e);
             return ResponseEntity.badRequest().body(Constants.ORDER_FAIL);
+        }
+    }
+    private void preRegistPayment(OrderRequestDto orderRequestDto){
+        String paymentId = orderRequestDto.getPaymentRequestDto().getPaymentCode();
+        String storeId = orderRequestDto.getStoreId();
+        Long totalAmount = orderRequestDto.getPaymentRequestDto().getPaymentAmount();
+        Long taxFreeAmount = 0L;
+        String currency = "KRW";
+        Map<String, String> map = new HashMap<>();
+        map.put("storeId", storeId);
+        map.put("totalAmount", totalAmount.toString());
+        map.put("taxFreeAmount", taxFreeAmount.toString());
+        map.put("currency", currency);
+
+        HttpResponse<String> response = Unirest.post("https://api.portone.io/payments/"+paymentId+"/pre-register")
+                .header("Content-Type", "application/json")
+                .body(map)
+                .asString();
+        log.error("response: {}", response);
+        returnResponse(response);
+    }
+
+    private void processPayment(PaymentRequestDto paymentRequestDto) {
+        String url = "https://api.portone.io/payments/" + paymentRequestDto.getPaymentCode();
+        log.info("Payment URL: {}", url);
+        HttpResponse<String> paymentResponse = Unirest.post(url)
+                .header("Authorization", "PortOne " + secret)
+                .header("Content-Type", "application/json")
+                .asString();
+        log.info("secret: {}", secret);
+        log.info("Payment Response: {}", paymentResponse.getBody());
+        if(!paymentResponse.isSuccess()){
+            log.error("Failed to process payment: Status={}, Body={}",
+                    paymentResponse.getStatus(), paymentResponse.getBody());
+        }
+
+        returnResponse(paymentResponse);
+    }
+
+
+    private void returnResponse(HttpResponse<String> response) {
+        switch (response.getStatus()) {
+            case 200 -> {
+                break;
+            }
+            case 400 -> ResponseEntity.badRequest().body(Constants.ORDER_INVALID_REQUEST);
+            case 401 -> ResponseEntity.badRequest().body(Constants.ORDER_UNAUTHORIZED);
+            case 403 -> ResponseEntity.badRequest().body(Constants.ORDER_FORBIDDEN);
+            case 404 -> ResponseEntity.badRequest().body(Constants.ORDER_PAYMENT_NOT_FOUND);
+            case 502 -> ResponseEntity.badRequest().body(Constants.ORDER_PG);
+            default -> ResponseEntity.badRequest().body(Constants.ORDER_FAIL);
         }
     }
 
@@ -96,21 +147,6 @@ public class OrderServiceImpl implements OrderService {
                 .totalPrice(cartDetail.getCartAmount())
                 .build();
         orderDetailRepository.save(orderDetail);
-    }
-
-    private boolean processPayment(PaymentRequestDto paymentRequestDto) {
-        String url = "https://api.portone.io/payments/" + paymentRequestDto.getPaymentCode();
-        log.info("Payment URL: {}", url);
-        HttpResponse<String> paymentResponse = Unirest.get(url)
-                .header("Authorization", "PortOne " + secret)
-                .header("Content-Type", "application/json")
-                .asString();
-        log.info("Payment Response: {}", paymentResponse.getBody());
-        if(!paymentResponse.isSuccess()){
-            log.error("Failed to process payment: Status={}, Body={}",
-                    paymentResponse.getStatus(), paymentResponse.getBody());
-        }
-        return paymentResponse.isSuccess();
     }
 
     private void changeCartStatusToComplete(String cartCode) {
