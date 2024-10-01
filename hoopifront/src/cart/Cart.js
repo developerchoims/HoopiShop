@@ -121,7 +121,7 @@ const Cart = () => {
 
     // 선택된 id와 비교해서 cartDetail 가져오기
     const handleCheckedCartDetail = () => {
-        return cartdetail.filter(x => selectedIds.includes(x.productCode));
+        return cartdetail?.filter(x => selectedIds.includes(x.productCode));
     }
 
 
