@@ -85,6 +85,7 @@ const Cart = () => {
                 return newSelectedIds;
             });
         }
+        handleCheckedCartDetail();
     };
 
     // 상품 부분 삭제 시 DB 수정
