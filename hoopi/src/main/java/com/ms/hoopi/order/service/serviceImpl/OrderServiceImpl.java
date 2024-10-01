@@ -43,11 +43,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseEntity<String> addOrder(OrderRequestDto orderRequestDto) {
         try {
+            // 사전 등록
             preRegistPayment(orderRequestDto);
 
+            // 결제 확인
             PaymentRequestDto paymentRequestDto = orderRequestDto.getPaymentRequestDto();
             processPayment(paymentRequestDto);
 
+            // order, orderDetail 정보 저장, cart status 변경, payment 정보 저장
             Cart cart = validateAndGetCart(orderRequestDto.getCartCode());
             Order order = createAndSaveOrder(cart);
             processCartDetails(order, orderRequestDto);
@@ -132,6 +135,7 @@ public class OrderServiceImpl implements OrderService {
             createAndSaveOrderDetail(order, cartDetail);
             cartDetailRepository.delete(cartDetail);
         }
+        addPayment(orderRequestDto.getPaymentRequestDto(), order);
         changeCartStatusToComplete(orderRequestDto.getCartCode());
     }
 
@@ -160,5 +164,18 @@ public class OrderServiceImpl implements OrderService {
                                     .build();
             cartRepository.save(changeCart);
         });
+    }
+
+    private void addPayment(PaymentRequestDto paymentRequestDto, Order order) {
+        Payment payment = Payment.builder()
+                .paymentCode(paymentRequestDto.getPaymentCode())
+                .orderCode(order)
+                .code(order.getCode())
+                .paymentAmount(paymentRequestDto.getPaymentAmount())
+                .bank(paymentRequestDto.getBank())
+                .method(paymentRequestDto.getMethod())
+                .status(Payment.Status.결제완료)
+                .build();
+        paymentRepository.save(payment);
     }
 }
