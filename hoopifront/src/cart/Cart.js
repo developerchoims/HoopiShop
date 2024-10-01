@@ -122,7 +122,9 @@ const Cart = () => {
 
     // 선택된 id와 비교해서 cartDetail 가져오기
     const handleCheckedCartDetail = () => {
-        return cartdetail?.filter(x => selectedIds.includes(x.productCode));
+        if( cartdetail !== null){
+            return cartdetail?.filter(x => selectedIds.includes(x.productCode));
+        }
     }
 
 
@@ -141,8 +143,8 @@ const Cart = () => {
                         <th>수량</th>
                         <th>가격</th>
                         <th>
-                            <IamPort cartdetail={handleCheckedCartDetail()}/>
-                            <IamPort cartdetail={cartdetail}/>
+                            <IamPort cartdetail={handleCheckedCartDetail()} buttonName='선택 주문'/>
+                            <IamPort cartdetail={cartdetail} buttonName='전체 주문'/>
                         </th>
                     </tr>
                     </thead>
