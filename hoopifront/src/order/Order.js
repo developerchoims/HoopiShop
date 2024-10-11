@@ -39,79 +39,81 @@ const Order = () => {
 
     return(
         <div className="order-container">
-            <div className= "order-semi-container">
+            <div className="order-semi-container">
 
-            <div className="order-box">
-                {orders.content?.map(order => (
-                        <>
-                            <div className="order-title">
-                                <h3>주문 내역</h3>
-                                <button>주문 취소</button>
-                            </div>
-                            <div className="order-user">
-                                <div className="order-date">
-                                    <h5>{handleDate(order.orderDate)}</h5>
-                                    <h5>{order.orderStatus}</h5>
+                <div className="order-box">
+                    {orders.content?.map(order => (
+                            <>
+                                <div className="order-title">
+                                    <h3>주문 내역</h3>
+                                    <button>주문 취소</button>
                                 </div>
-                                <h5>배송지</h5>
-                                <table>
-                                    <tbody>
-                                    <tr>
-                                        <td>{order.address.addressName}</td>
-                                        <td>
-                                            <button>배송지 변경</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>{order.address.addressPhone}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{order.address.address}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <br/>
-                            <div className="order-product">
-                                {order.orderDetails?.map(od => (
+                                <div className="order-user">
+                                    <div className="order-date">
+                                        <h5>{handleDate(order.orderDate)}</h5>
+                                        <h5>{order.orderStatus}</h5>
+                                    </div>
+                                    <h5>배송지</h5>
                                     <table>
-                                        <thead>
-                                        <tr>
-                                            <th>상품명</th>
-                                            <th>수량</th>
-                                            <th>가격</th>
-                                            <th>총 가격</th>
-                                        </tr>
-                                        </thead>
                                         <tbody>
                                         <tr>
-                                            <td>{od.productName}</td>
-                                            <td>{od.quantity}</td>
-                                            <td>{od.orderAmount}</td>
-                                            <td>{od.totalPrice}</td>
-                                            <td rowSpan={2}>
-                                                <div>
-                                                    <img src={od.productImg}/>
-                                                </div>
+                                            <td>{order.address.addressName}</td>
+                                            <td>
+                                                <button>배송지 변경</button>
                                             </td>
+                                        </tr>
+                                        <tr>
+                                            <td>{order.address.addressPhone}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{order.address.address}</td>
                                         </tr>
                                         </tbody>
                                     </table>
-                                ))}
+                                </div>
                                 <br/>
-                            </div>
-                        </>
-                    )
+                                <div className="order-product">
+                                    {order.orderDetails?.map(od => (
+                                        <table>
+                                            <thead>
+                                            <tr>
+                                                <th>상품명</th>
+                                                <th>수량</th>
+                                                <th>가격</th>
+                                                <th>총 가격</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>{od.productName}</td>
+                                                <td>{od.quantity}</td>
+                                                <td>{od.orderAmount}</td>
+                                                <td>{od.totalPrice}</td>
+                                                <td rowSpan={2}>
+                                                    <div>
+                                                        <img src={od.productImg}/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    ))}
+                                    <br/>
+                                </div>
+                            </>
+                        )
                     )}
-                    </div>
-                    </div>
+
+
                     <div className="order-pagination-box">
                         <Pagination count={orders.totalPages} page={currentPage} onChange={handlePageChange}
                                     variant="outlined" color="primary"/>
                     </div>
-                    </div>
-                    )
+                </div>
+            </div>
+        </div>
+    )
 
-                }
+}
 
 export default Order;
