@@ -19,13 +19,23 @@
 
 .order-title{
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
+}
+.order-title button{
+    background-color: #c9dcf9;
+    border: none;
+    width: 15vh;
+    height: 7vh;
+    font-family: 'LeeSeoyun', sans-serif;
+    font-size: 2.5vh;
+    color: grey;
+    border-radius: 5px;
 }
 
 .order-date{
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
 }
 
@@ -37,7 +47,7 @@
     background-color: #c9dcf9;
     border: none;
     width: 15vh;
-    height: 8vh;
+    height: 7vh;
     font-family: 'LeeSeoyun', sans-serif;
     font-size: 2.5vh;
     color: grey;
