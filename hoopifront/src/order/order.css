@@ -19,7 +19,7 @@
 
 .order-title{
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
 }
 .order-title button{
@@ -35,7 +35,7 @@
 
 .order-date{
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
 }
 
