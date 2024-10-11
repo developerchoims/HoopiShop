@@ -40,13 +40,20 @@ const Order = () => {
     return(
         <div className="order-container">
             <div className= "order-semi-container">
-            <h3>주문 내역</h3>
+
             <div className="order-box">
                 {orders.content?.map(order => (
                         <>
+                            <div className="order-title">
+                                <h3>주문 내역</h3>
+                                <button>주문 취소</button>
+                            </div>
                             <div className="order-user">
-                                <h4>{handleDate(order.orderDate)}</h4>
-                                <h4>배송지</h4>
+                                <div className="order-date">
+                                    <h5>{handleDate(order.orderDate)}</h5>
+                                    <h5>{order.status}</h5>
+                                </div>
+                                <h5>배송지</h5>
                                 <table>
                                     <tbody>
                                     <tr>
@@ -64,8 +71,9 @@ const Order = () => {
                                     </tbody>
                                 </table>
                             </div>
-                            {order.orderDetails?.map(od => (
-                                <div className="order-product">
+                            <br/>
+                            <div className="order-product">
+                                {order.orderDetails?.map(od => (
                                     <table>
                                         <thead>
                                         <tr>
@@ -89,17 +97,18 @@ const Order = () => {
                                         </tr>
                                         </tbody>
                                     </table>
-                                </div>
-                            ))}
+                                ))}
+
+                            </div>
                         </>
-                        )
+                    )
                     )}
-                <Pagination count={orders.totalPages} page={currentPage} onChange={handlePageChange}
-                            variant="outlined" color="primary"/>
-            </div>
-            </div>
-        </div>
-    )
-}
+                    <Pagination count={orders.totalPages} page={currentPage} onChange={handlePageChange}
+                                variant="outlined" color="primary"/>
+                    </div>
+                    </div>
+                    </div>
+                    )
+                }
 
 export default Order;

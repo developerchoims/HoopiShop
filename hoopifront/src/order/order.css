@@ -17,6 +17,18 @@
     display: block;
 }
 
+.order-title{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.order-date{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
 .order-user{
     width: 100%;
 }
@@ -42,16 +54,16 @@
     text-align: center;
 }
 .order-product>table>tbody>tr>td:first-child{
-    width: 15%;
+    width: 25%;
 }
 .order-product>table>tbody>tr>td:nth-child(2){
-    width: 15%;
+    width: 10%;
 }
 .order-product>table>tbody>tr>td:nth-child(3){
-    width: 15%;
+    width: 12.5%;
 }
 .order-product>table>tbody>tr>td:nth-child(4){
-    width: 15%;
+    width: 12.5%;
 }
 .order-product>table>tbody>tr>td:last-child{
     width: 40%;
