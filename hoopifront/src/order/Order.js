@@ -33,6 +33,10 @@ const Order = () => {
         setCurrentPage(page);
     };
 
+    const handleDate = (e)=>{
+        return e.replace('T', ' ').slice(0, 19);
+    }
+
     return(
         <div className="order-container">
             <h3>주문 내역</h3>
@@ -40,7 +44,7 @@ const Order = () => {
                 {orders.content?.map(order => (
                         <>
                             <div className="order-user">
-                                <h4>{order.orderDate}</h4>
+                                <h4>{handleDate(order.orderDate)}</h4>
                                 <h4>배송지</h4>
                                 <table>
                                     <tbody>

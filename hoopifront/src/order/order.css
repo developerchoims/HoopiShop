@@ -1,21 +1,34 @@
 .order-container{
     width: 100%;
     display: flex;
-    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     font-family: 'LeeSeoyun', sans-serif;
     color: grey;
+    font-size: 3.5vh;
 }
 
 .order-box{
     width: 50%;
+    display: block;
 }
 
 .order-user{
     width: 100%;
 }
 
+.order-user button{
+    background-color: #c9dcf9;
+    border: none;
+    width: 10vh;
+    height: 8vh;
+    font-family: 'LeeSeoyun', sans-serif;
+    font-size: 3vh;
+}
+
 .order-product{
     width: 100%;
+    margin-bottom: 15vh;
 }
 
 .order-product>table{
