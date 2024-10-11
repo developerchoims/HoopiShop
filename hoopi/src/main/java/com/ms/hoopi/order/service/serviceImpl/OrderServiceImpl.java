@@ -3,8 +3,7 @@ package com.ms.hoopi.order.service.serviceImpl;
 import com.ms.hoopi.common.util.CommonUtil;
 import com.ms.hoopi.constants.Constants;
 import com.ms.hoopi.model.entity.*;
-import com.ms.hoopi.order.model.dto.OrderRequestDto;
-import com.ms.hoopi.order.model.dto.PaymentRequestDto;
+import com.ms.hoopi.order.model.dto.*;
 import com.ms.hoopi.order.service.OrderService;
 import com.ms.hoopi.repository.*;
 import jakarta.persistence.EntityNotFoundException;
@@ -24,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -40,6 +40,7 @@ public class OrderServiceImpl implements OrderService {
     private final CommonUtil commonUtil;
     private final RestTemplate restTemplate;
     private final UserRepository userRepository;
+    private final AddressRepository addressRepository;
 
     @Value("${PORTONE_API_SECRET}")
     private String secret;
@@ -206,6 +207,7 @@ public class OrderServiceImpl implements OrderService {
                 .paymentAmount(paymentRequestDto.getPaymentAmount())
                 .bank(paymentRequestDto.getBank())
                 .method(paymentRequestDto.getMethod())
+                .paymentDate(order.getOrderDate())
                 .status(Payment.Status.결제완료)
                 .build();
         paymentRepository.save(payment);
@@ -215,14 +217,39 @@ public class OrderServiceImpl implements OrderService {
     // order 정보 불러오기
     @Override
     public ResponseEntity<?> getOrder(String id, int page, int size) {
-        try{
+        try {
             Pageable pageable = PageRequest.of(page, size);
             User user = userRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_USER));
-            Page<Order> orders = orderRepository.findAllByUserCode(user, pageable);
-            log.info("orders: {}", orders);
-            return ResponseEntity.ok(orders);
-        } catch (Exception e){
+            Page<Order> orderEntity = orderRepository.findAllByUserCode(user, pageable);
+            if(orderEntity.hasContent()) {
+                orderEntity.map(order -> {
+                            Address addressEntity = addressRepository.findByAddressCode(order.getAddressCode());
+                            AddressResponseDto address = AddressResponseDto.builder()
+                                    .addressCode(addressEntity.getAddressCode())
+                                    .addressName(addressEntity.getAddressName())
+                                    .addressPhone(addressEntity.getAddressPhone())
+                                    .address(addressEntity.getAddress())
+                                    .build();
+
+                            OrderResponseDto orders = OrderResponseDto.builder()
+                                    .orderCode(order.getOrderCode())
+                                    .orderDate(order.getOrderDate())
+                                    .orderStatus(order.getStatus())
+                                    .address(address)
+                                    .orderDetails(order.getOrderDetails().stream().map(od -> OrderDetailResponseDto.builder()
+                                            .quantity(od.getQuantity())
+                                            .orderAmount(od.getOrderAmount())
+                                            .totalPrice(od.getTotalPrice())
+                                            .build()).toList()).build();
+
+                            log.info("orders: {}", orders);
+                            return ResponseEntity.ok(orders);
+                        }
+                );
+            }
+            return ResponseEntity.ok(null);
+        } catch (Exception e) {
             log.error(Constants.ORDER_GET_FAIL, e);
             return ResponseEntity.badRequest().body(Constants.ORDER_GET_FAIL);
         }

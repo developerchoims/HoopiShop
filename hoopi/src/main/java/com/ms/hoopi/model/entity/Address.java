@@ -3,6 +3,8 @@ package com.ms.hoopi.model.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -34,11 +36,23 @@ public class Address {
     @OneToMany(mappedBy = "addressCode")
     private Set<Delivery> deliveries = new LinkedHashSet<>();
 
+    @Size(max = 24)
+    @NotNull
+    @Column(name = "address_name", nullable = false, length = 24)
+    private String addressName;
+
+    @Size(max = 20)
+    @Column(name = "address_phone", length = 20)
+    private String addressPhone;
+
+
     @Builder
-    public Address(String addressCode, User code, String address) {
+    public Address(String addressCode, User code, String address, String addressName, String addressPhone) {
         this.addressCode = addressCode;
         this.code = code;
         this.address = address;
+        this.addressName = addressName;
+        this.addressPhone = addressPhone;
     }
 
 
