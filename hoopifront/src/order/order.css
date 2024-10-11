@@ -9,6 +9,8 @@
 }
 .order-semi-container{
     display: block;
+    text-align: center;
+    margin: auto;
     width: 50%;
 }
 
