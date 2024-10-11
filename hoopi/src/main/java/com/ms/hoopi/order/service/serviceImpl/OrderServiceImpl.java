@@ -39,6 +39,7 @@ public class OrderServiceImpl implements OrderService {
     private final PaymentRepository paymentRepository;
     private final CommonUtil commonUtil;
     private final RestTemplate restTemplate;
+    private final UserRepository userRepository;
 
     @Value("${PORTONE_API_SECRET}")
     private String secret;
@@ -216,7 +217,9 @@ public class OrderServiceImpl implements OrderService {
     public ResponseEntity<?> getOrder(String id, int size, int page) {
         try{
             Pageable pageable = PageRequest.of(size, page);
-            Page<Order> orders = orderRepository.findAll(pageable);
+            User user = userRepository.findById(id)
+                    .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_USER));
+            Page<Order> orders = orderRepository.findAllByUserCode(user, pageable);
             log.info("orders: {}", orders);
             return ResponseEntity.ok(orders);
         } catch (Exception e){
