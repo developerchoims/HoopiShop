@@ -14,6 +14,9 @@ import kong.unirest.Unirest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,6 +64,7 @@ public class OrderServiceImpl implements OrderService {
             return ResponseEntity.badRequest().body(Constants.ORDER_FAIL);
         }
     }
+
     private void preRegistPayment(OrderRequestDto orderRequestDto){
         String paymentId = orderRequestDto.getPaymentRequestDto().getPaymentCode();
         String storeId = orderRequestDto.getStoreId();
@@ -205,4 +209,20 @@ public class OrderServiceImpl implements OrderService {
                 .build();
         paymentRepository.save(payment);
     }
+
+
+    // order 정보 불러오기
+    @Override
+    public ResponseEntity<?> getOrder(String id, int size, int page) {
+        try{
+            Pageable pageable = PageRequest.of(size, page);
+            Page<Order> orders = orderRepository.findAll(pageable);
+            log.info("orders: {}", orders);
+            return ResponseEntity.ok(orders);
+        } catch (Exception e){
+            log.error(Constants.ORDER_GET_FAIL, e);
+            return ResponseEntity.badRequest().body(Constants.ORDER_GET_FAIL);
+        }
+    }
+
 }
