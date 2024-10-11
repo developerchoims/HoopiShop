@@ -36,10 +36,7 @@ const Order = () => {
         <div className="order-container">
             <h3>주문 내역</h3>
             <div className="order-box">
-                {orders && orders.length > 0 ?(
-                    <h4>주문 내역이 존재하지 않습니다.</h4>
-                ) : (
-                    orders.content?.map(order => (
+                {orders.content?.map(order => (
                         <>
                             <div className="order-user">
                                 <h4>{order.orderDate}</h4>
@@ -91,9 +88,9 @@ const Order = () => {
                             ))}
                         </>
                         )
-                    ))}
+                    )}
                 <Pagination count={orders.totalPages} page={currentPage} onChange={handlePageChange}
-                            variant="outlined" color="primary"/>/>
+                            variant="outlined" color="primary"/>
             </div>
         </div>
     )
