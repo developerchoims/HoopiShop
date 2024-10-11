@@ -36,52 +36,56 @@ const Order = () => {
         <div className="order-container">
             <h3>주문 내역</h3>
             <div className="order-box">
-                {orders?? <h4>주문 내역이 존재하지 않습니다.</h4>.content?.map(order => (
-                    <>
-                        <div className="order-user">
-                            <h4>{}</h4>
-                            <h4>배송지</h4>
-                            <table>
-                                <tbody>
-                                <tr>
-                                    <td>이름</td>
-                                    <td>
-                                        <button>배송지 변경</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>핸드폰 번호</td>
-                                </tr>
-                                <tr>
-                                    <td>주소지</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div className="order-product">
-                            <table>
-                                <thead>
-                                <tr>
-                                    <th>상품명</th>
-                                    <th>수량</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-                                        <div>
+                {orders && orders.length > 0 ?(
+                    <h4>주문 내역이 존재하지 않습니다.</h4>
+                ) : (
+                    orders.content?.map(order => (
+                        <>
+                            <div className="order-user">
+                                <h4>{}</h4>
+                                <h4>배송지</h4>
+                                <table>
+                                    <tbody>
+                                    <tr>
+                                        <td>이름</td>
+                                        <td>
+                                            <button>배송지 변경</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>핸드폰 번호</td>
+                                    </tr>
+                                    <tr>
+                                        <td>주소지</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div className="order-product">
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th>상품명</th>
+                                        <th>수량</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <div>
 
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </>
-                ))}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </>
+                        )
+                    ))}
                 <Pagination count={orders.totalPages} page={currentPage} onChange={handlePageChange}
                             variant="outlined" color="primary"/>/>
             </div>
