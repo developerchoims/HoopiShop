@@ -34,7 +34,7 @@ const Order = () => {
     };
 
     const handleDate = (e)=>{
-        return e.replace('T', ' ').slice(0, 19);
+        return e.replace('T', '  ').slice(0, 19);
     }
 
     return(
