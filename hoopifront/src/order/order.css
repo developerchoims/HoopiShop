@@ -39,6 +39,7 @@
 
 .order-product>table{
     width: 100%;
+    text-align: center;
 }
 .order-product>table>tbody>tr>td:first-child{
     width: 15%;
