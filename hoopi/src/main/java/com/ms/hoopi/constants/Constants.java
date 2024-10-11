@@ -46,5 +46,6 @@ public class Constants {
     public static final String ORDER_FORBIDDEN = "요청이 거절되었습니다.";
     public static final String ORDER_PAYMENT_NOT_FOUND = "결제 건이 존재하지 않습니다.";
     public static final String ORDER_PG = "Pg사에서 에러를 전달했습니다.";
+    public static final String ORDER_GET_FAIL = "주문 정보를 불러오지 못했습니다.";
 
 }
