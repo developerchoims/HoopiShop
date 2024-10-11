@@ -73,7 +73,7 @@ const Order = () => {
                                         </thead>
                                         <tbody>
                                         <tr>
-                                            <td>{od.name}</td>
+                                            <td>{od.productName}</td>
                                             <td>{od.quantity}</td>
                                             <td>{od.orderAmount}</td>
                                             <td>{od.totalPrice}</td>
