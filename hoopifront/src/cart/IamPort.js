@@ -45,6 +45,7 @@ const IamPort = ({ cartdetail, buttonName }) => {
             });
 
             alert(notified.data);
+            window.location.href = '/cart';
         } catch (error) {
             console.error(error);
             alert("결제 처리 중 오류가 발생했습니다.");
