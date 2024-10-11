@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -225,42 +227,38 @@ public class OrderServiceImpl implements OrderService {
             User user = userRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_USER));
             Page<Order> orderEntity = orderRepository.findAllByUserCode(user, pageable);
-            if(orderEntity.hasContent()) {
-                orderEntity.map(order -> {
-                            Address addressEntity = addressRepository.findByAddressCode(order.getAddressCode());
-                            AddressResponseDto address = AddressResponseDto.builder()
-                                    .addressCode(addressEntity.getAddressCode())
-                                    .addressName(addressEntity.getAddressName())
-                                    .addressPhone(addressEntity.getAddressPhone())
-                                    .address(addressEntity.getAddress())
+
+            Page<OrderResponseDto> orderResponsePage = orderEntity.map(order -> {
+                Address addressEntity = addressRepository.findByAddressCode(order.getAddressCode());
+                AddressResponseDto address = AddressResponseDto.builder()
+                        .addressCode(addressEntity.getAddressCode())
+                        .addressName(addressEntity.getAddressName())
+                        .addressPhone(addressEntity.getAddressPhone())
+                        .address(addressEntity.getAddress())
+                        .build();
+
+                return OrderResponseDto.builder()
+                        .orderCode(order.getOrderCode())
+                        .orderDate(order.getOrderDate())
+                        .orderStatus(order.getStatus())
+                        .address(address)
+                        .orderDetails(order.getOrderDetails().stream().map(od -> {
+                            Set<ProductImg> productImgs = od.getProductCode().getProductImgs();
+                            ProductImg productImg = productImgs.stream()
+                                    .filter(pi -> pi.getMain() == 0)
+                                    .findFirst().orElse(null);
+                            return OrderDetailResponseDto.builder()
+                                    .productName(od.getProductCode().getName())
+                                    .productImg(productImg != null ? fileUploadService.getS3(productImg.getImgKey()) : null)
+                                    .quantity(od.getQuantity())
+                                    .orderAmount(od.getOrderAmount())
+                                    .totalPrice(od.getTotalPrice())
                                     .build();
+                        }).collect(Collectors.toList()))
+                        .build();
+            });
 
-                            OrderResponseDto orders = OrderResponseDto.builder()
-                                    .orderCode(order.getOrderCode())
-                                    .orderDate(order.getOrderDate())
-                                    .orderStatus(order.getStatus())
-                                    .address(address)
-                                    .orderDetails(order.getOrderDetails().stream().map(od -> {
-                                        Set<ProductImg> productImgs = od.getProductCode().getProductImgs();
-                                        ProductImg productImg = productImgs.stream()
-                                                .filter(pi -> pi.getMain() == 0)
-                                                .findFirst().orElse(null);
-                                        return OrderDetailResponseDto.builder()
-                                            .productName(od.getProductCode().getName())
-                                            .productImg(fileUploadService.getS3(productImg.getImgKey()))
-                                            .quantity(od.getQuantity())
-                                            .orderAmount(od.getOrderAmount())
-                                            .totalPrice(od.getTotalPrice())
-                                            .build();
-                                            }).toList()
-                                    ).build();
-
-                            log.info("orders: {}", orders);
-                            return ResponseEntity.ok(orders);
-                        }
-                );
-            }
-            return ResponseEntity.ok(null);
+            return ResponseEntity.ok(orderResponsePage);
         } catch (Exception e) {
             log.error(Constants.ORDER_GET_FAIL, e);
             return ResponseEntity.badRequest().body(Constants.ORDER_GET_FAIL);
