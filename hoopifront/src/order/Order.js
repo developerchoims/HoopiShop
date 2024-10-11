@@ -39,6 +39,7 @@ const Order = () => {
 
     return(
         <div className="order-container">
+            <div className= "order-semi-container">
             <h3>주문 내역</h3>
             <div className="order-box">
                 {orders.content?.map(order => (
@@ -96,6 +97,7 @@ const Order = () => {
                     )}
                 <Pagination count={orders.totalPages} page={currentPage} onChange={handlePageChange}
                             variant="outlined" color="primary"/>
+            </div>
             </div>
         </div>
     )
