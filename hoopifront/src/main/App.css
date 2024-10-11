@@ -104,3 +104,10 @@ option:focus{
     background: #c9dcf9;
 }
 
+button:hover{
+    cursor: pointer;
+}
+
+a:hover{
+    cursor:pointer;
+}
