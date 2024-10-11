@@ -30,25 +30,22 @@ public class Product {
     @Column(name = "stock", nullable = false)
     private Long stock;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "productCode")
-    private Set<Article> articles = new LinkedHashSet<>();
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "productCode")
-    private Set<CartDetail> cartDetails = new LinkedHashSet<>();
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "productCode")
-    private Set<OrderDetail> orderDetails = new LinkedHashSet<>();
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "productCode")
-    private Set<ProductImg> productImgs = new LinkedHashSet<>();
-
     @NotNull
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @OneToMany(mappedBy = "productCode")
+    private Set<Article> articles = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "productCode")
+    private Set<CartDetail> cartDetails = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "productCode")
+    private Set<OrderDetail> orderDetails = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "productCode")
+    private Set<ProductImg> productImgs = new LinkedHashSet<>();
+
 
     @Builder
     public Product(String productCode, String name, Long price, Long stock) {

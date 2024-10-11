@@ -8,6 +8,8 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 public class OrderDetailResponseDto{
+    private String productName;
+    private String productImg;
     private Long quantity;
     private Long orderAmount;
     private Long totalPrice;

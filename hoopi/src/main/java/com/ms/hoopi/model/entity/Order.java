@@ -57,9 +57,6 @@ public class Order {
     @OneToMany(mappedBy = "orderCode")
     private Set<Payment> payments = new LinkedHashSet<>();
 
-    public void setAddressCode(String addressCode) {
-        this.addressCode = addressCode;
-    }
 
     @Builder
     public Order(String orderCode, User code, LocalDateTime orderDate, Status status, String addressCode) {

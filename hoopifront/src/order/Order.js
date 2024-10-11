@@ -42,47 +42,53 @@ const Order = () => {
                     orders.content?.map(order => (
                         <>
                             <div className="order-user">
-                                <h4>{}</h4>
+                                <h4>{order.orderDate}</h4>
                                 <h4>배송지</h4>
                                 <table>
                                     <tbody>
                                     <tr>
-                                        <td>이름</td>
+                                        <td>{order.address.addressName}</td>
                                         <td>
                                             <button>배송지 변경</button>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>핸드폰 번호</td>
+                                        <td>{order.address.addressPhone}</td>
                                     </tr>
                                     <tr>
-                                        <td>주소지</td>
+                                        <td>{order.address.address}</td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div className="order-product">
-                                <table>
-                                    <thead>
-                                    <tr>
-                                        <th>상품명</th>
-                                        <th>수량</th>
-                                        <th></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td>
-                                            <div>
-
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            {order.orderDetails?.map(od => (
+                                <div className="order-product">
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th>상품명</th>
+                                            <th>수량</th>
+                                            <th>가격</th>
+                                            <th>총 가격</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>{od.name}</td>
+                                            <td>{od.quantity}</td>
+                                            <td>{od.orderAmount}</td>
+                                            <td>{od.totalPrice}</td>
+                                            <td>
+                                                <div>
+                                                    <img src={od.productImg}/>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            ))}
                         </>
                         )
                     ))}
