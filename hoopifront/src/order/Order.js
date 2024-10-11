@@ -73,7 +73,6 @@ const Order = () => {
                                             <th>수량</th>
                                             <th>가격</th>
                                             <th>총 가격</th>
-                                            <th></th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -82,7 +81,7 @@ const Order = () => {
                                             <td>{od.quantity}</td>
                                             <td>{od.orderAmount}</td>
                                             <td>{od.totalPrice}</td>
-                                            <td>
+                                            <td rowSpan={2}>
                                                 <div>
                                                     <img src={od.productImg}/>
                                                 </div>
