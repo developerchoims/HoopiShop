@@ -20,10 +20,12 @@
 .order-user button{
     background-color: #c9dcf9;
     border: none;
-    width: 10vh;
+    width: 12vh;
     height: 8vh;
     font-family: 'LeeSeoyun', sans-serif;
-    font-size: 3vh;
+    font-size: 2.5vh;
+    color: grey;
+    border-radius: 5px;
 }
 
 .order-product{
