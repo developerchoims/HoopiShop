@@ -22,8 +22,8 @@ public class OrderController {
 
     @GetMapping("/order")
     public ResponseEntity<?> getOrder(@RequestParam String id
-                                    , @RequestParam(defaultValue = "0")int size
-                                    , @RequestParam(defaultValue = "10") int page){
-        return orderService.getOrder(id, size, page);
+                                    , @RequestParam(defaultValue = "0")int page
+                                    , @RequestParam(defaultValue = "10") int size){
+        return orderService.getOrder(id, page, size);
     }
 }
