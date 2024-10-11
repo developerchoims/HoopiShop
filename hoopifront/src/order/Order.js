@@ -51,7 +51,7 @@ const Order = () => {
                             <div className="order-user">
                                 <div className="order-date">
                                     <h5>{handleDate(order.orderDate)}</h5>
-                                    <h5>{order.status}</h5>
+                                    <h5>{order.orderStatus}</h5>
                                 </div>
                                 <h5>배송지</h5>
                                 <table>
@@ -98,7 +98,7 @@ const Order = () => {
                                         </tbody>
                                     </table>
                                 ))}
-
+                                <br/>
                             </div>
                         </>
                     )
