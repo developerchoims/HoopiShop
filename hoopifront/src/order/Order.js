@@ -23,6 +23,7 @@ const Order = () => {
                 size: 10
                 }});
             setOrders(response.data);
+            console.log(response.data.content);
         } catch (error){
             console.log(error);
         }
