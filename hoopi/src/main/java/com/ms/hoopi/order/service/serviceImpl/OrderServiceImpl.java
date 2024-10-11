@@ -1,5 +1,6 @@
 package com.ms.hoopi.order.service.serviceImpl;
 
+import com.ms.hoopi.common.service.FileUploadService;
 import com.ms.hoopi.common.util.CommonUtil;
 import com.ms.hoopi.constants.Constants;
 import com.ms.hoopi.model.entity.*;
@@ -25,6 +26,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -41,6 +43,7 @@ public class OrderServiceImpl implements OrderService {
     private final RestTemplate restTemplate;
     private final UserRepository userRepository;
     private final AddressRepository addressRepository;
+    private final FileUploadService fileUploadService;
 
     @Value("${PORTONE_API_SECRET}")
     private String secret;
@@ -237,11 +240,20 @@ public class OrderServiceImpl implements OrderService {
                                     .orderDate(order.getOrderDate())
                                     .orderStatus(order.getStatus())
                                     .address(address)
-                                    .orderDetails(order.getOrderDetails().stream().map(od -> OrderDetailResponseDto.builder()
+                                    .orderDetails(order.getOrderDetails().stream().map(od -> {
+                                        Set<ProductImg> productImgs = od.getProductCode().getProductImgs();
+                                        ProductImg productImg = productImgs.stream()
+                                                .filter(pi -> pi.getMain() == 0)
+                                                .findFirst().orElse(null);
+                                        return OrderDetailResponseDto.builder()
+                                            .productName(od.getProductCode().getName())
+                                            .productImg(fileUploadService.getS3(productImg.getImgKey()))
                                             .quantity(od.getQuantity())
                                             .orderAmount(od.getOrderAmount())
                                             .totalPrice(od.getTotalPrice())
-                                            .build()).toList()).build();
+                                            .build();
+                                            }).toList()
+                                    ).build();
 
                             log.info("orders: {}", orders);
                             return ResponseEntity.ok(orders);
