@@ -104,11 +104,12 @@ const Order = () => {
                     )
                     )}
                     </div>
+
+
+
+                    <Pagination count={orders.totalPages} page={currentPage} onChange={handlePageChange}
+                            variant="outlined" color="primary"/>
                     </div>
-
-
-                        <Pagination count={orders.totalPages} page={currentPage} onChange={handlePageChange}
-                        variant="outlined" color="primary"/>
                     </div>
                     )
 
