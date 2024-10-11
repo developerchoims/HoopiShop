@@ -214,9 +214,9 @@ public class OrderServiceImpl implements OrderService {
 
     // order 정보 불러오기
     @Override
-    public ResponseEntity<?> getOrder(String id, int size, int page) {
+    public ResponseEntity<?> getOrder(String id, int page, int size) {
         try{
-            Pageable pageable = PageRequest.of(size, page);
+            Pageable pageable = PageRequest.of(page, size);
             User user = userRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_USER));
             Page<Order> orders = orderRepository.findAllByUserCode(user, pageable);
