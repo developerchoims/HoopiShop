@@ -43,10 +43,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseEntity<String> addOrder(OrderRequestDto orderRequestDto) {
         try {
-            // 사전 등록
+            // 사전 등록 및 결제 실패 로직
             preRegistPayment(orderRequestDto);
 
-            // 결제 확인
+            // 결제 확인 및 결제 실패 로직
             PaymentRequestDto paymentRequestDto = orderRequestDto.getPaymentRequestDto();
             processPayment(paymentRequestDto);
 
@@ -77,8 +77,9 @@ public class OrderServiceImpl implements OrderService {
                 .header("Content-Type", "application/json")
                 .body(map)
                 .asString();
-        log.error("response: {}", response);
-        returnResponse(response);
+        if(!response.isSuccess()){
+            cancelPayment(orderRequestDto.getPaymentRequestDto(), response);
+        }
     }
 
     private void processPayment(PaymentRequestDto paymentRequestDto) {
@@ -93,9 +94,35 @@ public class OrderServiceImpl implements OrderService {
         if(!paymentResponse.isSuccess()){
             log.error("Failed to process payment: Status={}, Body={}",
                     paymentResponse.getStatus(), paymentResponse.getBody());
+            cancelPayment(paymentRequestDto, paymentResponse);
         }
 
-        returnResponse(paymentResponse);
+    }
+
+    private void cancelPayment(PaymentRequestDto paymentRequestDto, HttpResponse<String> response){
+        String url = "https://api.portone.io/payments/" + paymentRequestDto.getPaymentCode() + "/cancle";
+        log.info("Payment URL: {}", url);
+        String reason = "";
+        switch (response.getStatus()) {
+            case 200 -> {
+                break;
+            }
+            case 400 -> reason = Constants.ORDER_INVALID_REQUEST;
+            case 401 -> reason = Constants.ORDER_UNAUTHORIZED;
+            case 403 -> reason = Constants.ORDER_FORBIDDEN;
+            case 404 -> reason = Constants.ORDER_PAYMENT_NOT_FOUND;
+            case 502 -> reason = Constants.ORDER_PG;
+            default -> reason = Constants.ORDER_FAIL;
+        }
+        HttpResponse<String> cancelResponse = Unirest.post("https://api.portone.io/payments/paymentId/cancel")
+                .header("Content-Type", "application/json")
+                .body("{\"reason\":" + reason + "}")
+                .asString();
+        if(!cancelResponse.isSuccess()){
+            log.error("Failed to process payment: Status={}, Body={}",
+                    cancelResponse.getStatus(), cancelResponse.getBody());
+        }
+        returnResponse(cancelResponse);
     }
 
 
