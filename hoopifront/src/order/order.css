@@ -9,7 +9,6 @@
 }
 .order-semi-container{
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -96,4 +95,10 @@
     height: 100%;
     object-fit: contain;
     border-radius: 10px;
+}
+
+.order-pagination-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

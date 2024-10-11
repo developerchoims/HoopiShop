@@ -105,7 +105,7 @@ const Order = () => {
                     )}
                     </div>
                     </div>
-                    <div>
+                    <div className="order-pagination-box">
                         <Pagination count={orders.totalPages} page={currentPage} onChange={handlePageChange}
                                     variant="outlined" color="primary"/>
                     </div>
