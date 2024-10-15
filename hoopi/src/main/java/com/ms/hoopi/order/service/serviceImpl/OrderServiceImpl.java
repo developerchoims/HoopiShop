@@ -93,6 +93,7 @@ public class OrderServiceImpl implements OrderService {
                 .header("Content-Type", "application/json")
                 .body(json.toString())
                 .asString();
+        log.info("json확인하기: {}", json.toString());
         log.info("사전 정보 저장 확인하기 : status : {}, body : {}, headers : {}", response.getStatus(), response.getBody(), response.getHeaders());
         return response.getStatus();
     }
