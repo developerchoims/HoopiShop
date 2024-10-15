@@ -88,6 +88,7 @@ public class OrderServiceImpl implements OrderService {
                 .header("Content-Type", "application/json")
                 .body(map)
                 .asString();
+        log.info("사전 정보 저장 확인하기 : status : {}, body : {}", response.getStatus(), response.getBody());
         if(!response.isSuccess()){
             cancelPayment(orderRequestDto.getPaymentRequestDto(), response);
         }
