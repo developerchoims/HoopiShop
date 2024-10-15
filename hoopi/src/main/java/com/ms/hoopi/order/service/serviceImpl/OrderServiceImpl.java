@@ -50,6 +50,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Value("${PORTONE_API_SECRET}")
     private String secret;
+    private final String storeId = "71704625-36a0-46e1-bdbd-00da604507ef";
 
     @Override
     public ResponseEntity<String> addOrder(OrderRequestDto orderRequestDto) {
@@ -128,7 +129,7 @@ public class OrderServiceImpl implements OrderService {
         }
         HttpResponse<String> cancelResponse = Unirest.post("https://api.portone.io/payments/paymentId/cancel")
                 .header("Content-Type", "application/json")
-                .body("{\"reason\":" + reason + "}")
+                .body("{\"reason\":\"" + reason + "\"}")
                 .asString();
         if(!cancelResponse.isSuccess()){
             log.error("Failed to process payment: Status={}, Body={}",
@@ -279,7 +280,8 @@ public class OrderServiceImpl implements OrderService {
         log.info("Payment URL: {}", url);
         HttpResponse<String> cancelResponse = Unirest.post("https://api.portone.io/payments/paymentId/cancel")
                 .header("Content-Type", "application/json")
-                .body("{\"reason\":\"" + refundRequestDto.getReason() + "\"}")
+                .body("{\"reason\":\"" + refundRequestDto.getReason() + "\", \"storeId\":\"" + storeId + "\"}")
+
                 .asString();
         if(!cancelResponse.isSuccess()){
             log.error("Failed to process payment: Status={}, Body={}",
