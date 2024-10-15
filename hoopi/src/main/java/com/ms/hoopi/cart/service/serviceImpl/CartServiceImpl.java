@@ -143,7 +143,7 @@ public class CartServiceImpl implements CartService {
         List<Address> addresses = userRepository.findById(id).get().getAddresses().stream().toList();
         Map<String, List> map = new HashMap<>();
         map.put("addresses", addresses);
-        map.put("carts", cartResponseDtos);
+        map.put("carts", cartResponseDtos.isEmpty() ? null : cartResponseDtos);
         return ResponseEntity.ok(map);
     }
 
