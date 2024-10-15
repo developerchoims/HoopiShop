@@ -39,7 +39,7 @@ const Order = () => {
 
     const [refundDisplay, setRefundDisplay] = useState('none');
     const [orderCode, setOrderCode] = useState('');
-    const [reason, setReason] = useState('');
+    const [reason, setReason] = useState('단순 변심');
 
     const handleRefundDisplay = (oc) => {
         setRefundDisplay('block');
@@ -162,16 +162,20 @@ const Order = () => {
                         </tr>
                         <tr>
                             <td>
-                                <textarea onChange={handleRefundReason}/>
+                                <select value={reason} onChange={handleRefundReason(e)}>
+                                    <option>단순 변심</option>
+                                    <option>수량 변경 후 재주문</option>
+                                    <option>품목 변경 후 재주문</option>
+                                </select>
                             </td>
                         </tr>
-                        </tbody>
                         <tr>
                             <td>
                                 <button onClick={handleRefundCancel}>취소</button>
                                 <button onClick={handleRequestRefund}>환불</button>
                             </td>
                         </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>

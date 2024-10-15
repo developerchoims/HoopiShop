@@ -112,7 +112,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private void cancelPayment(PaymentRequestDto paymentRequestDto, HttpResponse<String> response){
-        String url = "https://api.portone.io/payments/" + paymentRequestDto.getPaymentCode() + "/cancle";
+        String url = "https://api.portone.io/payments/" + paymentRequestDto.getPaymentCode() + "/cancel";
         log.info("Payment URL: {}", url);
         String reason = "";
         switch (response.getStatus()) {
@@ -275,7 +275,7 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_PAYMENT));
 
         // iamport 환불 요청
-        String url = "https://api.portone.io/payments/" + payment.getPaymentCode() + "/cancle";
+        String url = "https://api.portone.io/payments/" + payment.getPaymentCode() + "/cancel";
         log.info("Payment URL: {}", url);
         HttpResponse<String> cancelResponse = Unirest.post("https://api.portone.io/payments/paymentId/cancel")
                 .header("Content-Type", "application/json")
