@@ -8,6 +8,8 @@ const Cart = () => {
     const id = localStorage.getItem("id");
     const [cartdetail, setCartdetail] = useState([]);
     const [addresses, setAddresses] = useState([]);
+    const [addressDisplay, setAddressDisplay] = useState('none')
+    const[selectedAddress, setSelectedAddress] = useState(null);
 
     useEffect(() => {
         fetchCart();
@@ -26,7 +28,6 @@ const Cart = () => {
     }
 
     // 주소창 보이기
-    const [addressDisplay, setAddressDisplay] = useState('none')
     const handleAddressDisplay = () => {
         if(addressDisplay === 'block') {
             setAddressDisplay('none');
@@ -36,9 +37,9 @@ const Cart = () => {
         setSelectedAddress(null);
     }
     //주소지 선택
-    const[selectedAddress, setSelectedAddress] = useState(null);
     const handleSelectAddress = (addressCode) => {
         setSelectedAddress(addressCode);
+        setAddressDisplay('none');
     }
 
     // 수량 변경, 가격 변경 시 DB 수정
@@ -155,10 +156,10 @@ const Cart = () => {
                     <div className='cart-address-select' value={selectedAddress}>
                         <button onClick={handleAddressDisplay}>배송지를 지정하세요. ▼</button>
                         {addresses?.length === 0
-                            ? <h3 style={{display: !selectedAddress || addressDisplay === 'block'}}>"주소를 불러올 수 없습니다."</h3>
+                            ? <h3 style={{display: selectedAddress === address.addressCode || addressDisplay === 'block' ? 'block' : 'none'}}>"주소를 불러올 수 없습니다."</h3>
                             : addresses?.map(address => (
                                 <div id={address.addressCode} value={address.addressCode} key={address.addressCode}
-                                     style={{display: !selectedAddress || selectedAddress === address.addressCode || addressDisplay === 'block' ? 'block' : 'none'}}
+                                     style={{display: selectedAddress === address.addressCode || addressDisplay === 'block' ? 'block' : 'none'}}
                                      onClick={() => handleSelectAddress(address.addressCode)}>
                                     <table>
                                         <tbody>
