@@ -88,10 +88,9 @@ public class OrderServiceImpl implements OrderService {
         );
 
         String secretKey = "PortOne " + secret;
-        String encodedSecretKey = URLEncoder.encode(secretKey, StandardCharsets.UTF_8);
         String encodedPaymentId = URLEncoder.encode(paymentId, StandardCharsets.UTF_8);
         HttpResponse<String> response = Unirest.post("https://api.portone.io/payments/"+encodedPaymentId+"/pre-register")
-                .header("Authorization", encodedSecretKey)
+                .header("Authorization", secretKey)
                 .header("Content-Type", "application/json")
                 .body(jsonBody)
                 .asString();
