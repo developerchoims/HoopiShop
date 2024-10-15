@@ -46,21 +46,19 @@ const Order = () => {
                             <>
                                 <div className="order-title">
                                     <h3>주문 내역</h3>
+                                    <h5>{handleDate(order.orderDate)}</h5>
+                                    <h5>{order.orderStatus}</h5>
                                     <button>주문 취소</button>
                                 </div>
                                 <div className="order-user">
-                                    <div className="order-date">
-                                        <h5>{handleDate(order.orderDate)}</h5>
-                                        <h5>{order.orderStatus}</h5>
+                                    <div className="order-address">
+                                        <h3>배송지</h3>
+                                        <button>배송지 변경</button>
                                     </div>
-                                    <h5>배송지</h5>
                                     <table>
-                                        <tbody>
+                                    <tbody>
                                         <tr>
                                             <td>{order.address.addressName}</td>
-                                            <td>
-                                                <button>배송지 변경</button>
-                                            </td>
                                         </tr>
                                         <tr>
                                             <td>{order.address.addressPhone}</td>
@@ -68,7 +66,7 @@ const Order = () => {
                                         <tr>
                                             <td>{order.address.address}</td>
                                         </tr>
-                                        </tbody>
+                                    </tbody>
                                     </table>
                                 </div>
                                 <br/>
