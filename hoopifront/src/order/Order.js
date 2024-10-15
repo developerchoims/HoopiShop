@@ -162,7 +162,7 @@ const Order = () => {
                         </tr>
                         <tr>
                             <td>
-                                <select value={reason} onChange={handleRefundReason(e)}>
+                                <select value={reason} onChange={handleRefundReason}>
                                     <option>단순 변심</option>
                                     <option>수량 변경 후 재주문</option>
                                     <option>품목 변경 후 재주문</option>
