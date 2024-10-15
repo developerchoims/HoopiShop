@@ -10,7 +10,6 @@ import com.ms.hoopi.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
-import kong.unirest.json.JSONObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,8 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -54,9 +51,9 @@ public class OrderServiceImpl implements OrderService {
     public ResponseEntity<String> addOrder(OrderRequestDto orderRequestDto) {
         try {
             // 사전 등록 및 결제 실패 로직
-            if(preRegistPayment(orderRequestDto) != 200) {
-                return ResponseEntity.badRequest().body(Constants.ORDER_FAIL);
-            }
+//            if(preRegistPayment(orderRequestDto) != 200) {
+//                return ResponseEntity.badRequest().body(Constants.ORDER_FAIL);
+//            }
 
             // 결제 확인 및 결제 실패 로직
             PaymentRequestDto paymentRequestDto = orderRequestDto.getPaymentRequestDto();
@@ -92,7 +89,6 @@ public class OrderServiceImpl implements OrderService {
                 .header("Content-Type", "application/json")
                 .body(jsonBody)
                 .asString();
-        log.info("json확인하기: {}", jsonBody);
         log.info("사전 정보 저장 확인하기 : status : {}, body : {}, headers : {}", response.getStatus(), response.getBody(), response.getHeaders());
         return response.getStatus();
     }
@@ -281,10 +277,14 @@ public class OrderServiceImpl implements OrderService {
         // iamport 환불 요청
         String url = "https://api.portone.io/payments/" + payment.getPaymentCode() + "/cancel";
         log.info("Payment URL: {}", url);
+        String jsonBody = String.format(
+                "{\"storeId\":\"%s\",\"reason\":\"%s\"}",
+                storeId, refundRequestDto.getReason()
+        );
         HttpResponse<String> cancelResponse = Unirest.post(url)
                 .header("Authorization", "PortOne " + secret)
                 .header("Content-Type", "application/json")
-                .body("{\"storeId\":\"" + storeId + "\",\"reason\":\"" + refundRequestDto.getReason() + "\"}")
+                .body(jsonBody)
 
                 .asString();
         if(!cancelResponse.isSuccess()){
