@@ -24,10 +24,16 @@ const Cart = () => {
         }
     }
 
+    // 주소창 보이기
+    const [addressDisplay, setAddressDisplay] = useState('none')
+    const handleAddressDisplay = () => {
+        setAddressDisplay(null);
+        setSelectedAddress(null);
+    }
     //주소지 선택
-    const[selectedAddress, setSelectedAddress] = useState("");
-    const handleSelectAddress = (e) => {
-        setSelectedAddress(e.target.value);
+    const[selectedAddress, setSelectedAddress] = useState(null);
+    const handleSelectAddress = (addressCode) => {
+        setSelectedAddress(addressCode);
     }
 
     // 수량 변경, 가격 변경 시 DB 수정
@@ -137,77 +143,85 @@ const Cart = () => {
 
 
     return(
-        <div className="cart-container">
+        <>
             <div className='cart-address-container'>
                 <div className='cart-address-box'>
                     <h4>배송지 지정</h4>
-                    <select defaultValue="배송시킬 주소지를 선택하세요." value={selectedAddress} onChange={handleSelectAddress}>
-                        {addresses?.map(address => {
-                            <option id={address.addressCode} key = {address.addressCode}>
-                                <table>
-                                    <tbody>
-                                    <tr>
-                                        <td>수취인 성함 : </td>
-                                        <td>{address.addressName}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>수취인 연락처 : </td>
-                                        <td>{address.addressPhone}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>수취인 주소지 :</td>
-                                        <td>{address.address}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </option>
-                        })}
-                    </select>
+                    <div className='cart-address-select' value={selectedAddress}>
+                        <button onClick={handleAddressDisplay}>배송지를 지정하세요. ▼</button>
+                        {addresses.length === 0
+                            ? "주소를 불러올 수 없습니다."
+                            : addresses.map(address => (
+                                <div id={address.addressCode} value={address.addressCode} key={address.addressCode}
+                                     style={{display: selectedAddress === address.addressCode || !selectedAddress ? 'block' : 'none'}}
+                                     onClick={() => handleSelectAddress(address.addressCode)}>
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <td>수취인 성함 :</td>
+                                            <td>{address.addressName}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>수취인 연락처 :</td>
+                                            <td>{address.addressPhone}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>수취인 주소지 :</td>
+                                            <td>{address.address}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            ))}
+                    </div>
                 </div>
             </div>
-            <div className="cart-box">
-                <table>
-                    <thead>
-                    <tr>
-                        <th><input type="checkbox" className="cart-checkbox checkbox-parents"
-                                   checked={allChecked} onChange={handleSelectAll}/></th>
-                        <th colSpan={2}>
-                            <button onClick={handleDeletePart}>선택 삭제</button>
-                            <button onClick={handleDeleteAll}>전체 삭제</button>
-                        </th>
-                        <th>수량</th>
-                        <th>가격</th>
-                        <th>
-                            <IamPort cartdetail={handleCheckedCartDetail()} buttonName='선택 주문' address={selectedAddress}/>
-                            <IamPort cartdetail={cartdetail} buttonName='전체 주문' address={selectedAddress}/>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {
-                        !Array.isArray(cartdetail) || cartdetail.length === 0 ?
-                            <tr>
-                                <td colSpan={5}>"장바구니에 담긴 상품이 없습니다."</td>
-                            </tr>
-                            : cartdetail?.map((product, index) => (
-                                <tr key={product.productCode}>
-                                    <td><input type="checkbox" className="cart-checkbox checkbox-child"
-                                               id={product.productCode}
-                                               checked={selectedIds.includes(product.productCode)}
-                                               onChange={handleSelectPart}/></td>
-                                    <td colSpan={2}><img src={product.imgUrl} alt={product.imgUrl}/></td>
-                                    <td>
-                                        <input type='number' value={product.quantity} min='1'
-                                               onChange={(e) => handleUpdate(e, product.productCode, product.quantity, product.cartAmount)}/>
-                                    </td>
-                                    <td><p defaultValue={product.cartAmount}>{product.cartAmount}</p></td>
+            <div className="cart-container">
+                <div className="cart-box">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th><input type="checkbox" className="cart-checkbox checkbox-parents"
+                                       checked={allChecked} onChange={handleSelectAll}/></th>
+                            <th colSpan={2}>
+                                <button onClick={handleDeletePart}>선택 삭제</button>
+                                <button onClick={handleDeleteAll}>전체 삭제</button>
+                            </th>
+                            <th>수량</th>
+                            <th>가격</th>
+                            <th>
+                                <IamPort cartdetail={handleCheckedCartDetail()} buttonName='선택 주문' address={selectedAddress}/>
+                                <IamPort cartdetail={cartdetail} buttonName='전체 주문' address={selectedAddress}/>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {
+                            !Array.isArray(cartdetail) || cartdetail.length === 0 ?
+                                <tr>
+                                    <td colSpan={5}>"장바구니에 담긴 상품이 없습니다."</td>
                                 </tr>
-                            ))
-                    }
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                                : cartdetail?.map((product, index) => (
+                                    <tr key={product.productCode}>
+                                        <td><input type="checkbox" className="cart-checkbox checkbox-child"
+                                                   id={product.productCode}
+                                                   checked={selectedIds.includes(product.productCode)}
+                                                   onChange={handleSelectPart}/></td>
+                                            <td colSpan={2}><img src={product.imgUrl} alt={product.imgUrl}/></td>
+                                            <td>
+                                                <input type='number' value={product.quantity} min='1'
+                                                       onChange={(e) => handleUpdate(e, product.productCode, product.quantity, product.cartAmount)}/>
+                                            </td>
+                                            <td><p defaultValue={product.cartAmount}>{product.cartAmount}</p></td>
+                                        </tr>
+                                    ))
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+        </>
     );
 }
 export default Cart;
