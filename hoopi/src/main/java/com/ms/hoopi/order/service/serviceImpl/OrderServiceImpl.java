@@ -47,6 +47,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Value("${PORTONE_API_SECRET}")
     private String secret;
+    private String storeId = "71704625-36a0-46e1-bdbd-00da604507ef";
 
     @Override
     public ResponseEntity<String> addOrder(OrderRequestDto orderRequestDto) {
@@ -280,7 +281,7 @@ public class OrderServiceImpl implements OrderService {
         HttpResponse<String> cancelResponse = Unirest.post(url)
                 .header("Authorization", "PortOne " + secret)
                 .header("Content-Type", "application/json")
-                .body("{\"reason\":\"" + refundRequestDto.getReason() + "\"}")
+                .body("{\"storeId\":\"" + storeId + "\",\"reason\":\"" + refundRequestDto.getReason() + "\"}")
 
                 .asString();
         if(!cancelResponse.isSuccess()){
@@ -288,6 +289,7 @@ public class OrderServiceImpl implements OrderService {
                     cancelResponse.getStatus(), cancelResponse.getBody());
         }
         //payment정보 수정(결제 취소), order정보 수정, refund 정보 insert
+        String message = "";
         switch (cancelResponse.getStatus()) {
             case 200 -> {
                 payment.setStatus(Payment.Status.결제취소);

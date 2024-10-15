@@ -91,6 +91,7 @@
     font-family: 'LeeSeoyun', sans-serif;
     font-size: 2.5vh;
     width: 80%;
+    height: 10vh;
     background: white;
 }
 
@@ -98,7 +99,19 @@
     cursor: pointer;
 }
 
+.cart-address-select>div{
+    width: 60%;
+    margin: 10px 0 10px 0;
+    border-radius: 10px;
+    text-align: left;
+}
+
 .cart-address-select>div:hover{
     background-color: #c9dcf9;
+    transition-duration: 0.2s ;
+}
+.cart-address-select>div:focus{
+    border: 2px solid #c9dcf9;
+    background: white;
     transition-duration: 0.2s ;
 }
