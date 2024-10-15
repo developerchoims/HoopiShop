@@ -87,10 +87,11 @@ public class OrderServiceImpl implements OrderService {
                 storeId, totalAmount, taxFreeAmount, currency
         );
 
-        String url = "https://api.portone.io/payments/"+paymentId+"/pre-register";
         String secretKey = "PortOne " + secret;
         String encodedPaymentId = URLEncoder.encode(paymentId, StandardCharsets.UTF_8);
+        String url = "https://api.portone.io/payments/"+encodedPaymentId+"/pre-register";
         HttpResponse<String> response = Unirest.post(url)
+                .header("Authorization", secretKey)
                 .header("Content-Type", "application/json")
                 .body(jsonBody)
                 .asString();
