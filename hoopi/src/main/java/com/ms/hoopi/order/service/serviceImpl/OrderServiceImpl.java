@@ -21,6 +21,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -73,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private int preRegistPayment(OrderRequestDto orderRequestDto){
+    private int preRegistPayment(OrderRequestDto orderRequestDto) throws UnsupportedEncodingException {
         String paymentId = orderRequestDto.getPaymentRequestDto().getPaymentCode();
         String storeId = orderRequestDto.getStoreId();
         Long totalAmount = orderRequestDto.getPaymentRequestDto().getPaymentAmount();
@@ -85,8 +88,10 @@ public class OrderServiceImpl implements OrderService {
         );
 
         String secretKey = "PortOne " + secret;
-        HttpResponse<String> response = Unirest.post("https://api.portone.io/payments/"+paymentId+"/pre-register")
-                .header("Authorization", secretKey)
+        String encodedSecretKey = URLEncoder.encode(secretKey, StandardCharsets.UTF_8);
+        String encodedPaymentId = URLEncoder.encode(paymentId, StandardCharsets.UTF_8);
+        HttpResponse<String> response = Unirest.post("https://api.portone.io/payments/"+encodedPaymentId+"/pre-register")
+                .header("Authorization", encodedSecretKey)
                 .header("Content-Type", "application/json")
                 .body(jsonBody)
                 .asString();
