@@ -82,18 +82,17 @@ public class OrderServiceImpl implements OrderService {
         Long totalAmount = orderRequestDto.getPaymentRequestDto().getPaymentAmount();
         Integer taxFreeAmount = 0;
         String currency = "KRW";
-        JSONObject json = new JSONObject();
-        json.put("storeId", storeId);
-        json.put("totalAmount", Integer.valueOf(String.valueOf(totalAmount)));
-        json.put("taxFreeAmount", taxFreeAmount);
-        json.put("currency", currency);
+        String jsonBody = String.format(
+                "{\"storeId\":\"%s\",\"totalAmount\":%d,\"taxFreeAmount\":%d,\"currency\":\"%s\"}",
+                storeId, totalAmount, taxFreeAmount, currency
+        );
 
         HttpResponse<String> response = Unirest.post("https://api.portone.io/payments/"+paymentId+"/pre-register")
                 .header("Authorization", "PortOne " + secret)
                 .header("Content-Type", "application/json")
-                .body(json.toString())
+                .body(jsonBody)
                 .asString();
-        log.info("json확인하기: {}", json.toString());
+        log.info("json확인하기: {}", jsonBody);
         log.info("사전 정보 저장 확인하기 : status : {}, body : {}, headers : {}", response.getStatus(), response.getBody(), response.getHeaders());
         return response.getStatus();
     }
