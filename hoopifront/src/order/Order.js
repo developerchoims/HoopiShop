@@ -52,22 +52,22 @@ const Order = () => {
                                 </div>
                                 <div className="order-user">
                                     <div className="order-address">
-                                        <h3>배송지</h3>
+                                        <h4>배송지</h4>
+                                        <table>
+                                            <tbody>
+                                            <tr>
+                                                <td>{order.address.addressName}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{order.address.addressPhone}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{order.address.address}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                         <button>배송지 변경</button>
                                     </div>
-                                    <table>
-                                    <tbody>
-                                        <tr>
-                                            <td>{order.address.addressName}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{order.address.addressPhone}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{order.address.address}</td>
-                                        </tr>
-                                    </tbody>
-                                    </table>
                                 </div>
                                 <br/>
                                 <div className="order-product">
