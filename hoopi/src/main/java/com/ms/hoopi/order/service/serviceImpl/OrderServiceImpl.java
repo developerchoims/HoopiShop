@@ -10,6 +10,7 @@ import com.ms.hoopi.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
+import kong.unirest.json.JSONObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -77,16 +78,16 @@ public class OrderServiceImpl implements OrderService {
         Long totalAmount = orderRequestDto.getPaymentRequestDto().getPaymentAmount();
         Long taxFreeAmount = 0L;
         String currency = "KRW";
-        Map<String, String> map = new HashMap<>();
-        map.put("storeId", storeId);
-        map.put("totalAmount", totalAmount.toString());
-        map.put("taxFreeAmount", taxFreeAmount.toString());
-        map.put("currency", currency);
+        JSONObject json = new JSONObject();
+        json.put("storeId", storeId);
+        json.put("totalAmount", totalAmount); // Integer로 처리하여 JSON에서 숫자로 출력
+        json.put("taxFreeAmount", taxFreeAmount); // Integer로 처리
+        json.put("currency", currency);
 
         HttpResponse<String> response = Unirest.post("https://api.portone.io/payments/"+paymentId+"/pre-register")
                 .header("Authorization", "PortOne " + secret)
                 .header("Content-Type", "application/json")
-                .body(map)
+                .body(json.toString())
                 .asString();
         log.info("사전 정보 저장 확인하기 : status : {}, body : {}", response.getStatus(), response.getBody());
         if(!response.isSuccess()){
