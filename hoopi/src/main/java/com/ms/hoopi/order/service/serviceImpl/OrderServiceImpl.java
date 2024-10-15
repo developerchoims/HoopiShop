@@ -277,7 +277,7 @@ public class OrderServiceImpl implements OrderService {
         // iamport 환불 요청
         String url = "https://api.portone.io/payments/" + payment.getPaymentCode() + "/cancel";
         log.info("Payment URL: {}", url);
-        HttpResponse<String> cancelResponse = Unirest.post("https://api.portone.io/payments/" + payment.getPaymentCode() + "/cancel")
+        HttpResponse<String> cancelResponse = Unirest.post(url)
                 .header("Authorization", "PortOne " + secret)
                 .header("Content-Type", "application/json")
                 .body("{\"reason\":\"" + refundRequestDto.getReason() + "\"}")
