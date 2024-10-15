@@ -117,33 +117,31 @@ public class CartServiceImpl implements CartService {
         // 장바구니 정보 가져오기
         Cart cart = cartRepository.findByUserId(id)
                 .orElse(null);
-        // 장바구니에 담긴 게 없는 경우
-        if(cart == null){
-            return ResponseEntity.ok(null);
-        }
         // 장바구니에 담긴 게 있는 경우
         List<CartResponseDto> cartResponseDtos = new ArrayList<>();
-        List<CartDetail> cartDetails = cartDetailRepository.findAllByCartCode(cart);
-        for(CartDetail cartDetail : cartDetails){
-            //이미지 가져오기
-            String imgKey = productImgRepository.findByProductCode(cartDetail.getProductCode().getProductCode()).getImgKey();
-            String imgUrl = fileUploadService.getS3(imgKey);
-            CartResponseDto cartResponseDto = CartResponseDto.builder()
-                    .cartCode(cart.getCartCode())
-                    .productCode(cartDetail.getProductCode().getProductCode())
-                    .name(cartDetail.getProductCode().getName())
-                    .quantity(cartDetail.getQuantity())
-                    .cartAmount(cartDetail.getCartAmount())
-                    .imgUrl(imgUrl)
-                    .build();
-            cartResponseDtos.add(cartResponseDto);
+        if(cart != null){
+            List<CartDetail> cartDetails = cartDetailRepository.findAllByCartCode(cart);
+            for(CartDetail cartDetail : cartDetails){
+                //이미지 가져오기
+                String imgKey = productImgRepository.findByProductCode(cartDetail.getProductCode().getProductCode()).getImgKey();
+                String imgUrl = fileUploadService.getS3(imgKey);
+                CartResponseDto cartResponseDto = CartResponseDto.builder()
+                        .cartCode(cart.getCartCode())
+                        .productCode(cartDetail.getProductCode().getProductCode())
+                        .name(cartDetail.getProductCode().getName())
+                        .quantity(cartDetail.getQuantity())
+                        .cartAmount(cartDetail.getCartAmount())
+                        .imgUrl(imgUrl)
+                        .build();
+                cartResponseDtos.add(cartResponseDto);
+            }
         }
 
         // 유저 주소록 가져오기
         List<Address> addresses = userRepository.findById(id).get().getAddresses().stream().toList();
         Map<String, List> map = new HashMap<>();
         map.put("addresses", addresses);
-        map.put("carts", cartResponseDtos);
+        map.put("carts", cartResponseDtos.isEmpty() ? null : cartResponseDtos);
         log.info("map: {} ", map);
         return ResponseEntity.ok(map);
     }
