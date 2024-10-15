@@ -78,6 +78,11 @@
     width: 100%;
     text-align: center;
 }
+.cart-address-select{
+    font-family: 'LeeSeoyun', sans-serif;
+    color: grey;
+    font-size: 3vh;
+}
 
 .cart-address-select button{
     border: 2px solid #c9dcf9;
@@ -86,6 +91,7 @@
     font-family: 'LeeSeoyun', sans-serif;
     font-size: 2.5vh;
     width: 80%;
+    background: white;
 }
 
 .cart-address-select button:hover{

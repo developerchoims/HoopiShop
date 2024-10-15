@@ -27,7 +27,11 @@ const Cart = () => {
     // 주소창 보이기
     const [addressDisplay, setAddressDisplay] = useState('none')
     const handleAddressDisplay = () => {
-        setAddressDisplay(null);
+        if(addressDisplay === 'block') {
+            setAddressDisplay('none');
+        } else {
+            setAddressDisplay('block');
+        }
         setSelectedAddress(null);
     }
     //주소지 선택
@@ -150,10 +154,10 @@ const Cart = () => {
                     <div className='cart-address-select' value={selectedAddress}>
                         <button onClick={handleAddressDisplay}>배송지를 지정하세요. ▼</button>
                         {addresses?.length === 0
-                            ? "주소를 불러올 수 없습니다."
+                            ? <h3>"주소를 불러올 수 없습니다."</h3>
                             : addresses?.map(address => (
                                 <div id={address.addressCode} value={address.addressCode} key={address.addressCode}
-                                     style={{display: selectedAddress === address.addressCode || (!selectedAddress && addressDisplay === 'block') ? 'block' : 'none'}}
+                                     style={{display: (!selectedAddress && addressDisplay === 'block') || selectedAddress === address.addressCode ? 'block' : 'none'}}
                                      onClick={() => handleSelectAddress(address.addressCode)}>
                                     <table>
                                         <tbody>
