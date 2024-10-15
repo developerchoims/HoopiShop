@@ -84,8 +84,8 @@ public class OrderServiceImpl implements OrderService {
         String currency = "KRW";
         JSONObject json = new JSONObject();
         json.put("storeId", storeId);
-        json.put("totalAmount", totalAmount);  // long 타입의 totalAmount를 직접 삽입
-        json.put("taxFreeAmount", taxFreeAmount);  // Integer 타입의 taxFreeAmount를 직접 삽입
+        json.put("totalAmount", totalAmount);
+        json.put("taxFreeAmount", taxFreeAmount);
         json.put("currency", currency);
 
         String secretKey = "PortOne " + secret;
@@ -94,9 +94,10 @@ public class OrderServiceImpl implements OrderService {
         HttpResponse<String> response = Unirest.post(url)
                 .header("Authorization", secretKey)
                 .header("Content-Type", "application/json")
-                .body("{\"storeId\":\"" + storeId + "\",\"totalAmount\":" + totalAmount +
-                        ",\"taxFreeAmount\":" + taxFreeAmount + ",\"currency\":\"" + currency + "\"}")
+                .body(json)
                 .asString();
+        log.info("url확인:{}", url);
+        log.info("encodedPaymentId확인:{}", encodedPaymentId);
         log.info("사전 정보 저장 확인하기 : status : {}, body : {}, headers : {}", response.getStatus(), response.getBody(), response.getHeaders());
         return response.getStatus();
     }
