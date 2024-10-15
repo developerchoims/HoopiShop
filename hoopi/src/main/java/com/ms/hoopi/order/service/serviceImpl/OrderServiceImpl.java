@@ -76,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private int preRegistPayment(OrderRequestDto orderRequestDto) throws UnsupportedEncodingException {
+    private int preRegistPayment(OrderRequestDto orderRequestDto) {
         String paymentId = orderRequestDto.getPaymentRequestDto().getPaymentCode();
         String storeId = orderRequestDto.getStoreId();
         Long totalAmount = orderRequestDto.getPaymentRequestDto().getPaymentAmount();
@@ -87,10 +87,10 @@ public class OrderServiceImpl implements OrderService {
                 storeId, totalAmount, taxFreeAmount, currency
         );
 
+        String url = "https://api.portone.io/payments/"+paymentId+"/pre-register";
         String secretKey = "PortOne " + secret;
         String encodedPaymentId = URLEncoder.encode(paymentId, StandardCharsets.UTF_8);
-        HttpResponse<String> response = Unirest.post("https://api.portone.io/payments/"+encodedPaymentId+"/pre-register")
-                .header("Authorization", secretKey)
+        HttpResponse<String> response = Unirest.post(url)
                 .header("Content-Type", "application/json")
                 .body(jsonBody)
                 .asString();
