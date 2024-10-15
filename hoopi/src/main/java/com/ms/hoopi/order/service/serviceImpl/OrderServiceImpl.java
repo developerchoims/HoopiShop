@@ -279,7 +279,7 @@ public class OrderServiceImpl implements OrderService {
         log.info("Payment URL: {}", url);
         HttpResponse<String> cancelResponse = Unirest.post("https://api.portone.io/payments/paymentId/cancel")
                 .header("Content-Type", "application/json")
-                .body("{\"reason\":" + refundRequestDto.getReason() + "}")
+                .body("{\"reason\":\"" + refundRequestDto.getReason() + "\"}")
                 .asString();
         if(!cancelResponse.isSuccess()){
             log.error("Failed to process payment: Status={}, Body={}",
