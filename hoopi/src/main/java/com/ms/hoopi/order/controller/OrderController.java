@@ -1,6 +1,7 @@
 package com.ms.hoopi.order.controller;
 
 import com.ms.hoopi.order.model.dto.OrderRequestDto;
+import com.ms.hoopi.order.model.dto.RefundRequestDto;
 import com.ms.hoopi.order.service.OrderService;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -25,5 +26,10 @@ public class OrderController {
                                     , @RequestParam(defaultValue = "0")int page
                                     , @RequestParam(defaultValue = "10") int size){
         return orderService.getOrder(id, page, size);
+    }
+
+    @PutMapping("/order")
+    public ResponseEntity<String> requestRefund(@RequestBody RefundRequestDto refundRequestDto){
+        return orderService.requestRefund(refundRequestDto);
     }
 }

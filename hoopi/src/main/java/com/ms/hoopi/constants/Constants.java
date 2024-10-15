@@ -47,5 +47,14 @@ public class Constants {
     public static final String ORDER_PAYMENT_NOT_FOUND = "결제 건이 존재하지 않습니다.";
     public static final String ORDER_PG = "Pg사에서 에러를 전달했습니다.";
     public static final String ORDER_GET_FAIL = "주문 정보를 불러오지 못했습니다.";
+    public static final String NONE_PAYMENT = "결제 정보를 불러올 수 없습니다.";
+    public static final String NONE_ORDER = "주문 정보를 불러올 수 없습니다.";
+    public static final String ALREADY_DELIEVERED = "이미 발송되어 환불이 불가능합니다.";
+    public static final String FORBIDDEN_ERROR = "요청이 거절되었습니다.";
+    public static final String PAYMENT_ALREADY_CANCELLDED_ERROR = "결제가 이미 취소되었습니다.";
+    public static final String PAYMENT_ERROR = "결제 취소에 실패하였습니다.";
+    public static final String PAYMENT_CANCEL_SUCCESS = "결제 취소에 성공하였습니다.";
+    
+    
 
 }

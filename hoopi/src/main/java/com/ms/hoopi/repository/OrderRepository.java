@@ -14,4 +14,7 @@ import java.util.Optional;
 public interface OrderRepository extends JpaRepository<Order, Integer> {
     @Query("SELECT o FROM Order o WHERE o.code = :user")
     Page<Order> findAllByUserCode(User user, Pageable pageable);
+
+    @Query("SELECT o FROM Order o WHERE o.orderCode = :orderCode")
+    Optional<Order> findByOrderCode(String orderCode);
 }

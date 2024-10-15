@@ -40,6 +40,7 @@ public class Payment {
     @Column(name = "payment_amount")
     private Long paymentAmount;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private Status status = Status.결제완료;

@@ -29,6 +29,7 @@ public class Order {
     @Column(name = "order_date")
     private LocalDateTime orderDate;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private Status status = Status.결제완료;
