@@ -124,7 +124,7 @@ public class OrderServiceImpl implements OrderService {
             case 502 -> reason = Constants.ORDER_PG;
             default -> reason = Constants.ORDER_FAIL;
         }
-        HttpResponse<String> cancelResponse = Unirest.post("https://api.portone.io/payments/paymentId/cancel")
+        HttpResponse<String> cancelResponse = Unirest.post("https://api.portone.io/payments/"+ paymentRequestDto.getPaymentCode() +"/cancel")
                 .header("Authorization", "PortOne " + secret)
                 .header("Content-Type", "application/json")
                 .body("{\"reason\":\"" + reason + "\"}")
@@ -277,7 +277,7 @@ public class OrderServiceImpl implements OrderService {
         // iamport 환불 요청
         String url = "https://api.portone.io/payments/" + payment.getPaymentCode() + "/cancel";
         log.info("Payment URL: {}", url);
-        HttpResponse<String> cancelResponse = Unirest.post("https://api.portone.io/payments/paymentId/cancel")
+        HttpResponse<String> cancelResponse = Unirest.post("https://api.portone.io/payments/" + payment.getPaymentCode() + "/cancel")
                 .header("Authorization", "PortOne " + secret)
                 .header("Content-Type", "application/json")
                 .body("{\"reason\":\"" + refundRequestDto.getReason() + "\"}")
