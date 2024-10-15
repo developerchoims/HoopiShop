@@ -144,6 +144,7 @@ public class CartServiceImpl implements CartService {
         Map<String, List> map = new HashMap<>();
         map.put("addresses", addresses);
         map.put("carts", cartResponseDtos.isEmpty() ? null : cartResponseDtos);
+        log.info("map: {} ", map);
         return ResponseEntity.ok(map);
     }
 

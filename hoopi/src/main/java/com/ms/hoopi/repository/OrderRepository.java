@@ -15,6 +15,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     @Query("SELECT o FROM Order o WHERE o.code = :user")
     Page<Order> findAllByUserCode(User user, Pageable pageable);
 
-    @Query("SELECT o FROM Order o WHERE o.orderCode = :orderCode")
+    @Query("SELECT o FROM Order o WHERE o.orderCode = :orderCode ORDER BY o.orderDate DESC")
     Optional<Order> findByOrderCode(String orderCode);
 }
