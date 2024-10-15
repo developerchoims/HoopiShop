@@ -62,7 +62,7 @@
 
 
 .cart-address-container{
-    width: 50%;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -70,7 +70,7 @@
 }
 
 .cart-address-box{
-    width: 100%;
+    width: 50%;
     margin: auto;
 }
 
@@ -79,17 +79,15 @@
     text-align: center;
 }
 
-.cart-address-box select{
-    font-size: 3vh;
-    font-family: 'LeeSeoyun', sans-serif;
+.cart-address-select button{
+    border: 2px solid #c9dcf9;
     color: grey;
     border-radius: 10px;
-    border: 2px solid #c9dcf9;
-    width: 90%;
-    height: 7vh;
-}
-.cart-address-box option{
-    font-size: 2.5vh;
     font-family: 'LeeSeoyun', sans-serif;
-    color: grey;
+    font-size: 2.5vh;
+    width: 80%;
+}
+
+.cart-address-select button:hover{
+    cursor: pointer;
 }
