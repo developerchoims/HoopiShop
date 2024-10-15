@@ -95,6 +95,7 @@ public class OrderServiceImpl implements OrderService {
                 .header("Authorization", secretKey)
                 .body(json)
                 .asString();
+        log.info("json확인:{}", json);
         log.info("url확인:{}", url);
         log.info("encodedPaymentId확인:{}", encodedPaymentId);
         log.info("사전 정보 저장 확인하기 : status : {}, body : {}, headers : {}", response.getStatus(), response.getBody(), response.getHeaders());
