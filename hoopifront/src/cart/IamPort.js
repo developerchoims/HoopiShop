@@ -2,7 +2,7 @@
 import api from "../main/axios/axiosApi";
 import PortOne from "@portone/browser-sdk/v2";
 
-const IamPort = ({ cartdetail, buttonName }) => {
+const IamPort = ({ cartdetail, buttonName, address }) => {
     const handlePayment = async () => {
         const orderName = cartdetail.length === 1 ? cartdetail[0].name : `${cartdetail[0].name} 외 ${cartdetail.length - 1}건`;
         const totalAmount = cartdetail.reduce((total, p) => total + p.cartAmount, 0);
@@ -36,6 +36,7 @@ const IamPort = ({ cartdetail, buttonName }) => {
                 cartCode: cartdetail[0].cartCode,
                 productCode: productCodes,
                 storeId,
+                address,
                 paymentRequestDto : {
                     paymentCode: paymentId,
                     method,

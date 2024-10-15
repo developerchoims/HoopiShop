@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -136,7 +138,13 @@ public class CartServiceImpl implements CartService {
                     .build();
             cartResponseDtos.add(cartResponseDto);
         }
-        return ResponseEntity.ok(cartResponseDtos);
+
+        // 유저 주소록 가져오기
+        List<Address> addresses = userRepository.findById(id).get().getAddresses().stream().toList();
+        Map<String, List> map = new HashMap<>();
+        map.put("addresses", addresses);
+        map.put("carts", cartResponseDtos);
+        return ResponseEntity.ok(map);
     }
 
     @Override

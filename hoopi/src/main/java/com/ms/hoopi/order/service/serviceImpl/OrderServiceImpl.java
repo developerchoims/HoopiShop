@@ -9,13 +9,11 @@ import com.ms.hoopi.order.service.OrderService;
 import com.ms.hoopi.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import kong.unirest.HttpResponse;
-import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +23,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -63,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
 
             // order, orderDetail 정보 저장, cart status 변경, payment 정보 저장
             Cart cart = validateAndGetCart(orderRequestDto.getCartCode());
-            Order order = createAndSaveOrder(cart);
+            Order order = createAndSaveOrder(cart, orderRequestDto.getAddress());
             processCartDetails(order, orderRequestDto);
 
             return ResponseEntity.ok(Constants.ORDER_SUCCESS);
@@ -159,12 +156,13 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_CART));
     }
 
-    private Order createAndSaveOrder(Cart cart) {
+    private Order createAndSaveOrder(Cart cart, String addressCode) {
         Order order = Order.builder()
                 .orderCode(commonUtil.createCode())
                 .code(cart.getCode())
                 .orderDate(LocalDateTime.now())
                 .status(Order.Status.결제완료)
+                .addressCode(addressCode)
                 .build();
         return orderRepository.save(order);
     }
