@@ -7,6 +7,7 @@ const Cart = () => {
 
     const id = localStorage.getItem("id");
     const [cartdetail, setCartdetail] = useState([]);
+    const [addresses, setAddresses] = useState([]);
 
     useEffect(() => {
         fetchCart();
@@ -16,10 +17,17 @@ const Cart = () => {
         try{
             const response = await api.get(`hoopi/cart`,{params:{id:id}});
             console.log(response.data);
-            setCartdetail(response.data);
+            setCartdetail(response.data.carts);
+            setAddresses(response.data.addresses);
         }catch(e){
             console.log(e);
         }
+    }
+
+    //주소지 선택
+    const[selectedAddress, setSelectedAddress] = useState("");
+    const handleSelectAddress = (e) => {
+        setSelectedAddress(e.target.value);
     }
 
     // 수량 변경, 가격 변경 시 DB 수정
@@ -130,6 +138,33 @@ const Cart = () => {
 
     return(
         <div className="cart-container">
+            <div className='cart-address-container'>
+                <div className='cart-address-box'>
+                    <h4>배송지 지정</h4>
+                    <select defaultValue="배송시킬 주소지를 선택하세요." value={selectedAddress} onChange={handleSelectAddress}>
+                        {addresses?.map(address => {
+                            <option id={address.addressCode} key = {address.addressCode}>
+                                <table>
+                                    <tbody>
+                                    <tr>
+                                        <td>수취인 성함 : </td>
+                                        <td>{address.addressName}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>수취인 연락처 : </td>
+                                        <td>{address.addressPhone}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>수취인 주소지 :</td>
+                                        <td>{address.address}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </option>
+                        })}
+                    </select>
+                </div>
+            </div>
             <div className="cart-box">
                 <table>
                     <thead>
@@ -143,8 +178,8 @@ const Cart = () => {
                         <th>수량</th>
                         <th>가격</th>
                         <th>
-                            <IamPort cartdetail={handleCheckedCartDetail()} buttonName='선택 주문'/>
-                            <IamPort cartdetail={cartdetail} buttonName='전체 주문'/>
+                            <IamPort cartdetail={handleCheckedCartDetail()} buttonName='선택 주문' address={selectedAddress}/>
+                            <IamPort cartdetail={cartdetail} buttonName='전체 주문' address={selectedAddress}/>
                         </th>
                     </tr>
                     </thead>
@@ -154,18 +189,20 @@ const Cart = () => {
                             <tr>
                                 <td colSpan={5}>"장바구니에 담긴 상품이 없습니다."</td>
                             </tr>
-                        :cartdetail?.map((product, index) => (
-                            <tr key={product.productCode}>
-                                <td><input type="checkbox" className="cart-checkbox checkbox-child" id={product.productCode}
-                                           checked={selectedIds.includes(product.productCode)} onChange={handleSelectPart}/></td>
-                                <td colSpan={2}><img src={product.imgUrl} alt={product.imgUrl}/></td>
-                                <td>
-                                    <input type='number' value={product.quantity} min='1'
-                                    onChange={(e) => handleUpdate(e, product.productCode, product.quantity, product.cartAmount)}/>
-                                </td>
-                                <td><p defaultValue={product.cartAmount}>{product.cartAmount}</p></td>
-                            </tr>
-                        ))
+                            : cartdetail?.map((product, index) => (
+                                <tr key={product.productCode}>
+                                    <td><input type="checkbox" className="cart-checkbox checkbox-child"
+                                               id={product.productCode}
+                                               checked={selectedIds.includes(product.productCode)}
+                                               onChange={handleSelectPart}/></td>
+                                    <td colSpan={2}><img src={product.imgUrl} alt={product.imgUrl}/></td>
+                                    <td>
+                                        <input type='number' value={product.quantity} min='1'
+                                               onChange={(e) => handleUpdate(e, product.productCode, product.quantity, product.cartAmount)}/>
+                                    </td>
+                                    <td><p defaultValue={product.cartAmount}>{product.cartAmount}</p></td>
+                                </tr>
+                            ))
                     }
                     </tbody>
                 </table>

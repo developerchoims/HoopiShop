@@ -59,3 +59,37 @@
     font-size: 2.5vh;
     box-sizing: border-box;
 }
+
+
+.cart-address-container{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.cart-address-box{
+    width: 100%;
+    margin: auto;
+}
+
+.cart-address-box table{
+    width: 100%;
+    text-align: center;
+}
+
+.cart-address-box select{
+    font-size: 3vh;
+    font-family: 'LeeSeoyun', sans-serif;
+    color: grey;
+    border-radius: 10px;
+    border: 2px solid #c9dcf9;
+    width: 90%;
+    height: 7vh;
+}
+.cart-address-box option{
+    font-size: 2.5vh;
+    font-family: 'LeeSeoyun', sans-serif;
+    color: grey;
+}

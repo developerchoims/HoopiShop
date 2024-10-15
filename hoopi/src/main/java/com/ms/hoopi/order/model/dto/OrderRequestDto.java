@@ -13,6 +13,7 @@ import java.util.List;
 @EqualsAndHashCode
 public class OrderRequestDto {
     private String cartCode;
+    private String address;
     private List<String> productCode;
     String storeId;
     private PaymentRequestDto paymentRequestDto;
