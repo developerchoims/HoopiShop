@@ -156,7 +156,7 @@ const Cart = () => {
                     <div className='cart-address-select' value={selectedAddress}>
                         <button onClick={handleAddressDisplay}>배송지를 지정하세요. ▼</button>
                         {addresses?.length === 0
-                            ? <h3 style={{display: selectedAddress === address.addressCode || addressDisplay === 'block' ? 'block' : 'none'}}>"주소를 불러올 수 없습니다."</h3>
+                            ? <h3 style={{display: addressDisplay}}>"주소를 불러올 수 없습니다."</h3>
                             : addresses?.map(address => (
                                 <div id={address.addressCode} value={address.addressCode} key={address.addressCode}
                                      style={{display: selectedAddress === address.addressCode || addressDisplay === 'block' ? 'block' : 'none'}}
