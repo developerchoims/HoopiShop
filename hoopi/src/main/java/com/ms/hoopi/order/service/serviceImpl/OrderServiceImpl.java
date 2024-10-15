@@ -51,9 +51,9 @@ public class OrderServiceImpl implements OrderService {
     public ResponseEntity<String> addOrder(OrderRequestDto orderRequestDto) {
         try {
             // 사전 등록 및 결제 실패 로직
-//            if(preRegistPayment(orderRequestDto) != 200) {
-//                return ResponseEntity.badRequest().body(Constants.ORDER_FAIL);
-//            }
+            if(preRegistPayment(orderRequestDto) != 200) {
+                return ResponseEntity.badRequest().body(Constants.ORDER_FAIL);
+            }
 
             // 결제 확인 및 결제 실패 로직
             PaymentRequestDto paymentRequestDto = orderRequestDto.getPaymentRequestDto();
@@ -84,8 +84,9 @@ public class OrderServiceImpl implements OrderService {
                 storeId, totalAmount, taxFreeAmount, currency
         );
 
+        String secretKey = "PortOne " + secret;
         HttpResponse<String> response = Unirest.post("https://api.portone.io/payments/"+paymentId+"/pre-register")
-                .header("Authorization", "PortOne " + secret)
+                .header("Authorization", secretKey)
                 .header("Content-Type", "application/json")
                 .body(jsonBody)
                 .asString();
@@ -96,7 +97,7 @@ public class OrderServiceImpl implements OrderService {
     private int processPayment(String paymentCode) {
         String url = "https://api.portone.io/payments/" + paymentCode;
         log.info("Payment URL: {}", url);
-        HttpResponse<String> paymentResponse = Unirest.post(url)
+        HttpResponse<String> paymentResponse = Unirest.get(url)
                 .header("Authorization", "PortOne " + secret)
                 .header("Content-Type", "application/json")
                 .asString();
