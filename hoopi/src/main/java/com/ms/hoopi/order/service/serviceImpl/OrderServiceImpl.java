@@ -50,7 +50,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Value("${PORTONE_API_SECRET}")
     private String secret;
-    private final String storeId = "71704625-36a0-46e1-bdbd-00da604507ef";
 
     @Override
     public ResponseEntity<String> addOrder(OrderRequestDto orderRequestDto) {
@@ -87,6 +86,7 @@ public class OrderServiceImpl implements OrderService {
         map.put("currency", currency);
 
         HttpResponse<String> response = Unirest.post("https://api.portone.io/payments/"+paymentId+"/pre-register")
+                .header("Authorization", "PortOne " + secret)
                 .header("Content-Type", "application/json")
                 .body(map)
                 .asString();
@@ -128,6 +128,7 @@ public class OrderServiceImpl implements OrderService {
             default -> reason = Constants.ORDER_FAIL;
         }
         HttpResponse<String> cancelResponse = Unirest.post("https://api.portone.io/payments/paymentId/cancel")
+                .header("Authorization", "PortOne " + secret)
                 .header("Content-Type", "application/json")
                 .body("{\"reason\":\"" + reason + "\"}")
                 .asString();
@@ -279,8 +280,9 @@ public class OrderServiceImpl implements OrderService {
         String url = "https://api.portone.io/payments/" + payment.getPaymentCode() + "/cancel";
         log.info("Payment URL: {}", url);
         HttpResponse<String> cancelResponse = Unirest.post("https://api.portone.io/payments/paymentId/cancel")
+                .header("Authorization", "PortOne " + secret)
                 .header("Content-Type", "application/json")
-                .body("{\"reason\":\"" + refundRequestDto.getReason() + "\", \"storeId\":\"" + storeId + "\"}")
+                .body("{\"reason\":\"" + refundRequestDto.getReason() + "\"}")
 
                 .asString();
         if(!cancelResponse.isSuccess()){
