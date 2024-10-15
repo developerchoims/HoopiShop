@@ -13,7 +13,7 @@ const Cart = () => {
 
     useEffect(() => {
         fetchCart();
-    }, [])
+    }, [cartdetail, addresses])
 
     const fetchCart = async () => {
         try{
