@@ -54,11 +54,15 @@ public class OrderServiceImpl implements OrderService {
     public ResponseEntity<String> addOrder(OrderRequestDto orderRequestDto) {
         try {
             // 사전 등록 및 결제 실패 로직
-            preRegistPayment(orderRequestDto);
+            if(preRegistPayment(orderRequestDto) != 200) {
+                return ResponseEntity.badRequest().body(Constants.ORDER_FAIL);
+            }
 
             // 결제 확인 및 결제 실패 로직
             PaymentRequestDto paymentRequestDto = orderRequestDto.getPaymentRequestDto();
-            processPayment(paymentRequestDto);
+            if(processPayment(paymentRequestDto)!= 200) {
+                return ResponseEntity.badRequest().body(Constants.ORDER_FAIL);
+            }
 
             // order, orderDetail 정보 저장, cart status 변경, payment 정보 저장
             Cart cart = validateAndGetCart(orderRequestDto.getCartCode());
@@ -72,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private void preRegistPayment(OrderRequestDto orderRequestDto){
+    private int preRegistPayment(OrderRequestDto orderRequestDto){
         String paymentId = orderRequestDto.getPaymentRequestDto().getPaymentCode();
         String storeId = orderRequestDto.getStoreId();
         Long totalAmount = orderRequestDto.getPaymentRequestDto().getPaymentAmount();
@@ -90,12 +94,10 @@ public class OrderServiceImpl implements OrderService {
                 .body(json.toString())
                 .asString();
         log.info("사전 정보 저장 확인하기 : status : {}, body : {}", response.getStatus(), response.getBody());
-        if(!response.isSuccess()){
-            cancelPayment(orderRequestDto.getPaymentRequestDto(), response);
-        }
+        return response.getStatus();
     }
 
-    private void processPayment(PaymentRequestDto paymentRequestDto) {
+    private int processPayment(PaymentRequestDto paymentRequestDto) {
         String url = "https://api.portone.io/payments/" + paymentRequestDto.getPaymentCode();
         log.info("Payment URL: {}", url);
         HttpResponse<String> paymentResponse = Unirest.post(url)
@@ -103,13 +105,8 @@ public class OrderServiceImpl implements OrderService {
                 .header("Content-Type", "application/json")
                 .asString();
         log.info("secret: {}", secret);
-        log.info("Payment Response: {}", paymentResponse.getBody());
-        if(!paymentResponse.isSuccess()){
-            log.error("Failed to process payment: Status={}, Body={}",
-                    paymentResponse.getStatus(), paymentResponse.getBody());
-            cancelPayment(paymentRequestDto, paymentResponse);
-        }
-
+        log.info("결제 정보 저장 확인하기 : status : {}, body : {}",paymentResponse.getStatus(), paymentResponse.getBody());
+        return paymentResponse.getStatus();
     }
 
     private void cancelPayment(PaymentRequestDto paymentRequestDto, HttpResponse<String> response){
