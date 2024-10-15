@@ -60,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
 
             // 결제 확인 및 결제 실패 로직
             PaymentRequestDto paymentRequestDto = orderRequestDto.getPaymentRequestDto();
-            if(processPayment(paymentRequestDto)!= 200) {
+            if(processPayment(paymentRequestDto.getPaymentCode())!= 200) {
                 return ResponseEntity.badRequest().body(Constants.ORDER_FAIL);
             }
 
@@ -97,8 +97,8 @@ public class OrderServiceImpl implements OrderService {
         return response.getStatus();
     }
 
-    private int processPayment(PaymentRequestDto paymentRequestDto) {
-        String url = "https://api.portone.io/payments/" + paymentRequestDto.getPaymentCode();
+    private int processPayment(String paymentCode) {
+        String url = "https://api.portone.io/payments/" + paymentCode;
         log.info("Payment URL: {}", url);
         HttpResponse<String> paymentResponse = Unirest.post(url)
                 .header("Authorization", "PortOne " + secret)
@@ -273,6 +273,10 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_ORDER));
         Payment payment = paymentRepository.findByOrderCode(refundRequestDto.getOrderCode())
                 .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_PAYMENT));
+        // iamport 결제 정보 확인하기
+        if(processPayment(payment.getPaymentCode()) != 200) {
+            return ResponseEntity.badRequest().body(Constants.NONE_PAYMENT);
+        }
 
         // iamport 환불 요청
         String url = "https://api.portone.io/payments/" + payment.getPaymentCode() + "/cancel";
