@@ -69,10 +69,10 @@
     color: grey;
     border-radius: 5px;
 }
-
-.order-user table{
-    width: 100%;
+.order-address>table{
+    text-align: left;
 }
+
 
 .order-product{
     width: 100%;
@@ -82,6 +82,7 @@
 .order-product>table{
     width: 100%;
     text-align: center;
+    border-bottom: 2px solid #c9dcf9;
 }
 .order-product>table>tbody>tr>td:first-child{
     width: 25%;

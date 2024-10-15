@@ -56,12 +56,15 @@ const Order = () => {
                                         <table>
                                             <tbody>
                                             <tr>
+                                                <td>수취인 : </td>
                                                 <td>{order.address.addressName}</td>
                                             </tr>
                                             <tr>
+                                                <td>수취인 연락처 : </td>
                                                 <td>{order.address.addressPhone}</td>
                                             </tr>
                                             <tr>
+                                                <td>수취인 주소지 : </td>
                                                 <td>{order.address.address}</td>
                                             </tr>
                                             </tbody>
@@ -71,17 +74,17 @@ const Order = () => {
                                 </div>
                                 <br/>
                                 <div className="order-product">
-                                    {order.orderDetails?.map(od => (
-                                        <table>
-                                            <thead>
-                                            <tr>
-                                                <th>상품명</th>
-                                                <th>수량</th>
-                                                <th>가격</th>
-                                                <th>총 가격</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th>상품명</th>
+                                            <th>수량</th>
+                                            <th>가격</th>
+                                            <th>총 가격</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {order.orderDetails?.map(od => (
                                             <tr>
                                                 <td>{od.productName}</td>
                                                 <td>{od.quantity}</td>
@@ -93,10 +96,10 @@ const Order = () => {
                                                     </div>
                                                 </td>
                                             </tr>
-                                            </tbody>
-                                        </table>
-                                    ))}
-                                    <br/>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                        <br/>
                                 </div>
                             </>
                         )
