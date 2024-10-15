@@ -26,6 +26,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-top: 2px solid #c9dcf9;
 }
 .order-title button{
     background-color: #c9dcf9;
@@ -55,20 +56,14 @@
     border-radius: 5px;
 }
 
+.order-title button:hover, .order-address button:hover{
+    cursor: pointer;
+}
+
 .order-user{
     width: 100%;
 }
 
-.order-user button{
-    background-color: #c9dcf9;
-    border: none;
-    width: 15vh;
-    height: 6vh;
-    font-family: 'LeeSeoyun', sans-serif;
-    font-size: 2.5vh;
-    color: grey;
-    border-radius: 5px;
-}
 .order-address>table{
     text-align: left;
 }
@@ -76,13 +71,13 @@
 
 .order-product{
     width: 100%;
-    margin-bottom: 30vh;
 }
 
 .order-product>table{
     width: 100%;
     text-align: center;
     border-bottom: 2px solid #c9dcf9;
+    border-top: 2px solid #c9dcf9;
 }
 .order-product>table>tbody>tr>td:first-child{
     width: 25%;
@@ -117,4 +112,51 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 5vh;
+}
+
+.order-refund-container{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    z-index: 998;
+    background: grey 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.order-refund-box {
+    background: white;
+    width: 50%;
+    height: 40%;
+    border-radius: 10px;
+}
+
+.order-refund-box table{
+    width: 100%;
+    text-align: left;
+}
+
+.order-refund-box button{
+    background-color: #c9dcf9;
+    border: none;
+    width: 15vh;
+    height: 6vh;
+    font-family: 'LeeSeoyun', sans-serif;
+    font-size: 2.5vh;
+    color: grey;
+    border-radius: 5px;
+    margin: 0 10px 0 10px;
+}
+
+.order-refund-box textarea{
+    width: 100%;
+    height: 20vh;
+    padding: 10px;
+    border: 3px solid #c9dcf9;
+    box-sizing: border-box;
+    border-radius: 10px;
+    resize: none;
 }

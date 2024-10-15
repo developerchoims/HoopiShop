@@ -37,6 +37,42 @@ const Order = () => {
         return e.replace('T', '  ').slice(0, 20);
     }
 
+    const [refundDisplay, setRefundDisplay] = useState('none');
+    const [orderCode, setOrderCode] = useState('');
+    const [reason, setReason] = useState('');
+
+    const handleRefundDisplay = (oc) => {
+        setRefundDisplay('block');
+        setOrderCode(oc);
+    }
+
+    const handleRefundReason = (e) => {
+        setReason(e.target.value);
+    }
+
+    const handleRefundCancel = () => {
+        setReason('');
+        setOrderCode('');
+        setRefundDisplay('none');
+    }
+
+    const handleRequestRefund = () => {
+        axios.put('https://hoopi.co.kr/api/hoopi/order', {
+            orderCode,
+            reason
+        })
+            .then(response => {
+                alert(response.data);
+                setReason('');
+                setOrderCode('');
+                setRefundDisplay('none');
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+    }
+
     return(
         <div className="order-container">
             <div className="order-semi-container">
@@ -48,15 +84,15 @@ const Order = () => {
                                     <h3>주문 내역</h3>
                                     <h5>{handleDate(order.orderDate)}</h5>
                                     <h5>{order.orderStatus}</h5>
-                                    <button>주문 취소</button>
+                                    <button onClick={()=>handleRefundDisplay(order.orderCode)}>주문 취소</button>
                                 </div>
                                 <div className="order-user">
                                     <div className="order-address">
-                                        <h4>배송지</h4>
+                                        <h3>배송지</h3>
                                         <table>
                                             <tbody>
                                             <tr>
-                                                <td>수취인 : </td>
+                                                <td>수취인 성함 : </td>
                                                 <td>{order.address.addressName}</td>
                                             </tr>
                                             <tr>
@@ -90,7 +126,7 @@ const Order = () => {
                                                 <td>{od.quantity}</td>
                                                 <td>{od.orderAmount}</td>
                                                 <td>{od.totalPrice}</td>
-                                                <td rowSpan={2}>
+                                                <td>
                                                     <div>
                                                         <img src={od.productImg}/>
                                                     </div>
@@ -110,6 +146,33 @@ const Order = () => {
                         <Pagination count={orders.totalPages} page={currentPage} onChange={handlePageChange}
                                     variant="outlined" color="primary"/>
                     </div>
+                </div>
+            </div>
+            <div className='order-refund-container' style={{display:refundDisplay}}>
+                <div className='order-refund-box'>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>환불 신청</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>환불 이유</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <textarea onChange={handleRefundReason}/>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tr>
+                            <td>
+                                <button onClick={handleRefundCancel}>취소</button>
+                                <button onClick={handleRequestRefund}>환불</button>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>

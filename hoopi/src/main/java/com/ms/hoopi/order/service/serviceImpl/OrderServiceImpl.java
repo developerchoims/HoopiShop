@@ -46,6 +46,7 @@ public class OrderServiceImpl implements OrderService {
     private final UserRepository userRepository;
     private final AddressRepository addressRepository;
     private final FileUploadService fileUploadService;
+    private final RefundRepository refundRepository;
 
     @Value("${PORTONE_API_SECRET}")
     private String secret;
@@ -262,6 +263,75 @@ public class OrderServiceImpl implements OrderService {
         } catch (Exception e) {
             log.error(Constants.ORDER_GET_FAIL, e);
             return ResponseEntity.badRequest().body(Constants.ORDER_GET_FAIL);
+        }
+    }
+
+    @Override
+    public ResponseEntity<String> requestRefund(RefundRequestDto refundRequestDto) {
+        // order, payment entity 가져오기
+        Order order = orderRepository.findByOrderCode(refundRequestDto.getOrderCode())
+                .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_ORDER));
+        Payment payment = paymentRepository.findByOrderCode(refundRequestDto.getOrderCode())
+                .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_PAYMENT));
+
+        // iamport 환불 요청
+        String url = "https://api.portone.io/payments/" + payment.getPaymentCode() + "/cancle";
+        log.info("Payment URL: {}", url);
+        HttpResponse<String> cancelResponse = Unirest.post("https://api.portone.io/payments/paymentId/cancel")
+                .header("Content-Type", "application/json")
+                .body("{\"reason\":" + refundRequestDto.getReason() + "}")
+                .asString();
+        if(!cancelResponse.isSuccess()){
+            log.error("Failed to process payment: Status={}, Body={}",
+                    cancelResponse.getStatus(), cancelResponse.getBody());
+        }
+        //payment정보 수정(결제 취소), order정보 수정, refund 정보 insert
+        switch (cancelResponse.getStatus()) {
+            case 200 -> {
+                payment.setStatus(Payment.Status.결제취소);
+                paymentRepository.save(payment);
+
+                if(order.getStatus().equals(Order.Status.결제완료)){
+                    order.setStatus(Order.Status.주문취소);
+                    orderRepository.save(order);
+
+                    Refund refund = Refund.builder()
+                            .refundCode(commonUtil.createCode())
+                            .paymentCode(payment)
+                            .refundDate(LocalDateTime.now())
+                            .build();
+                    refundRepository.save(refund);
+
+                    return ResponseEntity.ok(Constants.PAYMENT_CANCEL_SUCCESS);
+                } else {
+                    log.error(Constants.ALREADY_DELIEVERED);
+                    return ResponseEntity.badRequest().body(Constants.ALREADY_DELIEVERED);
+                }
+            }
+            case 401 -> {
+                log.error(Constants.JWT_INVALID);
+                return ResponseEntity.badRequest().body(Constants.JWT_INVALID);
+            }
+            case 403 -> {
+                log.error(Constants.FORBIDDEN_ERROR);
+                return ResponseEntity.badRequest().body(Constants.FORBIDDEN_ERROR);
+            }
+            case 404 -> {
+                log.error(Constants.ORDER_PAYMENT_NOT_FOUND);
+                return ResponseEntity.badRequest().body(Constants.ORDER_PAYMENT_NOT_FOUND);
+            }
+            case 409 -> {
+                log.error(Constants.PAYMENT_ALREADY_CANCELLDED_ERROR);
+                return ResponseEntity.badRequest().body(Constants.PAYMENT_ALREADY_CANCELLDED_ERROR);
+            }
+            case 502 -> {
+                log.error(Constants.ORDER_PG);
+                return ResponseEntity.badRequest().body(Constants.ORDER_PG);
+            }
+            default -> {
+                log.error(Constants.PAYMENT_ERROR);
+                return ResponseEntity.badRequest().body(Constants.PAYMENT_ERROR);
+            }
         }
     }
 
