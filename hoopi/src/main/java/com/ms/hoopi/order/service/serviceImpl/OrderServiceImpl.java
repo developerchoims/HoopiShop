@@ -93,7 +93,6 @@ public class OrderServiceImpl implements OrderService {
         String url = "https://api.portone.io/payments/"+encodedPaymentId+"/pre-register";
         HttpResponse<String> response = Unirest.post(url)
                 .header("Authorization", secretKey)
-                .header("Content-Type", "application/json")
                 .body(json)
                 .asString();
         log.info("url확인:{}", url);
