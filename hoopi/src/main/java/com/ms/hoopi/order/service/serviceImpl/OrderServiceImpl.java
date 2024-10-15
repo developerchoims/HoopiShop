@@ -10,6 +10,7 @@ import com.ms.hoopi.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
+import kong.unirest.json.JSONObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,7 +49,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Value("${PORTONE_API_SECRET}")
     private String secret;
-    private String storeId = "71704625-36a0-46e1-bdbd-00da604507ef";
 
     @Override
     public ResponseEntity<String> addOrder(OrderRequestDto orderRequestDto) {
@@ -82,10 +82,11 @@ public class OrderServiceImpl implements OrderService {
         Long totalAmount = orderRequestDto.getPaymentRequestDto().getPaymentAmount();
         Integer taxFreeAmount = 0;
         String currency = "KRW";
-        String jsonBody = String.format(
-                "{\"storeId\":\"%s\",\"totalAmount\":%d,\"taxFreeAmount\":%d,\"currency\":\"%s\"}",
-                storeId, totalAmount, taxFreeAmount, currency
-        );
+        JSONObject json = new JSONObject();
+        json.put("storeId", storeId);
+        json.put("totalAmount", totalAmount);  // long 타입의 totalAmount를 직접 삽입
+        json.put("taxFreeAmount", taxFreeAmount);  // Integer 타입의 taxFreeAmount를 직접 삽입
+        json.put("currency", currency);
 
         String secretKey = "PortOne " + secret;
         String encodedPaymentId = URLEncoder.encode(paymentId, StandardCharsets.UTF_8);
@@ -93,7 +94,8 @@ public class OrderServiceImpl implements OrderService {
         HttpResponse<String> response = Unirest.post(url)
                 .header("Authorization", secretKey)
                 .header("Content-Type", "application/json")
-                .body(jsonBody)
+                .body("{\"storeId\":\"" + storeId + "\",\"totalAmount\":" + totalAmount +
+                        ",\"taxFreeAmount\":" + taxFreeAmount + ",\"currency\":\"" + currency + "\"}")
                 .asString();
         log.info("사전 정보 저장 확인하기 : status : {}, body : {}, headers : {}", response.getStatus(), response.getBody(), response.getHeaders());
         return response.getStatus();
@@ -284,8 +286,8 @@ public class OrderServiceImpl implements OrderService {
         String url = "https://api.portone.io/payments/" + payment.getPaymentCode() + "/cancel";
         log.info("Payment URL: {}", url);
         String jsonBody = String.format(
-                "{\"storeId\":\"%s\",\"reason\":\"%s\"}",
-                storeId, refundRequestDto.getReason()
+                "{\"reason\":\"%s\"}",
+                refundRequestDto.getReason()
         );
         HttpResponse<String> cancelResponse = Unirest.post(url)
                 .header("Authorization", "PortOne " + secret)
