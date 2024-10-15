@@ -12,9 +12,9 @@ import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Integer> {
-    @Query("SELECT o FROM Order o WHERE o.code = :user")
+    @Query("SELECT o FROM Order o WHERE o.code = :user ORDER BY o.orderDate DESC")
     Page<Order> findAllByUserCode(User user, Pageable pageable);
 
-    @Query("SELECT o FROM Order o WHERE o.orderCode = :orderCode ORDER BY o.orderDate DESC")
+    @Query("SELECT o FROM Order o WHERE o.orderCode = :orderCode")
     Optional<Order> findByOrderCode(String orderCode);
 }
