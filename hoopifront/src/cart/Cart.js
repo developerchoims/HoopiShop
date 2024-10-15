@@ -19,6 +19,7 @@ const Cart = () => {
             console.log(response.data);
             setCartdetail(response.data.carts);
             setAddresses(response.data.addresses);
+            console.log(response.data.addresses);
         }catch(e){
             console.log(e);
         }
