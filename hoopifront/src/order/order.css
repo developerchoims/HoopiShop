@@ -141,11 +141,8 @@
     text-align: left;
     padding: 20px;
 }
-.order-refund-box table td:first-child{
+.order-refund-box table tr>td{
     text-align: center;
-}
-.order-refund-box table td:last-child{
-    text-align: right;
 }
 
 .order-refund-box button{
@@ -160,12 +157,20 @@
     margin: 0 10px 0 10px;
 }
 
-.order-refund-box textarea{
+.order-refund-box select{
     width: 70%;
-    height: 20vh;
+    height: 10vh;
     padding: 10px;
     border: 3px solid #c9dcf9;
     box-sizing: border-box;
     border-radius: 10px;
-    resize: none;
+    font-family: 'LeeSeoyun', sans-serif;
+    font-size: 3vh;
+    color: grey;
+}
+
+.order-refund-box option{
+    font-family: 'LeeSeoyun', sans-serif;
+    font-size: 3vh;
+    color: grey;
 }
