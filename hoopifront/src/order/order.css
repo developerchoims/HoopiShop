@@ -121,7 +121,7 @@
     position: fixed;
     top: 0;
     z-index: 998;
-    background: grey 70%;
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -132,11 +132,20 @@
     width: 50%;
     height: 40%;
     border-radius: 10px;
+    z-index: 999;
+    margin: auto;
 }
 
 .order-refund-box table{
     width: 100%;
     text-align: left;
+    padding: 20px;
+}
+.order-refund-box table td:first-child{
+    text-align: center;
+}
+.order-refund-box table td:last-child{
+    text-align: right;
 }
 
 .order-refund-box button{
@@ -152,7 +161,7 @@
 }
 
 .order-refund-box textarea{
-    width: 100%;
+    width: 70%;
     height: 20vh;
     padding: 10px;
     border: 3px solid #c9dcf9;
