@@ -7,6 +7,8 @@ import com.ms.hoopi.model.entity.*;
 import com.ms.hoopi.order.model.dto.*;
 import com.ms.hoopi.order.service.OrderService;
 import com.ms.hoopi.repository.*;
+import com.siot.IamportRestClient.IamportClient;
+import com.siot.IamportRestClient.request.PrepareData;
 import jakarta.persistence.EntityNotFoundException;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
@@ -22,9 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -50,6 +50,8 @@ public class OrderServiceImpl implements OrderService {
     @Value("${PORTONE_API_SECRET}")
     private String secret;
 
+    private final IamportClient api = new IamportClient("Z93IX13AumKAYSZxgF1rEfUxwiSds9YvjAyO79aTdWEF6jw4jYT5XaHX9PH6u37FQZzCVPTuqUh5TElIvwDc/Q==",secret);
+
     @Override
     public ResponseEntity<String> addOrder(OrderRequestDto orderRequestDto) {
         try {
@@ -57,6 +59,9 @@ public class OrderServiceImpl implements OrderService {
 //            if(preRegistPayment(orderRequestDto) != 200) {
 //                return ResponseEntity.badRequest().body(Constants.ORDER_FAIL);
 //            }
+            BigDecimal amount = BigDecimal.valueOf(orderRequestDto.getPaymentRequestDto().getPaymentAmount());
+            PrepareData prepareData = new PrepareData(orderRequestDto.getStoreId(), amount);
+            api.postPrepare(prepareData);
 
             // 결제 확인 및 결제 실패 로직
             PaymentRequestDto paymentRequestDto = orderRequestDto.getPaymentRequestDto();
@@ -88,10 +93,9 @@ public class OrderServiceImpl implements OrderService {
         json.put("taxFreeAmount", taxFreeAmount);
         json.put("currency", currency);
 
-        String secretKey = "PortOne " + secret;
         String url = "https://api.portone.io/payments/"+paymentId+"/pre-register";
         HttpResponse<String> response = Unirest.post(url)
-                .header("Authorization", secretKey)
+                .header("Authorization", "PortOne " + secret)
                 .body(json)
                 .asString();
         log.info("json확인:{}", json);
@@ -108,7 +112,7 @@ public class OrderServiceImpl implements OrderService {
                 .header("Content-Type", "application/json")
                 .asString();
         log.info("secret: {}", secret);
-        log.info("결제 정보 저장 확인하기 : status : {}, body : {}",paymentResponse.getStatus(), paymentResponse.getBody());
+        log.info("결제 정보 확인하기 : status : {}, body : {}",paymentResponse.getStatus(), paymentResponse.getBody());
         return paymentResponse.getStatus();
     }
 
