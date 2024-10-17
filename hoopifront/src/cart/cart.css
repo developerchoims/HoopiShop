@@ -101,9 +101,7 @@
 
 .cart-address-select>div{
     width: 60%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin: auto;
     border-radius: 10px;
     text-align: left;
 }

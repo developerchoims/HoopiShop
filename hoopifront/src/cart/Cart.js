@@ -161,7 +161,7 @@ const Cart = () => {
                                 <div id={address.addressCode} value={address.addressCode} key={address.addressCode}
                                      style={{
                                             display: selectedAddress === address.addressCode || addressDisplay === 'block' ? 'block' : 'none',
-                                            backgroundColor: selectedAddress === address.address ? '#c9dcf9' : 'white'
+                                            backgroundColor: selectedAddress === address.addressCode ? '#c9dcf9' : 'white'
                                             }}
                                      onClick={() => handleSelectAddress(address.addressCode)}>
                                     <table>
