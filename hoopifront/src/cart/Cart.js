@@ -154,12 +154,15 @@ const Cart = () => {
                 <div className='cart-address-box'>
                     <h4>배송지 지정</h4>
                     <div className='cart-address-select' value={selectedAddress}>
-                        <button onClick={handleAddressDisplay}>배송지를 지정하세요. ▼</button>
+                        <button onClick={handleAddressDisplay}>{addressDisplay === 'block'?<h3>배송지를 지정하세요. ▼ </h3>:<h3>배송지를 지정하세요. ▲</h3> }</button>
                         {addresses?.length === 0
                             ? <h3 style={{display: addressDisplay}}>"주소를 불러올 수 없습니다."</h3>
                             : addresses?.map(address => (
                                 <div id={address.addressCode} value={address.addressCode} key={address.addressCode}
-                                     style={{display: selectedAddress === address.addressCode || addressDisplay === 'block' ? 'block' : 'none'}}
+                                     style={{
+                                            display: selectedAddress === address.addressCode || addressDisplay === 'block' ? 'block' : 'none',
+                                            backgroundColor: selectedAddress === address.address ? '#c9dcf9' : 'white'
+                                            }}
                                      onClick={() => handleSelectAddress(address.addressCode)}>
                                     <table>
                                         <tbody>

@@ -25,8 +25,7 @@ const IamPort = ({ cartdetail, buttonName, address }) => {
         });
 
             if (response.code != null) {
-                alert(response.message);
-                return;
+                return alert(response.message);
             }
 
             let productCodes = cartdetail.map(p => p.productCode);

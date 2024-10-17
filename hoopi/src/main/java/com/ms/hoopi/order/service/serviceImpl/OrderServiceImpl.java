@@ -51,18 +51,13 @@ public class OrderServiceImpl implements OrderService {
     @Value("${PORTONE_API_SECRET}")
     private String secret;
 
-    private static final IamportClient api = new IamportClient("1164432063878484" ,"KdAZyqJS0Bw9CD02auNEiqELxLnkGl2BzIyATnEZefojQFH7HKIyUrSf9BI3ANT19UUXJcXSSLpddQbz");
-
     @Override
     public ResponseEntity<String> addOrder(OrderRequestDto orderRequestDto) {
         try {
-//            // 사전 등록 및 결제 실패 로직
-//            if(preRegistPayment(orderRequestDto) != 200) {
-//                return ResponseEntity.badRequest().body(Constants.ORDER_FAIL);
-//            }
-            BigDecimal amount = BigDecimal.valueOf(orderRequestDto.getPaymentRequestDto().getPaymentAmount());
-            PrepareData prepareData = new PrepareData(orderRequestDto.getStoreId(), amount);
-            api.postPrepare(prepareData);
+            // 사전 등록 및 결제 실패 로직
+            if(preRegistPayment(orderRequestDto) != 200) {
+                return ResponseEntity.badRequest().body(Constants.ORDER_FAIL);
+            }
 
             // 결제 확인 및 결제 실패 로직
             PaymentRequestDto paymentRequestDto = orderRequestDto.getPaymentRequestDto();
@@ -88,6 +83,7 @@ public class OrderServiceImpl implements OrderService {
         Long totalAmount = orderRequestDto.getPaymentRequestDto().getPaymentAmount();
         Integer taxFreeAmount = 0;
         String currency = "KRW";
+
         JSONObject json = new JSONObject();
         json.put("storeId", storeId);
         json.put("totalAmount", totalAmount);
@@ -97,11 +93,12 @@ public class OrderServiceImpl implements OrderService {
         String url = "https://api.portone.io/payments/"+paymentId+"/pre-register";
         HttpResponse<String> response = Unirest.post(url)
                 .header("Authorization", "PortOne " + secret)
+                .header("Content-Type", "application/json")
                 .body(json)
                 .asString();
         log.info("json확인:{}", json);
         log.info("url확인:{}", url);
-        log.info("사전 정보 저장 확인하기 : status : {}, body : {}, headers : {}", response.getStatus(), response.getBody(), response.getHeaders());
+        log.info("사전 정보 저장 확인하기 : status : {}, body : {}}", response.getStatus(), response.getBody());
         return response.getStatus();
     }
 

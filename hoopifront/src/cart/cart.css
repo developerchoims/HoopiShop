@@ -101,17 +101,14 @@
 
 .cart-address-select>div{
     width: 60%;
-    margin: 10px 0 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 10px;
     text-align: left;
 }
 
 .cart-address-select>div:hover{
     background-color: #c9dcf9;
-    transition-duration: 0.2s ;
-}
-.cart-address-select>div:focus{
-    border: 2px solid #c9dcf9;
-    background: white;
     transition-duration: 0.2s ;
 }
