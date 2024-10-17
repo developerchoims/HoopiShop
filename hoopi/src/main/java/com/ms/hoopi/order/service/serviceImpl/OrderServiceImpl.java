@@ -53,10 +53,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseEntity<String> addOrder(OrderRequestDto orderRequestDto) {
         try {
-            // 사전 등록 및 결제 실패 로직
-            if(preRegistPayment(orderRequestDto) != 200) {
-                return ResponseEntity.badRequest().body(Constants.ORDER_FAIL);
-            }
+//            // 사전 등록 및 결제 실패 로직
+//            if(preRegistPayment(orderRequestDto) != 200) {
+//                return ResponseEntity.badRequest().body(Constants.ORDER_FAIL);
+//            }
 
             // 결제 확인 및 결제 실패 로직
             PaymentRequestDto paymentRequestDto = orderRequestDto.getPaymentRequestDto();
