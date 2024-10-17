@@ -7,6 +7,7 @@ import com.ms.hoopi.model.entity.*;
 import com.ms.hoopi.order.model.dto.*;
 import com.ms.hoopi.order.service.OrderService;
 import com.ms.hoopi.repository.*;
+import com.siot.IamportRestClient.Iamport;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.request.PrepareData;
 import jakarta.persistence.EntityNotFoundException;
@@ -50,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
     @Value("${PORTONE_API_SECRET}")
     private String secret;
 
-    private final IamportClient api = new IamportClient("Z93IX13AumKAYSZxgF1rEfUxwiSds9YvjAyO79aTdWEF6jw4jYT5XaHX9PH6u37FQZzCVPTuqUh5TElIvwDc/Q==",secret);
+    private static final IamportClient api = new IamportClient("1164432063878484" ,"KdAZyqJS0Bw9CD02auNEiqELxLnkGl2BzIyATnEZefojQFH7HKIyUrSf9BI3ANT19UUXJcXSSLpddQbz");
 
     @Override
     public ResponseEntity<String> addOrder(OrderRequestDto orderRequestDto) {
