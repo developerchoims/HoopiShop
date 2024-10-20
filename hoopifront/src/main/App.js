@@ -16,8 +16,10 @@ import Notice from "../notice/Notice";
 import NoticeDetail from "../notice/NoticeDetail";
 import Cart from "../cart/Cart";
 import api from "./axios/axiosApi";
-import PaymentRedirect from "../cart/PaymentRedirect";
 import Order from "../order/Order";
+import MyPage from "../myPage/MyPage";
+import PersonalInfo from "../myPage/PersonalInfo";
+import HelpDesk from "../myPage/HelpDesk";
 
 // Context 생성
 const UserContext = createContext(null);
@@ -91,8 +93,10 @@ function App() {
                             <Route path="/notice" element={<Notice/>}/>
                             <Route path='/notice/:articleCode/:articleTitle' element={<NoticeDetail/>}/>
                             <Route path='/cart' element={<Cart/>}/>
-                            <Route path='/order-redirect' element={<PaymentRedirect/>}/>
                             <Route path='/order' element={<Order/>}/>
+                            <Route path='/my-page' element={<MyPage/>}/>
+                            <Route path='/personal-info' element={<PersonalInfo/>}/>
+                            <Route path='/help-desk' element={<HelpDesk/>}/>
                         </Routes>
                     </SearchProvider>
                 </div>
