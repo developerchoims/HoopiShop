@@ -12,7 +12,7 @@ const MyPage = () => {
     return (
         <div className="myPage-container">
             <div className="myPage-box">
-                <h4>마이 페이지</h4>
+                <h3>마이 페이지</h3>
                 <table>
                     <tbody>
                     <tr>

@@ -11,6 +11,9 @@
     width: 50%;
     margin: auto;
 }
+.myPage-box>table{
+    text-align: center;
+}
 
 .myPage-box button {
     border: none;
