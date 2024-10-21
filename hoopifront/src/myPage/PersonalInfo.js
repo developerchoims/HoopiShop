@@ -29,8 +29,7 @@ const PersonalInfo = () => {
         handlePersonalInfo();
     }, []);
 
-    const handleDeleteAddress = (e) => {
-        const addressCode = e.target.id;
+    const handleDeleteAddress = (addressCode) => {
         axios.post('https://hoopi.co.kr/api/hoopi/personal-info', addressCode)
             .then(response => {
                 alert(response.data);
@@ -91,7 +90,7 @@ const PersonalInfo = () => {
                                         <tr>
                                             <td rowSpan={4}><button
                                                                     id={address.addressCode}
-                                                                    onClick={()=>handleDeleteAddress()}>주소 삭제</button></td>
+                                                                    onClick={()=>handleDeleteAddress(address.addressCode)}>주소 삭제</button></td>
                                         </tr>
                                         </tbody>
                                     </>
