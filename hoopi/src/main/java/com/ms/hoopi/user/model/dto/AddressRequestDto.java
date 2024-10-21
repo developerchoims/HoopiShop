@@ -12,5 +12,6 @@ public class AddressRequestDto {
     private String addressName;
     private String addressPhone;
     private String address;
+    private String extraAddress;
     private String postCode;
 }
