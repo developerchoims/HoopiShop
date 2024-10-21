@@ -38,7 +38,7 @@
     color: grey;
 }
 
-#addressPhone, #addressName {
+#addressPhone, #addressName, #postCode, #address, #extraAddress {
     border: 2px solid #c9dcf9;
     border-radius: 10px;
     font-family: 'LeeSeoyun', sans-serif;

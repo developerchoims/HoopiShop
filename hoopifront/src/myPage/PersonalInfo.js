@@ -163,7 +163,7 @@ const PersonalInfo = () => {
                                            onChange={handleAddress}/>
                         </p>
                         <DaumPostCode onComplete={handleCompleteAddress}/>
-                        <p>우편 번호 : <input id='postCode'
+                        <p>우편  번호 : <input id='postCode'
                                           value={address?.postCode}
                                           type="text"/>
                         </p>

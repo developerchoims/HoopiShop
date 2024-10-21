@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
         try{
             Address addressEntity = Address.builder()
                     .addressCode(commonUtil.createCode())
-                    .code(userRepository.findByCode(address.getId()).orElseThrow(() -> new EntityNotFoundException(Constants.NONE_USER)))
+                    .code(userRepository.findById(address.getId()).orElseThrow(() -> new EntityNotFoundException(Constants.NONE_USER)))
                     .address(address.getAddress() + " " + address.getExtraAddress())
                     .addressPhone(address.getAddressPhone())
                     .addressName(address.getAddressName())
