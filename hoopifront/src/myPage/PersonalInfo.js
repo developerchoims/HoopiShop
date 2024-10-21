@@ -53,10 +53,10 @@ const PersonalInfo = () => {
         console.log(address);
     };
     const handleAddress = (e) => {
-        const {id, val} = e.target;
+        const {id, value} = e.target;
         setAddress( prevState=> ({
             ...prevState,
-            [id]: val
+            [id]: value
         }));
     };
     const handleAddAddress = (address) => {
