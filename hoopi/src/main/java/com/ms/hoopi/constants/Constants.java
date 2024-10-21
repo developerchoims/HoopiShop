@@ -56,6 +56,8 @@ public class Constants {
     public static final String PAYMENT_CANCEL_SUCCESS = "결제 취소에 성공하였습니다.";
     public static final String ADDRESS_DELETE_SUCCESS = "주소가 삭제되었습니다.";
     public static final String ADDRESS_DELETE_FAIL = "주소 삭제에 실패하였습니다.";
-    
+    public static final String ADDRESS_ADD_SUCCESS = "주소 추가에 성공하였습니다.";
+    public static final String ADDRESS_ADD_FAIL = "주소 추가에 실패하였습니다.";
+
 
 }

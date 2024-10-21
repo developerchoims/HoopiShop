@@ -1,9 +1,12 @@
 package com.ms.hoopi.user.service.serviceImpl;
 
+import com.ms.hoopi.common.util.CommonUtil;
 import com.ms.hoopi.constants.Constants;
+import com.ms.hoopi.model.entity.Address;
 import com.ms.hoopi.model.entity.User;
 import com.ms.hoopi.repository.AddressRepository;
 import com.ms.hoopi.repository.UserRepository;
+import com.ms.hoopi.user.model.dto.AddressRequestDto;
 import com.ms.hoopi.user.model.dto.AddressResponseDto;
 import com.ms.hoopi.user.model.dto.UserResponseDto;
 import com.ms.hoopi.user.service.UserService;
@@ -21,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final AddressRepository addressRepository;
+    private final CommonUtil commonUtil;
 
     @Override
     public ResponseEntity<?> getPersonalInfo(String id) {
@@ -56,6 +60,25 @@ public class UserServiceImpl implements UserService {
             return ResponseEntity.ok(Constants.ADDRESS_DELETE_SUCCESS);
         } else {
             return ResponseEntity.badRequest().body(Constants.ADDRESS_DELETE_FAIL);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> addPersonalAddress(AddressRequestDto address) {
+        try{
+            Address addressEntity = Address.builder()
+                    .addressCode(commonUtil.createCode())
+                    .code(userRepository.findByCode(address.getId()).orElseThrow(() -> new EntityNotFoundException(Constants.NONE_USER)))
+                    .address(address.getAddress())
+                    .addressPhone(address.getAddressPhone())
+                    .addressName(address.getAddressName())
+                    .postcode(address.getPostCode())
+                    .build();
+            addressRepository.save(addressEntity);
+            return ResponseEntity.ok(Constants.ADDRESS_ADD_SUCCESS);
+        }catch (Exception e){
+            log.error(Constants.ADDRESS_ADD_FAIL, e);
+            return ResponseEntity.badRequest().body(Constants.ADDRESS_ADD_FAIL);
         }
     }
 }
