@@ -63,10 +63,13 @@ const PersonalInfo = () => {
                                     <>
                                         <thead>
                                         <tr>
-                                            <th>{address.addressName}</th>
+                                            <th>주소 - {index}</th>
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        <tr>
+                                            <td>{address.addressName}</td>
+                                        </tr>
                                         <tr>
                                             <td>{address.addressPhone}</td>
                                         </tr>

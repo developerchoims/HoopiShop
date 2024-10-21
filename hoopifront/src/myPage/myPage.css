@@ -1,0 +1,26 @@
+.myPage-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-family: 'LeeSeoyun', sans-serif;
+    color: grey;
+}
+
+.myPage-box{
+    width: 50%;
+    margin: auto;
+}
+
+.myPage-box button {
+    border: none;
+    box-sizing: border-box;
+    width: 15vh;
+    height: 10vh;
+    font-family: 'LeeSeoyun', sans-serif;
+    font-size: 3vh;
+    background: #c9dcf9;
+    border-radius: 10px;
+    margin: 10px;
+    color: grey;
+}
