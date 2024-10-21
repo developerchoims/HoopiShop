@@ -91,7 +91,7 @@ const PersonalInfo = () => {
                                         <tr>
                                             <td rowSpan={4}><button
                                                                     id={address.addressCode}
-                                                                    onClick={()=>handleDeleteAddress(e)}>주소 삭제</button></td>
+                                                                    onClick={()=>handleDeleteAddress()}>주소 삭제</button></td>
                                         </tr>
                                         </tbody>
                                     </>
