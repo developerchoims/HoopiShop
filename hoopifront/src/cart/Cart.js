@@ -38,8 +38,11 @@ const Cart = () => {
     }
     //주소지 선택
     const handleSelectAddress = (addressCode) => {
-        setSelectedAddress(addressCode);
-        setAddressDisplay('none');
+        if(selectedAddress === null) {
+            setSelectedAddress(addressCode);
+        } else {
+            setSelectedAddress(null);
+        }
     }
 
     // 수량 변경, 가격 변경 시 DB 수정
