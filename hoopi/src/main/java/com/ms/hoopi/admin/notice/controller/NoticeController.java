@@ -19,8 +19,8 @@ public class NoticeController {
     @GetMapping("/notice")
     public Page<NoticeResponseDto> getNotice(@RequestParam(defaultValue = "1") int page,
                                              @RequestParam(defaultValue = "10") int size,
-                                             @RequestParam String searchCate,
-                                             @RequestParam String keyword){
+                                             @RequestParam(required = false) String searchCate,
+                                             @RequestParam(required = false) String keyword){
         return noticeService.getNotice(page, size, searchCate, keyword);
     }
 

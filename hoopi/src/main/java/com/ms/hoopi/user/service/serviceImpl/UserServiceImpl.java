@@ -35,6 +35,7 @@ public class UserServiceImpl implements UserService {
                                     .addressName(address.getAddressName())
                                     .address(address.getAddress())
                                     .addressPhone(address.getAddressPhone())
+                                    .postCode(address.getPostcode())
                                     .build())
                             .toList())
                     .build();

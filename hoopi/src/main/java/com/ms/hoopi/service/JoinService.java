@@ -49,7 +49,7 @@ public class JoinService {
                     .build();
 
             userRepository.save(user);
-            saveAddress(user, userJoinDto.getAddress());
+            saveAddress(user, userJoinDto.getAddress(), userJoinDto.getZonecode());
 
             return ResponseEntity.ok(Constants.JOIN_SUCCESS);
 
@@ -59,13 +59,14 @@ public class JoinService {
         }
     }
 
-    public void saveAddress(User user, String userAddress){
+    public void saveAddress(User user, String userAddress, String zonecode){
         try{
             //새로운 address 엔티티 생성
             Address address = Address.builder()
                     .addressCode(commonUtil.createCode())
                     .code(user)
                     .address(userAddress)
+                    .postcode(zonecode)
                     .build();
             addressRepository.save(address);
         } catch (Exception e) {

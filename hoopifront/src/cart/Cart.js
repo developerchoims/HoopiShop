@@ -157,7 +157,7 @@ const Cart = () => {
                         <button onClick={handleAddressDisplay}>{addressDisplay === 'block'?<h3>배송지를 지정하세요. ▼ </h3>:<h3>배송지를 지정하세요. ▲</h3> }</button>
                         {addresses?.length === 0
                             ? <h3 style={{display: addressDisplay}}>"주소를 불러올 수 없습니다."</h3>
-                            : addresses?.map(address => (
+                            : addresses?.map((address, index) => (
                                 <div id={address.addressCode} value={address.addressCode} key={address.addressCode}
                                      style={{
                                             display: selectedAddress === address.addressCode || addressDisplay === 'block' ? 'block' : 'none',
@@ -165,6 +165,11 @@ const Cart = () => {
                                             }}
                                      onClick={() => handleSelectAddress(address.addressCode)}>
                                     <table>
+                                        <thead>
+                                        <tr>
+                                            <th colSpan={2}> 주소 {index + 1}</th>
+                                        </tr>
+                                        </thead>
                                         <tbody>
                                         <tr>
                                             <td>수취인 성함 :</td>
@@ -173,6 +178,10 @@ const Cart = () => {
                                         <tr>
                                             <td>수취인 연락처 :</td>
                                             <td>{address.addressPhone}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>수취인 우편번호 :</td>
+                                            <td>{address.postcode}</td>
                                         </tr>
                                         <tr>
                                             <td>수취인 주소지 :</td>

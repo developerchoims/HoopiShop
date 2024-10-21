@@ -15,6 +15,7 @@ public class UserJoinDto {
     private String phone;
     private String email;
     private String address;
+    private String zonecode;
     private LocalDate birth;
 }
 
