@@ -47,11 +47,12 @@ const PersonalInfo = () => {
         setAddress(prevState => ({
             ...prevState,
             id,
-            address: data.address,
-            postCode: data.zoneCode
+            "address": data.address,
+            "postCode": data.zoneCode
         }));
+        console.log(address);
     };
-    const handleAddressPhone = (e) => {
+    const handleAddress = (e) => {
         const {id, val} = e.target;
         setAddress( prevState=> ({
             ...prevState,
@@ -153,12 +154,12 @@ const PersonalInfo = () => {
                         <p>수취인 번호 : <input id='addressPhone'
                                            value={address?.addressPhone}
                                            type="text"
-                                           onChange={handleAddressPhone}/>
+                                           onChange={handleAddress}/>
                         </p>
                         <p>수취인 성함 : <input id='addressName'
                                            value={address?.addressName}
                                            type="text"
-                                           onChange={handleAddressPhone}/>
+                                           onChange={handleAddress}/>
                         </p>
                         <DaumPostCode onComplete={handleCompleteAddress}/>
                         <p>우편 번호 : <input id='postCode'
@@ -172,7 +173,7 @@ const PersonalInfo = () => {
                         <p>수취인 주소 : <input id='extraAddress'
                                            value={address?.extraAddress}
                                            type="text"
-                                           onChange={handleAddressPhone}/>
+                                           onChange={handleAddress}/>
                         </p>
                         <button id="addAddressBtn" onClick={() => handleAddAddress(address)}>추가</button>
                         <button id="cancleAddressBtn" onClick={handleShutPostcode}>닫기</button>
