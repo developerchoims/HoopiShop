@@ -35,7 +35,7 @@ public class ProductController {
                                                       @RequestParam(defaultValue = "10") int size,
                                                       @RequestParam(required = false) String searchCate,
                                                       @RequestParam(required = false) String keyword,
-                                                      @RequestParam String role) {
+                                                      @RequestParam(defaultValue = "user") String role) {
         return productService.getProduct(page, size, searchCate, keyword, role);
     }
 
