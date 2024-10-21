@@ -8,6 +8,7 @@ import lombok.*;
 @EqualsAndHashCode
 @Builder
 public class AddressResponseDto {
+    private String addressCode;
     private String addressName;
     private String address;
     private String addressPhone;

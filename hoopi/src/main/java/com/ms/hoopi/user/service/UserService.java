@@ -4,4 +4,6 @@ import org.springframework.http.ResponseEntity;
 
 public interface UserService {
     ResponseEntity<?> getPersonalInfo(String id);
+
+    ResponseEntity<?> deletePersonalAddress(String addressCode);
 }

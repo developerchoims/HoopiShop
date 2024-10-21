@@ -9,4 +9,7 @@ public interface AddressRepository extends CrudRepository<Address, Long> {
 
     @Query("SELECT a FROM Address a WHERE a.addressCode = :addressCode")
     Address findByAddressCode(String addressCode);
+
+    @Query("DELETE FROM Address a WHERE a.addressCode = :addressCode")
+    int deleteByAddressCode(String addressCode);
 }
