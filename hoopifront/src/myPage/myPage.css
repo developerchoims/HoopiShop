@@ -11,7 +11,12 @@
     width: 50%;
     margin: auto;
 }
+.myPage-box>h3{
+    width: 100%;
+    text-align: center;
+}
 .myPage-box>table{
+    width: 100%;
     text-align: center;
 }
 
