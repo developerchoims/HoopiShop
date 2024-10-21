@@ -61,12 +61,10 @@ const PersonalInfo = () => {
                             <table>
                                 {userInfo.addresses.map((address, index) => (
                                     <>
-                                        <thead>
+                                    <tbody>
                                         <tr>
-                                            <th>주소 {index + 1}</th>
+                                            <th rowSpan={3}>주소 {index + 1}</th>
                                         </tr>
-                                        </thead>
-                                        <tbody>
                                         <tr>
                                             <td>{address.addressName}</td>
                                         </tr>
@@ -76,7 +74,7 @@ const PersonalInfo = () => {
                                         <tr>
                                             <td>{address.address}</td>
                                         </tr>
-                                        </tbody>
+                                    </tbody>
                                     </>
                                 ))}
                             </table>
