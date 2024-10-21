@@ -29,6 +29,17 @@ const PersonalInfo = () => {
         handlePersonalInfo();
     }, []);
 
+    const handleDeleteAddress = (e) => {
+        const addressCode = e.target.id;
+        axios.post('https://hoopi.co.kr/api/hoopi/personal-info', addressCode)
+            .then(response => {
+                alert(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
     return (
         <div className='personal-info-container'>
             <div className='personal-info-box'>
@@ -41,29 +52,29 @@ const PersonalInfo = () => {
                     <tbody>
                     <tr>
                         <td>아이디</td>
-                        <td>{userInfo.id}</td>
+                        <td>{userInfo?.id}</td>
                     </tr>
                     <tr>
                         <td>이름</td>
-                        <td>{userInfo.name}</td>
+                        <td>{userInfo?.name}</td>
                     </tr>
                     <tr>
                         <td>핸드폰 번호</td>
-                        <td>{userInfo.phone}</td>
+                        <td>{userInfo?.phone}</td>
                     </tr>
                     <tr>
                         <td>이메일</td>
-                        <td>{userInfo.email}</td>
+                        <td>{userInfo?.email}</td>
                     </tr>
                     <tr>
                         <td>주소</td>
                         <td>
                             <table>
-                                {userInfo.addresses.map((address, index) => (
+                                {userInfo?.addresses?.map((address, index) => (
                                     <>
-                                    <tbody>
+                                        <tbody>
                                         <tr>
-                                            <th rowSpan={3}>주소 {index + 1}</th>
+                                            <th rowSpan={4}>주소 {index + 1}</th>
                                         </tr>
                                         <tr>
                                             <td>{address.addressName}</td>
@@ -72,9 +83,17 @@ const PersonalInfo = () => {
                                             <td>{address.addressPhone}</td>
                                         </tr>
                                         <tr>
+                                            <td>{address.postCode}</td>
+                                        </tr>
+                                        <tr>
                                             <td>{address.address}</td>
                                         </tr>
-                                    </tbody>
+                                        <tr>
+                                            <td rowSpan={4}><button
+                                                                    id={address.addressCode}
+                                                                    onClick={()=>handleDeleteAddress(e)}>주소 삭제</button></td>
+                                        </tr>
+                                        </tbody>
                                     </>
                                 ))}
                             </table>

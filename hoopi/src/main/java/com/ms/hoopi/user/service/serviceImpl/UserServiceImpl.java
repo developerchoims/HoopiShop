@@ -2,6 +2,7 @@ package com.ms.hoopi.user.service.serviceImpl;
 
 import com.ms.hoopi.constants.Constants;
 import com.ms.hoopi.model.entity.User;
+import com.ms.hoopi.repository.AddressRepository;
 import com.ms.hoopi.repository.UserRepository;
 import com.ms.hoopi.user.model.dto.AddressResponseDto;
 import com.ms.hoopi.user.model.dto.UserResponseDto;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final AddressRepository addressRepository;
 
     @Override
     public ResponseEntity<?> getPersonalInfo(String id) {
@@ -33,6 +35,7 @@ public class UserServiceImpl implements UserService {
                     .email(user.getEmail())
                     .addresses(user.getAddresses().stream().map(address -> AddressResponseDto.builder()
                                     .addressName(address.getAddressName())
+                                    .addressCode(address.getAddressCode())
                                     .address(address.getAddress())
                                     .addressPhone(address.getAddressPhone())
                                     .postCode(address.getPostcode())
@@ -43,6 +46,16 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e){
             log.error(Constants.NONE_USER, e);
             return ResponseEntity.badRequest().body(Constants.NONE_USER);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> deletePersonalAddress(String addressCode) {
+        int result = addressRepository.deleteByAddressCode(addressCode);
+        if(result > 0){
+            return ResponseEntity.ok(Constants.ADDRESS_DELETE_SUCCESS);
+        } else {
+            return ResponseEntity.badRequest().body(Constants.ADDRESS_DELETE_FAIL);
         }
     }
 }
