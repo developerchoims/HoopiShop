@@ -82,6 +82,7 @@ const PersonalInfo = () => {
                 <table>
                     <thead>
                     <tr>
+                        <th></th>
                         <th colSpan={2}>개인 정보 확인</th>
                     </tr>
                     </thead>
