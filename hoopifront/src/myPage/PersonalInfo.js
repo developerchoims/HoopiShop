@@ -68,9 +68,12 @@ const PersonalInfo = () => {
                 console.log(error);
             })
     }
-    const handleShowPostcode = () => {
+    const handleShutPostcode = () => {
         setShowPostCode(false);
         setAddress({});
+    }
+    const handleShowPostcode = () => {
+        setShowPostCode(true);
     }
 
     return (
@@ -100,7 +103,7 @@ const PersonalInfo = () => {
                         <td>{userInfo?.email}</td>
                     </tr>
                     <tr>
-                        <td>주소 <button onClick={setShowPostCode(true)}>주소찾기</button></td>
+                        <td>주소 <button onClick={handleShowPostcode}>주소찾기</button></td>
                         <td>
                             <table>
                                 {userInfo?.addresses?.map((address, index) => (
@@ -161,7 +164,7 @@ const PersonalInfo = () => {
                                type="text"
                                onChange={handleAddressPhone}/>
                         <button onClick={() => handleAddAddress(address)}>추가</button>
-                        <button onClick={handleShowPostcode}>닫기</button>
+                        <button onClick={handleShutPostcode}>닫기</button>
                     </div>
                 )}
             </div>
