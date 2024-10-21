@@ -12,10 +12,11 @@
     margin: auto;
 }
 
-.personal-inf o-box>table{
+.personal-info-box>table{
     width: 100%;
     font-size: 3vh;
     color: grey;
+    text-align: center;
 }
 
 .personal-info-box>table table{
@@ -25,7 +26,7 @@
     margin-bottom: 5px;
 }
 
-.personal-info-box>table table button{
+.personal-info-box>table table button, .personal-info-box>table button{
     border-radius: 10px;
     border: none;
     box-sizing: border-box;
@@ -33,12 +34,27 @@
     width: 10vh;
     height: 7vh;
     font-size: 2.5vh;
+    font-family: 'LeeSeoyun', sans-serif;
+    color: grey;
 }
 
 #addressPhone, #addressName {
     border: 2px solid #c9dcf9;
+    border-radius: 10px;
     font-family: 'LeeSeoyun', sans-serif;
-    width: 15vh;
-    height: 7vh;
+    width: 25vh;
+    height: 5vh;
+    font-size: 3vh;
+    color: grey;
+}
+
+#cancleAddressBtn, #addAddressBtn{
+    border: 2px solid #c9dcf9;
+    border-radius: 10px;
+    font-family: 'LeeSeoyun', sans-serif;
+    color: grey;
+    width: 7vh;
+    height: 4vh;
+    box-sizing: border-box;
     font-size: 3vh;
 }
