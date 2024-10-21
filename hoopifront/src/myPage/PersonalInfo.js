@@ -63,7 +63,7 @@ const PersonalInfo = () => {
                                     <>
                                         <thead>
                                         <tr>
-                                            <th>주소 - {index}</th>
+                                            <th>주소 {index + 1}</th>
                                         </tr>
                                         </thead>
                                         <tbody>

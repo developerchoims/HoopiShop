@@ -11,4 +11,5 @@ public class AddressResponseDto {
     private String addressName;
     private String address;
     private String addressPhone;
+    private String postCode;
 }

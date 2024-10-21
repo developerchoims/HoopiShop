@@ -45,14 +45,20 @@ public class Address {
     @Column(name = "address_phone", length = 20)
     private String addressPhone;
 
+    @Size(max = 20)
+    @NotNull
+    @Column(name = "postcode", nullable = false, length = 20)
+    private String postcode;
+
 
     @Builder
-    public Address(String addressCode, User code, String address, String addressName, String addressPhone) {
+    public Address(String addressCode, User code, String address, String addressName, String addressPhone, String postcode) {
         this.addressCode = addressCode;
         this.code = code;
         this.address = address;
         this.addressName = addressName;
         this.addressPhone = addressPhone;
+        this.postcode = postcode;
     }
 
 

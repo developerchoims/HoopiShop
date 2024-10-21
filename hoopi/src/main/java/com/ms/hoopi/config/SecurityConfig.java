@@ -31,7 +31,7 @@ public class SecurityConfig {
                                             , "/hoopi/phone", "/hoopi/logout",
                                 "/hoopi/category", "/hoopi/board", "/hoopi/menu"
                         , "/hoopi/product-new", "/hoopi/product-popular", "/hoopi/product", "/hoopi/product/*"
-                                        ,"/hoopi/notice").permitAll()
+                                        ,"/hoopi/notice", "/hoopi/notice-detail/*").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(formLogin -> formLogin.disable())
                 .logout(logout -> logout.disable())
