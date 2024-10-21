@@ -50,7 +50,6 @@ const PersonalInfo = () => {
             address: data.address + ' ' + data.extraAddress,
             postCode: data.zoneCode
         }));
-        setShowPostCode(false);  // 팝업 닫기
     };
     const handleAddressPhone = (e) => {
         const {id, val} = e.target;
@@ -103,17 +102,22 @@ const PersonalInfo = () => {
                         <td>{userInfo?.email}</td>
                     </tr>
                     <tr>
-                        <td>주소 <button onClick={handleShowPostcode}>주소찾기</button></td>
+                        <td><p>주소</p> <p><button onClick={handleShowPostcode}>주소추가</button></p></td>
                         <td>
                             <table>
                                 {userInfo?.addresses?.map((address, index) => (
                                     <>
                                         <tbody>
                                         <tr>
-                                            <th rowSpan={5}>주소 {index + 1}</th>
-                                        </tr>
-                                        <tr>
+                                            <th rowSpan={4}>주소 {index + 1}</th>
                                             <td>{address.addressName}</td>
+                                            <td rowSpan={4}>
+                                                <button
+                                                    id={address.addressCode}
+                                                    onClick={() => handleDeleteAddress(address.addressCode)}>주소 삭제
+                                                </button>
+                                            </td>
+
                                         </tr>
                                         <tr>
                                             <td>{address.addressPhone}</td>
@@ -122,15 +126,7 @@ const PersonalInfo = () => {
                                             <td>{address.postCode}</td>
                                         </tr>
                                         <tr>
-                                            <td>{address.address}</td>
-                                        </tr>
-                                        <tr>
-                                            <td rowSpan={5}>
-                                                <button
-                                                    id={address.addressCode}
-                                                    onClick={() => handleDeleteAddress(address.addressCode)}>주소 삭제
-                                                </button>
-                                            </td>
+                                        <td>{address.address}</td>
                                         </tr>
                                         </tbody>
                                     </>
