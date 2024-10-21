@@ -47,7 +47,7 @@ const PersonalInfo = () => {
         setAddress(prevState => ({
             ...prevState,
             id,
-            address: data.address + ' ' + data.extraAddress,
+            address: data.address,
             postCode: data.zoneCode
         }));
     };
@@ -157,6 +157,19 @@ const PersonalInfo = () => {
                         </p>
                         <p>수취인 성함 : <input id='addressName'
                                            value={address?.addressName}
+                                           type="text"
+                                           onChange={handleAddressPhone}/>
+                        </p>
+                        <p>우편 번호 : <input id='postCode'
+                                          value={address?.postCode}
+                                          type="text"/>
+                        </p>
+                        <p>수취인 주소 : <input id='address'
+                                           value={address?.address}
+                                           type="text"/>
+                        </p>
+                        <p>수취인 주소 : <input id='extraAddress'
+                                           value={address?.extraAddress}
                                            type="text"
                                            onChange={handleAddressPhone}/>
                         </p>
