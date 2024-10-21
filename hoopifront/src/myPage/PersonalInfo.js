@@ -151,14 +151,16 @@ const PersonalInfo = () => {
                         boxShadow: '0px 0px 10px rgba(0,0,0,0.3)'
                     }}>
                         <DaumPostCode onComplete={handleCompleteAddress}/>
-                        <input id='addressPhone'
+                        <p>수취인 번호 : <input id='addressPhone'
                                value={address?.addressPhone}
                                type="text"
                                onChange={handleAddressPhone}/>
-                        <input id='addressName'
+                        </p>
+                        <p>수취인 성함 : <input id='addressName'
                                value={address?.addressPhone}
                                type="text"
                                onChange={handleAddressPhone}/>
+                        </p>
                         <button onClick={() => handleAddAddress(address)}>추가</button>
                         <button onClick={handleShutPostcode}>닫기</button>
                     </div>

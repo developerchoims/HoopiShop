@@ -12,7 +12,7 @@
     margin: auto;
 }
 
-.personal-info-box>table{
+.personal-inf o-box>table{
     width: 100%;
     font-size: 3vh;
     color: grey;
@@ -33,4 +33,12 @@
     width: 10vh;
     height: 7vh;
     font-size: 2.5vh;
+}
+
+#addressPhone, #addressName {
+    border: 2px solid #c9dcf9;
+    font-family: 'LeeSeoyun', sans-serif;
+    width: 15vh;
+    height: 7vh;
+    font-size: 3vh;
 }
