@@ -55,10 +55,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<?> deletePersonalAddress(String addressCode) {
-        int result = addressRepository.deleteByAddressCode(addressCode);
-        if(result > 0){
+        try{
+            addressRepository.deleteByAddressCode(addressCode);
             return ResponseEntity.ok(Constants.ADDRESS_DELETE_SUCCESS);
-        } else {
+        } catch (Exception e ) {
+            log.error(Constants.ADDRESS_DELETE_FAIL, e);
             return ResponseEntity.badRequest().body(Constants.ADDRESS_DELETE_FAIL);
         }
     }

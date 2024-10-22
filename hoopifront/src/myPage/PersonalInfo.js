@@ -115,9 +115,8 @@ const PersonalInfo = () => {
                                             <th rowSpan={4}>주소 {index + 1}</th>
                                             <td>{address.addressName}</td>
                                             <td rowSpan={4}>
-                                                <button
-                                                    id={address.addressCode}
-                                                    onClick={() => handleDeleteAddress(address.addressCode)}>주소 삭제
+                                                <button onClick={() => handleDeleteAddress(address.addressCode)}>
+                                                    주소 삭제
                                                 </button>
                                             </td>
 
