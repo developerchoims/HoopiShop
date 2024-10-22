@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -232,39 +233,44 @@ public class OrderServiceImpl implements OrderService {
                     .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_USER));
             Page<Order> orderEntity = orderRepository.findAllByUserCode(user, pageable);
 
-            Page<OrderResponseDto> orderResponsePage = (Page<OrderResponseDto>) orderEntity
-                .filter(order -> order.getOrderDetails().stream().anyMatch(od -> keyword == null || keyword.isEmpty() || od.getProductCode().getName().contains(keyword)))
-                .map(o -> {
-                            Address addressEntity = addressRepository.findByAddressCode(o.getAddressCode());
-                            AddressResponseDto address = AddressResponseDto.builder()
-                                    .addressCode(addressEntity.getAddressCode())
-                                    .addressName(addressEntity.getAddressName())
-                                    .addressPhone(addressEntity.getAddressPhone())
-                                    .address(addressEntity.getAddress())
-                                    .build();
+            List<OrderResponseDto> filteredOrders = orderEntity.getContent().stream()
+                    .filter(order -> order.getOrderDetails().stream().anyMatch(od ->
+                            keyword == null || keyword.isEmpty() || od.getProductCode().getName().contains(keyword)))
+                    .map(o -> {
+                        Address addressEntity = addressRepository.findByAddressCode(o.getAddressCode());
+                        AddressResponseDto address = AddressResponseDto.builder()
+                                .addressCode(addressEntity.getAddressCode())
+                                .addressName(addressEntity.getAddressName())
+                                .addressPhone(addressEntity.getAddressPhone())
+                                .address(addressEntity.getAddress())
+                                .build();
 
-                            return OrderResponseDto.builder()
-                                    .orderCode(o.getOrderCode())
-                                    .orderDate(o.getOrderDate())
-                                    .orderStatus(o.getStatus())
-                                    .address(address)
-                                    .orderDetails(o.getOrderDetails().stream()
-                                            .map(detail -> {
-                                                Set<ProductImg> productImgs = detail.getProductCode().getProductImgs();
-                                                ProductImg productImg = productImgs.stream()
-                                                        .filter(pi -> pi.getMain() == 0)
-                                                        .findFirst().orElse(null);
-                                                return OrderDetailResponseDto.builder()
-                                                        .productName(detail.getProductCode().getName())
-                                                        .productImg(productImg != null ? fileUploadService.getS3(productImg.getImgKey()) : null)
-                                                        .quantity(detail.getQuantity())
-                                                        .orderAmount(detail.getOrderAmount())
-                                                        .totalPrice(detail.getTotalPrice())
-                                                        .build();
-                                            }).collect(Collectors.toList()))
-                                    .build();
-                        });
+                        List<OrderDetailResponseDto> orderDetails = o.getOrderDetails().stream()
+                                .map(detail -> {
+                                    Set<ProductImg> productImgs = detail.getProductCode().getProductImgs();
+                                    ProductImg productImg = productImgs.stream()
+                                            .filter(pi -> pi.getMain() == 0)
+                                            .findFirst().orElse(null);
+                                    return OrderDetailResponseDto.builder()
+                                            .productName(detail.getProductCode().getName())
+                                            .productImg(productImg != null ? fileUploadService.getS3(productImg.getImgKey()) : null)
+                                            .quantity(detail.getQuantity())
+                                            .orderAmount(detail.getOrderAmount())
+                                            .totalPrice(detail.getTotalPrice())
+                                            .build();
+                                }).collect(Collectors.toList());
 
+                        return OrderResponseDto.builder()
+                                .orderCode(o.getOrderCode())
+                                .orderDate(o.getOrderDate())
+                                .orderStatus(o.getStatus())
+                                .address(address)
+                                .orderDetails(orderDetails)
+                                .build();
+                    })
+                    .collect(Collectors.toList());
+
+            Page<OrderResponseDto> orderResponsePage = new PageImpl<>(filteredOrders, pageable, orderEntity.getTotalElements());
             return ResponseEntity.ok(orderResponsePage);
         } catch (Exception e) {
             log.error(Constants.ORDER_GET_FAIL, e);
