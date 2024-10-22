@@ -151,10 +151,7 @@ const PersonalInfo = () => {
                         zIndex: 100,
                         padding: '10px',
                         backgroundColor: '#fff',
-                        boxShadow: '0px 0px 10px rgba(0,0,0,0.3)',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignContent: 'center'
+                        boxShadow: '0px 0px 10px rgba(0,0,0,0.3)'
                     }}>
                         <p>수취인 번호 : <input id='addressPhone'
                                            value={address?.addressPhone}
