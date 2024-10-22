@@ -37,16 +37,22 @@ const Menu = () => {
             // board 설정
             let tempBoardId = '';
             if (path.includes('user')) {
+                setCategoryVisible('block');
                 tempBoardId = 'user';
             } else if (path.includes('order')) {
+                setCategoryVisible('block');
                 tempBoardId = 'order';
             } else if (path.includes('product')) {
+                setCategoryVisible('block');
                 tempBoardId = 'product';
             } else if (path.includes('notice')) {
+                setCategoryVisible('block');
                 tempBoardId = 'notice';
             } else if (path.includes('admin/main')) {
+                setCategoryVisible('block');
                 tempBoardId = 'user';
             } else if(path.includes('amdin/order')){
+                setCategoryVisible('block');
                 tempBoardId = 'adminOrder';
             } else {
                 setCategoryVisible('none');
@@ -84,9 +90,9 @@ const Menu = () => {
                         <tr>
                             {menu?.map(m => (
                                 <td style={{
-                                    display: m.name === '회원' && visible ? 'block'
-                                        : m.name === '관리자주문' && visible ? 'block'
-                                        : m.name !== '회원' && m.name !== '관리자주문' ? 'block'
+                                    display: m.name === '회원' && visible ? 'display'
+                                        : m.name === '관리자주문' && visible ? 'display'
+                                        : m.name !== '회원' && m.name !== '관리자주문' ? 'display'
                                             : 'none'
                                 }} key={m.boardCode}>
                                     <Link to={`${visible ? 'admin/' : ''}${m.boardId}`}>{m.name}</Link>
