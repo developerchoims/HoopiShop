@@ -224,7 +224,7 @@ public class OrderServiceImpl implements OrderService {
 
     // order 정보 불러오기
     @Override
-    public ResponseEntity<?> getOrder(String id, int page, int size) {
+    public ResponseEntity<?> getOrder(String id, int page, int size, String searchCate, String keyword) {
         try {
             Pageable pageable = PageRequest.of(page, size);
             User user = userRepository.findById(id)
