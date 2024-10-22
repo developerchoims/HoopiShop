@@ -232,12 +232,6 @@ public class OrderServiceImpl implements OrderService {
                     .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_USER));
             Page<Order> orderEntity = orderRepository.findAllByUserCode(user, pageable);
 
-            if(keyword != null || !keyword.isEmpty()){
-
-            } else {
-
-            }
-
             Page<OrderResponseDto> orderResponsePage = orderEntity.map(order -> {
                 Address addressEntity = addressRepository.findByAddressCode(order.getAddressCode());
                 AddressResponseDto address = AddressResponseDto.builder()
