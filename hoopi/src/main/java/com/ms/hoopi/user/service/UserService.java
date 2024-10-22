@@ -9,4 +9,6 @@ public interface UserService {
     ResponseEntity<?> deletePersonalAddress(String addressCode);
 
     ResponseEntity<?> addPersonalAddress(AddressRequestDto address);
+
+    ResponseEntity<?> editMainAddress(String addressCode);
 }

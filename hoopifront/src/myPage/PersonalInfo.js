@@ -28,10 +28,20 @@ const PersonalInfo = () => {
 
     useEffect(() => {
         handlePersonalInfo();
-    }, []);
+    }, [userInfo]);
 
     const handleDeleteAddress = (addressCode) => {
         axios.delete(`https://hoopi.co.kr/api/hoopi/personal-info/${addressCode}`)
+            .then(response => {
+                alert(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+    const handleMainAddress = (addressCode) => {
+        axios.put('https://hoopi.co.kr/api/hoopi/personal-info', addressCode)
             .then(response => {
                 alert(response.data);
             })
@@ -111,12 +121,19 @@ const PersonalInfo = () => {
                                 {userInfo?.addresses?.map((address, index) => (
                                     <>
                                         <tbody>
-                                        <tr>
+                                        <tr style = {{background:address.main === 'Y'? '#c9dcf9' : 'white' }}>
                                             <th rowSpan={4}>주소 {index + 1}</th>
                                             <td>{address.addressName}</td>
                                             <td rowSpan={4}>
                                                 <button onClick={() => handleDeleteAddress(address.addressCode)}>
                                                     주소 삭제
+                                                </button>
+                                            </td>
+                                            <td rowSpan={4}>
+                                                <button style={{
+                                                    display:address.main ==='Y'?'none':'inline'
+                                                }} onClick={() => handleMainAddress(address.addressCode)}>
+                                                    메인으로
                                                 </button>
                                             </td>
 
