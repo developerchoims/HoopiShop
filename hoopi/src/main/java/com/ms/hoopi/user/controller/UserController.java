@@ -35,6 +35,7 @@ public class UserController {
 
     @PutMapping("/personal-info")
     public ResponseEntity<?> editMainAddress(@RequestBody String addressCode) {
+        log.info("addressCode : {} ",addressCode);
         return userService.editMainAddress(addressCode);
     }
 }
