@@ -16,16 +16,18 @@ const Menu = () => {
     const role = localStorage.getItem("role");
     const id = localStorage.getItem("id");
 
-    useEffect(() => {
-        fetchMenuCategory();
-
-    }, [path]);
     const [boardId, setBoardId] = useState('');
     const [board, setBoard] = useState({});
     const [category, setCategory] = useState([]);
     const[visible, setVisible] = useState(false);
     const[categoryVisible, setCategoryVisible] = useState('flex');
     const[menu, setMenu] = useState();
+
+    useEffect(() => {
+        fetchMenuCategory();
+        setKeyword('');
+    }, [path]);
+
     const fetchMenuCategory = async () => {
         try {
             // 메뉴 설정
