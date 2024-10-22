@@ -24,7 +24,7 @@ const Menu = () => {
     const [board, setBoard] = useState({});
     const [category, setCategory] = useState([]);
     const[visible, setVisible] = useState(false);
-    const[categoryVisible, setCategoryVisible] = useState('block');
+    const[categoryVisible, setCategoryVisible] = useState('flex');
     const[menu, setMenu] = useState();
     const fetchMenuCategory = async () => {
         try {
@@ -37,22 +37,22 @@ const Menu = () => {
             // board 설정
             let tempBoardId = '';
             if (path.includes('user')) {
-                setCategoryVisible('block');
+                setCategoryVisible('flex');
                 tempBoardId = 'user';
             } else if (path.includes('order')) {
-                setCategoryVisible('block');
+                setCategoryVisible('flex');
                 tempBoardId = 'order';
             } else if (path.includes('product')) {
-                setCategoryVisible('block');
+                setCategoryVisible('flex');
                 tempBoardId = 'product';
             } else if (path.includes('notice')) {
-                setCategoryVisible('block');
+                setCategoryVisible('flex');
                 tempBoardId = 'notice';
             } else if (path.includes('admin/main')) {
-                setCategoryVisible('block');
+                setCategoryVisible('flex');
                 tempBoardId = 'user';
             } else if(path.includes('amdin/order')){
-                setCategoryVisible('block');
+                setCategoryVisible('flex');
                 tempBoardId = 'adminOrder';
             } else {
                 setCategoryVisible('none');

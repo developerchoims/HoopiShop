@@ -24,6 +24,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -231,6 +232,12 @@ public class OrderServiceImpl implements OrderService {
                     .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_USER));
             Page<Order> orderEntity = orderRepository.findAllByUserCode(user, pageable);
 
+            if(keyword != null || !keyword.isEmpty()){
+
+            } else {
+
+            }
+
             Page<OrderResponseDto> orderResponsePage = orderEntity.map(order -> {
                 Address addressEntity = addressRepository.findByAddressCode(order.getAddressCode());
                 AddressResponseDto address = AddressResponseDto.builder()
@@ -245,7 +252,9 @@ public class OrderServiceImpl implements OrderService {
                         .orderDate(order.getOrderDate())
                         .orderStatus(order.getStatus())
                         .address(address)
-                        .orderDetails(order.getOrderDetails().stream().map(od -> {
+                        .orderDetails(order.getOrderDetails().stream()
+                            .filter(od -> (keyword == null || keyword.isEmpty()) || od.getProductCode().getName().contains(keyword))
+                            .map(od -> {
                             Set<ProductImg> productImgs = od.getProductCode().getProductImgs();
                             ProductImg productImg = productImgs.stream()
                                     .filter(pi -> pi.getMain() == 0)
