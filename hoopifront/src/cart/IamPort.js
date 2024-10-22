@@ -8,7 +8,7 @@ const IamPort = ({ cartdetail, buttonName, address }) => {
         const totalAmount = cartdetail.reduce((total, p) => total + p.cartAmount, 0);
         const paymentId = crypto.randomUUID();
         const method = "CARD";
-        const storeId = "store-71704625-36a0-46e1-bdbd-00da604507ef";
+        const storeId = "store-d9a9dcb7-489f-4574-9652-8920ac17fe37";
 
         try {
             const response = await PortOne.requestPayment({
