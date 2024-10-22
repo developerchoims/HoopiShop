@@ -31,7 +31,7 @@ const PersonalInfo = () => {
     }, [userInfo]);
 
     const handleDeleteAddress = (addressCode) => {
-        axios.delete(`https://hoopi.co.kr/api/hoopi/personal-info/${addressCode}`)
+        axios.put(`https://hoopi.co.kr/api/hoopi/address-state/${addressCode}`)
             .then(response => {
                 alert(response.data);
             })
@@ -41,7 +41,7 @@ const PersonalInfo = () => {
     }
 
     const handleMainAddress = (addressCode) => {
-        axios.put(`https://hoopi.co.kr/api/hoopi/personal-info/${addressCode}`)
+        axios.put(`https://hoopi.co.kr/api/hoopi/address-main/${addressCode}`)
             .then(response => {
                 alert(response.data);
             })

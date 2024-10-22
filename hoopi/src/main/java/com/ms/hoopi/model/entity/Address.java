@@ -51,9 +51,16 @@ public class Address {
     @Column(name = "postcode", nullable = false, length = 20)
     private String postcode;
 
+    @Setter
+    @Size(max = 1)
+    @NotNull
+    @Column(name = "state", nullable = false, length = 1)
+    private String state;
+
+
 
     @Builder
-    public Address(String addressCode, User code, String address, String addressName, String addressPhone, String postcode, String main) {
+    public Address(String addressCode, User code, String address, String addressName, String addressPhone, String postcode, String main, String state) {
         this.addressCode = addressCode;
         this.code = code;
         this.address = address;
@@ -61,6 +68,7 @@ public class Address {
         this.addressPhone = addressPhone;
         this.postcode = postcode;
         this.main = main;
+        this.state = state;
     }
 
 

@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService {
                     .email(user.getEmail())
                     .addresses(user.getAddresses().stream()
                                 .sorted(Comparator.comparing((Address a) -> !"Y".equals(a.getMain())).thenComparing(Address::getAddressName))
+                                .filter(add -> add.getState().equals("Y"))
                                 .map(address -> AddressResponseDto.builder()
                                     .addressName(address.getAddressName())
                                     .addressCode(address.getAddressCode())
@@ -71,7 +72,8 @@ public class UserServiceImpl implements UserService {
                 return ResponseEntity.ok(Constants.ADDRESS_JUST_ONE);
             }else {
                 // address가 여러 개인 경우 삭제 가능
-                addressRepository.deleteByAddressCode(addressCode);
+                address.setState("N");
+                addressRepository.save(address);
                 // main인 address를 삭제했을 경우
                 if(address.getMain().equals("Y")){
                     // 나머지 address 중 하나를 main으로 수정함
@@ -96,6 +98,7 @@ public class UserServiceImpl implements UserService {
                     .addressPhone(address.getAddressPhone())
                     .addressName(address.getAddressName())
                     .main("N")
+                    .state("Y")
                     .postcode(address.getPostCode())
                     .build();
             addressRepository.save(addressEntity);
