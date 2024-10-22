@@ -41,7 +41,7 @@ const PersonalInfo = () => {
     }
 
     const handleMainAddress = (addressCode) => {
-        axios.put(`https://hoopi.co.kr/api/hoopi/personal-info,/${addressCode}`)
+        axios.put(`https://hoopi.co.kr/api/hoopi/personal-info/${addressCode}`)
             .then(response => {
                 alert(response.data);
             })
