@@ -24,7 +24,7 @@ const Menu = () => {
     const [board, setBoard] = useState({});
     const [category, setCategory] = useState([]);
     const[visible, setVisible] = useState(false);
-    const[categoryVisible, setCategoryVisible] = useState(true);
+    const[categoryVisible, setCategoryVisible] = useState('block');
     const[menu, setMenu] = useState();
     const fetchMenuCategory = async () => {
         try {
@@ -49,7 +49,7 @@ const Menu = () => {
             } else if(path.includes('amdin/order')){
                 tempBoardId = 'adminOrder';
             } else {
-                setCategoryVisible(false);
+                setCategoryVisible('none');
             }
             console.log(tempBoardId);
             const boardResponse = await api.get('hoopi/board', { params: { boardId: tempBoardId } });
