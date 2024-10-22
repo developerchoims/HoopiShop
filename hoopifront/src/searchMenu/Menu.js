@@ -84,8 +84,9 @@ const Menu = () => {
                         <tr>
                             {menu?.map(m => (
                                 <td style={{
-                                    display: m.name === '회원' && visible ? 'display'
-                                        : m.name !== '회원' ? 'display'
+                                    display: m.name === '회원' && visible ? 'inline'
+                                        : m.name === '관리자주문' && visible ? 'inline'
+                                        : m.name !== '회원' ? 'inline'
                                             : 'none'
                                 }} key={m.boardCode}>
                                     <Link to={`${visible ? 'admin/' : ''}${m.boardId}`}>{m.name}</Link>
