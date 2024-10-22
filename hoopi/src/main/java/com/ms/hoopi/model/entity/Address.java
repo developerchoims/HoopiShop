@@ -53,13 +53,14 @@ public class Address {
 
 
     @Builder
-    public Address(String addressCode, User code, String address, String addressName, String addressPhone, String postcode) {
+    public Address(String addressCode, User code, String address, String addressName, String addressPhone, String postcode, String main) {
         this.addressCode = addressCode;
         this.code = code;
         this.address = address;
         this.addressName = addressName;
         this.addressPhone = addressPhone;
         this.postcode = postcode;
+        this.main = main;
     }
 
 

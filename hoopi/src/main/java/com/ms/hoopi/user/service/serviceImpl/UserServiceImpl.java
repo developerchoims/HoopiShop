@@ -95,6 +95,7 @@ public class UserServiceImpl implements UserService {
                     .address(address.getAddress() + " " + address.getExtraAddress())
                     .addressPhone(address.getAddressPhone())
                     .addressName(address.getAddressName())
+                    .main("N")
                     .postcode(address.getPostCode())
                     .build();
             addressRepository.save(addressEntity);

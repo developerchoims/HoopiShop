@@ -121,8 +121,9 @@ const PersonalInfo = () => {
                                 {userInfo?.addresses?.map((address, index) => (
                                     <>
                                         <tbody>
-                                        <tr style = {{background:address.main === 'Y'? '#c9dcf9' : 'white' }}>
-                                            <th rowSpan={4}>주소 {index + 1}</th>
+                                        <tr>
+                                            <th style = {{background:address.main === 'Y'? '#c9dcf9' : 'white' }}
+                                                rowSpan={4}>주소 {index + 1}</th>
                                             <td>{address.addressName}</td>
                                             <td rowSpan={4}>
                                                 <button onClick={() => handleDeleteAddress(address.addressCode)}>
