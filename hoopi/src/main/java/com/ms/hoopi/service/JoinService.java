@@ -66,6 +66,8 @@ public class JoinService {
                     .addressCode(commonUtil.createCode())
                     .code(user)
                     .address(userAddress)
+                    .state("Y")
+                    .main("Y")
                     .postcode(zonecode)
                     .build();
             addressRepository.save(address);

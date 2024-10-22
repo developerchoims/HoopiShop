@@ -22,7 +22,7 @@ public class UserController {
         return userService.getPersonalInfo(id);
     }
 
-    @DeleteMapping("/personal-info/{addressCode}")
+    @PutMapping("/address-state/{addressCode}")
     public ResponseEntity<?> deletePersonalAddress(@PathVariable String addressCode) {
         log.info("addressCode : {} ",addressCode);
         return userService.deletePersonalAddress(addressCode);
@@ -33,7 +33,7 @@ public class UserController {
         return userService.addPersonalAddress(address);
     }
 
-    @PutMapping("/personal-info/{addressCode}")
+    @PutMapping("/address-main/{addressCode}")
     public ResponseEntity<?> editMainAddress(@PathVariable String addressCode) {
         log.info("addressCode : {} ",addressCode);
         return userService.editMainAddress(addressCode);
