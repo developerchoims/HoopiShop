@@ -17,8 +17,12 @@
     font-size: 3vh;
     color: grey;
     text-align: center;
+    margin-bottom: 20px;
 }
 
+.personal-info-box>table th, .personal-info-box>table td{
+    padding: 10px 0 10px 0;
+}
 .personal-info-box>table table{
     width: 100%;
     border-radius: 10px;
@@ -53,7 +57,7 @@
     border-radius: 10px;
     font-family: 'LeeSeoyun', sans-serif;
     color: grey;
-    width: 10vh;
+    width: 15vh;
     height: 5vh;
     box-sizing: border-box;
     font-size: 3vh;
