@@ -42,6 +42,7 @@
     font-family: 'LeeSeoyun', sans-serif;
     color: grey;
     display: block;
+    margin-bottom: 10px;
 }
 
 .personal-info-box>table table>tbody:first-child>tr>th:first-child{
