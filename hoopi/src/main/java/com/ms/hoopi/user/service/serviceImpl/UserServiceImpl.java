@@ -17,6 +17,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
+
 @Service
 @Transactional
 @Slf4j
@@ -37,12 +41,15 @@ public class UserServiceImpl implements UserService {
                     .name(user.getName())
                     .phone(user.getPhone())
                     .email(user.getEmail())
-                    .addresses(user.getAddresses().stream().map(address -> AddressResponseDto.builder()
+                    .addresses(user.getAddresses().stream()
+                                .sorted(Comparator.comparing((Address a) -> !"Y".equals(a.getMain())).thenComparing(Address::getAddressName))
+                                .map(address -> AddressResponseDto.builder()
                                     .addressName(address.getAddressName())
                                     .addressCode(address.getAddressCode())
                                     .address(address.getAddress())
                                     .addressPhone(address.getAddressPhone())
                                     .postCode(address.getPostcode())
+                                    .main(address.getMain())
                                     .build())
                             .toList())
                     .build();
@@ -56,8 +63,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<?> deletePersonalAddress(String addressCode) {
         try{
-            addressRepository.deleteByAddressCode(addressCode);
-            return ResponseEntity.ok(Constants.ADDRESS_DELETE_SUCCESS);
+            Address address = addressRepository.findByAddressCode(addressCode);
+            User user = address.getCode();
+            Set<Address> addresses = user.getAddresses();
+            // address가 하나뿐인 경우 삭제 불가능
+            if(addresses.size() == 1){
+                return ResponseEntity.ok(Constants.ADDRESS_JUST_ONE);
+            }else {
+                // address가 여러 개인 경우 삭제 가능
+                addressRepository.deleteByAddressCode(addressCode);
+                // main인 address를 삭제했을 경우
+                if(address.getMain().equals("Y")){
+                    // 나머지 address 중 하나를 main으로 수정함
+                    List<Address> remainAddresses = addressRepository.findByCode(user);
+                    remainAddresses.stream().findFirst().ifPresent(ad -> ad.setMain("Y"));
+                }
+                return ResponseEntity.ok(Constants.ADDRESS_DELETE_SUCCESS);
+            }
         } catch (Exception e ) {
             log.error(Constants.ADDRESS_DELETE_FAIL, e);
             return ResponseEntity.badRequest().body(Constants.ADDRESS_DELETE_FAIL);
@@ -80,6 +102,30 @@ public class UserServiceImpl implements UserService {
         }catch (Exception e){
             log.error(Constants.ADDRESS_ADD_FAIL, e);
             return ResponseEntity.badRequest().body(Constants.ADDRESS_ADD_FAIL);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> editMainAddress(String addressCode) {
+        try{
+            Address address = addressRepository.findByAddressCode(addressCode);
+            if(address.getMain().equals("Y")){
+                return ResponseEntity.ok(Constants.ADDRESS_ALREADY_MAIN);
+            }
+            Set<Address> addresses = address.getCode().getAddresses();
+            addresses.forEach(ad-> {
+                if(ad.getAddressCode().equals(addressCode)){
+                    ad.setMain("Y");
+                    addressRepository.save(ad);
+                } else {
+                    ad.setMain("N");
+                    addressRepository.save(ad);
+                }
+            });
+            return ResponseEntity.ok(Constants.ADDRESS_MAIN_SUCCESS);
+        } catch (Exception e){
+            log.error(Constants.ADDRESS_MAIN_FAIL, e);
+            return ResponseEntity.badRequest().body(Constants.ADDRESS_MAIN_FAIL);
         }
     }
 }

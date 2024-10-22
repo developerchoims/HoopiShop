@@ -28,6 +28,7 @@ public class Address {
     @Column(name = "address", nullable = false, length = 500)
     private String address;
 
+    @Setter
     @ColumnDefault("'Y'")
     @Column(name = "main", length = 1)
     private String main = "Y";

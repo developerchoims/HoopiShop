@@ -56,8 +56,12 @@ public class Constants {
     public static final String PAYMENT_CANCEL_SUCCESS = "결제 취소에 성공하였습니다.";
     public static final String ADDRESS_DELETE_SUCCESS = "주소가 삭제되었습니다.";
     public static final String ADDRESS_DELETE_FAIL = "주소 삭제에 실패하였습니다.";
+    public static final String ADDRESS_JUST_ONE = "주소가 하나 뿐이라 삭제할 수 없습니다.";
     public static final String ADDRESS_ADD_SUCCESS = "주소 추가에 성공하였습니다.";
     public static final String ADDRESS_ADD_FAIL = "주소 추가에 실패하였습니다.";
+    public static final String ADDRESS_ALREADY_MAIN = "이미 메인 주소로 설정되어 있습니다.";
+    public static final String ADDRESS_MAIN_SUCCESS = "메인 주소로 설정되었습니다.";
+    public static final String ADDRESS_MAIN_FAIL = "메인 주소 설정에 실패하였습니다.";
 
 
 }

@@ -32,4 +32,9 @@ public class UserController {
     public ResponseEntity<?> addPersonalAddress(@RequestBody AddressRequestDto address) {
         return userService.addPersonalAddress(address);
     }
+
+    @PutMapping("/personal-info")
+    public ResponseEntity<?> editMainAddress(@RequestBody String addressCode) {
+        return userService.editMainAddress(addressCode);
+    }
 }
