@@ -26,8 +26,9 @@
 .personal-info-box>table table{
     width: 100%;
     border-radius: 10px;
-    border: 1px solid #c9dcf9;
+    border: 2px solid #c9dcf9;
     margin-bottom: 5px;
+    border-collapse: collapse;
 }
 
 .personal-info-box>table table button, .personal-info-box>table button{

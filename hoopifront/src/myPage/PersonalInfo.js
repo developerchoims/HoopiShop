@@ -41,7 +41,10 @@ const PersonalInfo = () => {
     }
 
     const handleMainAddress = (addressCode) => {
-        axios.put('https://hoopi.co.kr/api/hoopi/personal-info', addressCode)
+        axios.put('https://hoopi.co.kr/api/hoopi/personal-info', {params: {
+                addressCode: addressCode
+            }
+            })
             .then(response => {
                 alert(response.data);
             })
@@ -134,7 +137,7 @@ const PersonalInfo = () => {
                                                 <button style={{
                                                     display:address.main ==='Y'?'none':'inline'
                                                 }} onClick={() => handleMainAddress(address.addressCode)}>
-                                                    메인으로
+                                                    메인 주소로 바꾸기
                                                 </button>
                                             </td>
 
