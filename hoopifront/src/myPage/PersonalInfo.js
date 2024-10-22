@@ -41,11 +41,7 @@ const PersonalInfo = () => {
     }
 
     const handleMainAddress = (addressCode) => {
-        axios.put('https://hoopi.co.kr/api/hoopi/personal-info', {addressCode}, {
-            headers: {
-                'Content-Type': 'text/plain'
-            }
-        })
+        axios.put(`https://hoopi.co.kr/api/hoopi/personal-info,/${addressCode}`)
             .then(response => {
                 alert(response.data);
             })

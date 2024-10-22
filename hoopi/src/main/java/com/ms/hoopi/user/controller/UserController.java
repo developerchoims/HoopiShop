@@ -33,8 +33,8 @@ public class UserController {
         return userService.addPersonalAddress(address);
     }
 
-    @PutMapping("/personal-info")
-    public ResponseEntity<?> editMainAddress(@RequestBody String addressCode) {
+    @PutMapping("/personal-info/{addressCode}")
+    public ResponseEntity<?> editMainAddress(@PathVariable String addressCode) {
         log.info("addressCode : {} ",addressCode);
         return userService.editMainAddress(addressCode);
     }
