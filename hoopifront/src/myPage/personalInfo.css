@@ -43,6 +43,22 @@
     color: grey;
 }
 
+.personal-info-box>table table>tbody:first-child>tr>th:first-child{
+    -moz-border-radius-topleft: 10px;
+}
+
+.personal-info-box>table table>tbody:first-child>tr>td:last-child{
+    -moz-border-radius-topright: 10px;
+}
+
+.personal-info-box>table table>tbody:last-child>tr>th:first-child{
+    -moz-border-radius-bottomleft: 10px;
+}
+
+.personal-info-box>table table>tbody:last-child>tr>td:last-child{
+    -moz-border-radius-bottomright: 10px;
+}
+
 #addressPhone, #addressName, #postCode, #address, #extraAddress {
     border: 2px solid #c9dcf9;
     border-radius: 10px;
