@@ -129,10 +129,9 @@ const PersonalInfo = () => {
                                                 <button onClick={() => handleDeleteAddress(address.addressCode)}>
                                                     주소 삭제
                                                 </button>
-                                            </td>
-                                            <td rowSpan={4}>
+
                                                 <button style={{
-                                                    display:address.main ==='Y'?'none':'inline'
+                                                    display: address.main === 'Y' ? 'none' : 'inline'
                                                 }} onClick={() => handleMainAddress(address.addressCode)}>
                                                     메인 주소로 바꾸기
                                                 </button>
