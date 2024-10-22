@@ -232,37 +232,38 @@ public class OrderServiceImpl implements OrderService {
                     .orElseThrow(() -> new EntityNotFoundException(Constants.NONE_USER));
             Page<Order> orderEntity = orderRepository.findAllByUserCode(user, pageable);
 
-            Page<OrderResponseDto> orderResponsePage = orderEntity.map(order -> {
-                Address addressEntity = addressRepository.findByAddressCode(order.getAddressCode());
-                AddressResponseDto address = AddressResponseDto.builder()
-                        .addressCode(addressEntity.getAddressCode())
-                        .addressName(addressEntity.getAddressName())
-                        .addressPhone(addressEntity.getAddressPhone())
-                        .address(addressEntity.getAddress())
-                        .build();
-
-                return OrderResponseDto.builder()
-                        .orderCode(order.getOrderCode())
-                        .orderDate(order.getOrderDate())
-                        .orderStatus(order.getStatus())
-                        .address(address)
-                        .orderDetails(order.getOrderDetails().stream()
-                            .filter(od -> (keyword == null || keyword.isEmpty()) || od.getProductCode().getName().contains(keyword))
-                            .map(od -> {
-                            Set<ProductImg> productImgs = od.getProductCode().getProductImgs();
-                            ProductImg productImg = productImgs.stream()
-                                    .filter(pi -> pi.getMain() == 0)
-                                    .findFirst().orElse(null);
-                            return OrderDetailResponseDto.builder()
-                                    .productName(od.getProductCode().getName())
-                                    .productImg(productImg != null ? fileUploadService.getS3(productImg.getImgKey()) : null)
-                                    .quantity(od.getQuantity())
-                                    .orderAmount(od.getOrderAmount())
-                                    .totalPrice(od.getTotalPrice())
+            Page<OrderResponseDto> orderResponsePage = (Page<OrderResponseDto>) orderEntity
+                .filter(order -> order.getOrderDetails().stream().anyMatch(od -> keyword == null || keyword.isEmpty() || od.getProductCode().getName().contains(keyword)))
+                .map(o -> {
+                            Address addressEntity = addressRepository.findByAddressCode(o.getAddressCode());
+                            AddressResponseDto address = AddressResponseDto.builder()
+                                    .addressCode(addressEntity.getAddressCode())
+                                    .addressName(addressEntity.getAddressName())
+                                    .addressPhone(addressEntity.getAddressPhone())
+                                    .address(addressEntity.getAddress())
                                     .build();
-                        }).collect(Collectors.toList()))
-                        .build();
-            });
+
+                            return OrderResponseDto.builder()
+                                    .orderCode(o.getOrderCode())
+                                    .orderDate(o.getOrderDate())
+                                    .orderStatus(o.getStatus())
+                                    .address(address)
+                                    .orderDetails(o.getOrderDetails().stream()
+                                            .map(detail -> {
+                                                Set<ProductImg> productImgs = detail.getProductCode().getProductImgs();
+                                                ProductImg productImg = productImgs.stream()
+                                                        .filter(pi -> pi.getMain() == 0)
+                                                        .findFirst().orElse(null);
+                                                return OrderDetailResponseDto.builder()
+                                                        .productName(detail.getProductCode().getName())
+                                                        .productImg(productImg != null ? fileUploadService.getS3(productImg.getImgKey()) : null)
+                                                        .quantity(detail.getQuantity())
+                                                        .orderAmount(detail.getOrderAmount())
+                                                        .totalPrice(detail.getTotalPrice())
+                                                        .build();
+                                            }).collect(Collectors.toList()))
+                                    .build();
+                        });
 
             return ResponseEntity.ok(orderResponsePage);
         } catch (Exception e) {
