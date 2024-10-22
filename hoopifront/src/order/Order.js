@@ -14,7 +14,7 @@ const Order = () => {
 
     useEffect(() => {
         fetchOrders(currentPage);
-    }, [currentPage]);
+    }, [currentPage, keyword]);
 
     const [orders, setOrders] = useState({ content: [], totalPages: 0 });
     const fetchOrders = async (page) => {
