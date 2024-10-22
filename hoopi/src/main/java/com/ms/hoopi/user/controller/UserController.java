@@ -6,6 +6,7 @@ import com.ms.hoopi.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import retrofit2.http.Path;
 
 @RestController
 @RequestMapping("hoopi")
@@ -19,8 +20,8 @@ public class UserController {
         return userService.getPersonalInfo(id);
     }
 
-    @DeleteMapping("/personal-info")
-    public ResponseEntity<?> deletePersonalAddress(@RequestBody String addressCode) {
+    @DeleteMapping("/personal-info/{addressCode}")
+    public ResponseEntity<?> deletePersonalAddress(@PathVariable String addressCode) {
         return userService.deletePersonalAddress(addressCode);
     }
 

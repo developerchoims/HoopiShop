@@ -31,7 +31,7 @@ const PersonalInfo = () => {
     }, []);
 
     const handleDeleteAddress = (addressCode) => {
-        axios.delete('https://hoopi.co.kr/api/hoopi/personal-info', addressCode)
+        axios.delete(`https://hoopi.co.kr/api/hoopi/personal-info/${addressCode}`)
             .then(response => {
                 alert(response.data);
             })
@@ -63,6 +63,7 @@ const PersonalInfo = () => {
         axios.post('https://hoopi.co.kr/api/hoopi/personal-info', address)
             .then(response => {
                 alert(response.data);
+                setShowPostCode(false);
             })
             .catch(error => {
                 console.log(error);
@@ -104,7 +105,7 @@ const PersonalInfo = () => {
                         <td>{userInfo?.email}</td>
                     </tr>
                     <tr>
-                        <td><p>주소</p> <p><button onClick={handleShowPostcode}>주소추가</button></p></td>
+                        <td><p>주소</p> <p><button onClick={handleShowPostcode}>주소 추가</button></p></td>
                         <td>
                             <table>
                                 {userInfo?.addresses?.map((address, index) => (
@@ -150,7 +151,10 @@ const PersonalInfo = () => {
                         zIndex: 100,
                         padding: '10px',
                         backgroundColor: '#fff',
-                        boxShadow: '0px 0px 10px rgba(0,0,0,0.3)'
+                        boxShadow: '0px 0px 10px rgba(0,0,0,0.3)',
+                        display: flex,
+                        justifyContent: center,
+                        alignContent: center
                     }}>
                         <p>수취인 번호 : <input id='addressPhone'
                                            value={address?.addressPhone}
@@ -171,7 +175,7 @@ const PersonalInfo = () => {
                                            value={address?.address}
                                            type="text"/>
                         </p>
-                        <p>수취인 주소 : <input id='extraAddress'
+                        <p>세부  주소 : <input id='extraAddress'
                                            value={address?.extraAddress}
                                            type="text"
                                            onChange={handleAddress}/>
