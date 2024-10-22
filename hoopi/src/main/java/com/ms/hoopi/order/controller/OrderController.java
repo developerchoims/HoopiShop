@@ -1,5 +1,6 @@
 package com.ms.hoopi.order.controller;
 
+import ch.qos.logback.core.boolex.EvaluationException;
 import com.ms.hoopi.order.model.dto.OrderRequestDto;
 import com.ms.hoopi.order.model.dto.RefundRequestDto;
 import com.ms.hoopi.order.service.OrderService;
@@ -22,10 +23,12 @@ public class OrderController {
     }
 
     @GetMapping("/order")
-    public ResponseEntity<?> getOrder(@RequestParam String id
+    public ResponseEntity<?> getOrder(@RequestParam String id,
+                                      @RequestParam(required = false) String searchCate,
+                                      @RequestParam(required = false) String keyword
                                     , @RequestParam(defaultValue = "0")int page
                                     , @RequestParam(defaultValue = "10") int size){
-        return orderService.getOrder(id, page, size);
+        return orderService.getOrder(id, page, size, searchCate, keyword);
     }
 
     @PutMapping("/order")

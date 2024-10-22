@@ -24,13 +24,14 @@ const Menu = () => {
     const [board, setBoard] = useState({});
     const [category, setCategory] = useState([]);
     const[visible, setVisible] = useState(false);
+    const[categoryVisible, setCategoryVisible] = useState(true);
     const[menu, setMenu] = useState();
     const fetchMenuCategory = async () => {
-        try{
+        try {
             // 메뉴 설정
             const response = await api.get('hoopi/menu');
             setMenu(response.data);
-            if(role === 'admin'){
+            if (role === 'admin') {
                 setVisible(true);
             }
             // board 설정
@@ -43,14 +44,16 @@ const Menu = () => {
                 tempBoardId = 'product';
             } else if (path.includes('notice')) {
                 tempBoardId = 'notice';
-            } else if (path.includes('admin/main')){
+            } else if (path.includes('admin/main')) {
                 tempBoardId = 'user';
+            } else if(path.includes('amdin/order')){
+                tempBoardId = 'adminOrder';
             } else {
-                tempBoardId = 'product';
+                setCategoryVisible(false);
             }
             console.log(tempBoardId);
             const boardResponse = await api.get('hoopi/board', { params: { boardId: tempBoardId } });
-            setBoardId(tempBoardId);  // boardId 업데이트
+            setBoardId(tempBoardId); // boardId 업데이트
             setBoard(boardResponse.data);
 
             const categoryResponse = await api.get('hoopi/category', {params: {boardCode: boardResponse.data.boardCode}});
@@ -93,7 +96,7 @@ const Menu = () => {
                     </table>
                 </div>
             </div>
-            <div className='search-container'>
+            <div className='search-container' style={{display: categoryVisible}}>
                 <div className='search-input-box'>
                     <select className='search-input-box' value={searchCate} onChange={handleSearchCate}>
                         {category.map(m => (

@@ -2,11 +2,13 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import './order.css';
 import Pagination from "@mui/material/Pagination";
+import {useSearch} from "../searchMenu/SearchContext";
 
 const Order = () => {
 
     const id = localStorage.getItem("id");
 
+    const {keyword, setKeyword, searchCate, setSearchCate} = useSearch();
 
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -20,7 +22,9 @@ const Order = () => {
             const response = await axios.get('https://hoopi.co.kr/api/hoopi/order', {params: {
                 id: id,
                 page: page - 1,
-                size: 10
+                size: 10,
+                searchCate: searchCate,
+                keyword: keyword,
                 }});
             setOrders(response.data);
             console.log(response.data.content);
