@@ -96,7 +96,6 @@ public class OrderServiceImpl implements OrderService {
                 .body(json)
                 .asString();
         log.info("json확인:{}", json);
-        log.info("url확인:{}", url);
         log.info("사전 정보 저장 확인하기 : status : {}, body : {}}", response.getStatus(), response.getBody());
         return response.getStatus();
     }
@@ -108,7 +107,6 @@ public class OrderServiceImpl implements OrderService {
                 .header("Authorization", "PortOne " + secret)
                 .header("Content-Type", "application/json")
                 .asString();
-        log.info("secret: {}", secret);
         log.info("결제 정보 확인하기 : status : {}, body : {}",paymentResponse.getStatus(), paymentResponse.getBody());
         return paymentResponse.getStatus();
     }
