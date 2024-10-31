@@ -289,7 +289,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         // iamport 환불 요청
-        String url = "https://api.portone.io/payments/" + payment.getPaymentCode() + "/cancel";
+        String url = "https://api.portone.io/payments/" + "payment-" + payment.getPaymentCode() + "/cancel";
         log.info("Payment URL: {}", url);
         String jsonBody = String.format(
                 "{\"reason\":\"%s\"}",
@@ -299,14 +299,12 @@ public class OrderServiceImpl implements OrderService {
                 .header("Authorization", "PortOne " + secret)
                 .header("Content-Type", "application/json")
                 .body(jsonBody)
-
                 .asString();
         if(!cancelResponse.isSuccess()){
             log.error("Failed to process payment: Status={}, Body={}",
                     cancelResponse.getStatus(), cancelResponse.getBody());
         }
         //payment정보 수정(결제 취소), order정보 수정, refund 정보 insert
-        String message = "";
         switch (cancelResponse.getStatus()) {
             case 200 -> {
                 payment.setStatus(Payment.Status.결제취소);
