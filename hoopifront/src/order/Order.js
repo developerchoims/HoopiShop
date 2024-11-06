@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import axios from "axios";
 import './order.css';
 import Pagination from "@mui/material/Pagination";
 import {useSearch} from "../searchMenu/SearchContext";
@@ -62,7 +61,7 @@ const Order = () => {
     }
 
     const handleRequestRefund = () => {
-        axios.put('https://hoopi.co.kr/api/hoopi/order', {
+        api.put('hoopi/order', {
             orderCode,
             reason
         })

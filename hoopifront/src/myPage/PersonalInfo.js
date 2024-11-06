@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../main/axios/axiosApi";
 import './personalInfo.css'
 import DaumPostCode from "../auth/DaumPostCode";
 
@@ -15,7 +15,7 @@ const PersonalInfo = () => {
 
     const handlePersonalInfo = async () => {
         try {
-            const response = await axios.get('https://hoopi.co.kr/api/hoopi/personal-info', {
+            const response = await api.get('hoopi/personal-info', {
                 params: {
                     id: id,
                 }
@@ -31,7 +31,7 @@ const PersonalInfo = () => {
     }, [userInfo]);
 
     const handleDeleteAddress = (addressCode) => {
-        axios.put(`https://hoopi.co.kr/api/hoopi/address-state/${addressCode}`)
+        api.put(`hoopi/address-state/${addressCode}`)
             .then(response => {
                 alert(response.data);
             })
@@ -41,7 +41,7 @@ const PersonalInfo = () => {
     }
 
     const handleMainAddress = (addressCode) => {
-        axios.put(`https://hoopi.co.kr/api/hoopi/address-main/${addressCode}`)
+        api.put(`hoopi/address-main/${addressCode}`)
             .then(response => {
                 alert(response.data);
             })
@@ -70,7 +70,7 @@ const PersonalInfo = () => {
         }));
     };
     const handleAddAddress = (address) => {
-        axios.post('https://hoopi.co.kr/api/hoopi/personal-info', address)
+        api.post('hoopi/personal-info', address)
             .then(response => {
                 alert(response.data);
                 setShowPostCode(false);
