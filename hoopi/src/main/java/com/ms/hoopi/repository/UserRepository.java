@@ -33,6 +33,9 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     Optional<User> findByCode(String code);
 
+    @Query("SELECT u.id FROM User u WHERE u = :user")
+    String findUserIdByUser(User user);
+
     @Modifying
     @Query("UPDATE User u SET u.quitYn = 'Y', u.quitDate = CURRENT_TIMESTAMP WHERE u.id = :id")
     void updateById(String id);

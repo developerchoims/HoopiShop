@@ -88,7 +88,11 @@ const Order = () => {
                                     <h3>주문 내역</h3>
                                     <h5>{handleDate(order.orderDate)}</h5>
                                     <h5>{order.orderStatus}</h5>
-                                    <button onClick={()=>handleRefundDisplay(order.orderCode)}>주문 취소</button>
+                                    <button
+                                        style={{display:order.orderStatus === '주문 취소'? 'none' : 'inline'}}
+                                        onClick={()=>handleRefundDisplay(order.orderCode)}>
+                                        주문 취소
+                                    </button>
                                 </div>
                                 <div className="order-user">
                                     <div className="order-address">
