@@ -1,7 +1,7 @@
 package com.ms.hoopi.admin.order.service.serviceImpl;
 
 import com.ms.hoopi.admin.order.model.OrderResponseDto;
-import com.ms.hoopi.admin.order.service.OrderService;
+import com.ms.hoopi.admin.order.service.AdminOrderService;
 import com.ms.hoopi.constants.Constants;
 import com.ms.hoopi.model.entity.Order;
 import com.ms.hoopi.repository.OrderRepository;
@@ -14,14 +14,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 @AllArgsConstructor
-public class OrderServiceImpl implements OrderService {
+public class AdminOrderServiceImpl implements AdminOrderService {
 
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
