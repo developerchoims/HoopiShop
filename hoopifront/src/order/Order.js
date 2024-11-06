@@ -3,6 +3,7 @@ import axios from "axios";
 import './order.css';
 import Pagination from "@mui/material/Pagination";
 import {useSearch} from "../searchMenu/SearchContext";
+import api from "../main/axios/axiosApi";
 
 const Order = () => {
 
@@ -19,7 +20,7 @@ const Order = () => {
     const [orders, setOrders] = useState({ content: [], totalPages: 0 });
     const fetchOrders = async (page) => {
         try{
-            const response = await axios.get('https://hoopi.co.kr/api/hoopi/order', {params: {
+            const response = await api.get('hoopi/order', {params: {
                 id: id,
                 page: page - 1,
                 size: 10,

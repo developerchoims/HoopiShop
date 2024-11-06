@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import axios from "axios";
+import api from "../../main/axios/axiosApi"
 import Pagination from "@mui/material/Pagination";
 import {useSearch} from "../../searchMenu/SearchContext";
 
@@ -27,7 +27,7 @@ const AdminOrder = () => {
     // 주문 디테일 보기 버튼 클릭 시
     const handleOrderDetail = (orderCode) => {
         try{
-            const response = axios.get('hoopi/admin/order/detail');
+            const response = api.get('hoopi/admin/order/detail');
         } catch (error){
             console.log(error);
         }
