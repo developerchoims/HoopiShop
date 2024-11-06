@@ -1,6 +1,6 @@
 package com.ms.hoopi.admin.order.controller;
 
-import com.ms.hoopi.admin.order.service.OrderService;
+import com.ms.hoopi.admin.order.service.AdminOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("hoopi/admin")
-public class OrderController {
+public class AdminOrderController {
 
-    private final OrderService orderService;
+    private final AdminOrderService adminOrderService;
 
     @GetMapping("/order")
     public ResponseEntity<?> getOrder() {
-        return orderService.getOrder();
+        return adminOrderService.getOrder();
     }
 }
