@@ -21,7 +21,7 @@ axios.interceptors.response.use(
 
           const tokenResponse = await api.get('hoopi/refresh-token', { params: { id: id } });
           if (tokenResponse.status == 200) {
-            return axios(originalRequest);
+            return api(originalRequest);
           } else {
             console.error('리프레시 토큰 갱신 실패:', tokenResponse.statusText);
             localStorage.clear();
