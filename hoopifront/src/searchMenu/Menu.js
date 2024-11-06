@@ -35,6 +35,8 @@ const Menu = () => {
             setMenu(response.data);
             if (role === 'admin') {
                 setVisible(true);
+            } else {
+                setVisible(false);
             }
             // board 설정
             let tempBoardId = '';
@@ -95,6 +97,7 @@ const Menu = () => {
                                     display: visible && m.name === '회원' ? 'display'
                                            : visible && m.name === '관리자주문' ? 'display'
                                             :!visible && m.name !== '회원' !== '관리자주문' ? 'display'
+                                            : visible && m.name !== '주문' ? 'display'
                                             :'none'
                                 }} key={m.boardCode}>
                                     <Link to={`${visible ? 'admin/' : ''}${m.boardId}`}>{m.name}</Link>
