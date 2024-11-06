@@ -17,7 +17,7 @@ const AdminOrder = () => {
 
     const fetchOrderList = async () => {
         try {
-            const response = await axios.get("hoopi/admin/order");
+            const response = await api.get("hoopi/admin/order");
             setOrderList(response.data);
         } catch (error) {
             console.log(error);
