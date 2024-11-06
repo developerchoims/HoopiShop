@@ -20,6 +20,7 @@ import Order from "../order/Order";
 import MyPage from "../myPage/MyPage";
 import PersonalInfo from "../myPage/PersonalInfo";
 import HelpDesk from "../myPage/HelpDesk";
+import AdminOrder from "../admin/order/AdminOrder";
 
 // Context 생성
 const UserContext = createContext(null);
@@ -34,8 +35,7 @@ function App() {
     const handleLogout =  () => {
          api.delete('hoopi/logout', { params: { id: id } })
             .then(response => {
-                localStorage.removeItem('id');
-                localStorage.removeItem('role');
+                localStorage.clear();
                 alert(response.data);
                 window.location.href = '/';
             })
@@ -87,6 +87,7 @@ function App() {
                                 <Route path='notice' element={<Notice/>}/>
                                 <Route path='notice/:articleCode/:articleTitle' element={<NoticeDetail/>}/>
                                 <Route path=':boardId/write' element={<Board/>}/>
+                                <Route path='order' element={<AdminOrder/>}/>
                             </Route>
                             <Route path='/product' element={<Product/>}/>
                             <Route path='/product/:productCode/:name' element={<ProductDetail/>}/>

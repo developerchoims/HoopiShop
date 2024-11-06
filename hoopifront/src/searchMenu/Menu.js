@@ -41,7 +41,7 @@ const Menu = () => {
             if (path.includes('user')) {
                 setCategoryVisible('flex');
                 tempBoardId = 'user';
-            } else if (path.includes('order')) {
+            } else if (!path.includes('admin') && path.includes('order')) {
                 setCategoryVisible('flex');
                 tempBoardId = 'order';
             } else if (path.includes('product')) {
@@ -53,7 +53,7 @@ const Menu = () => {
             } else if (path.includes('admin/main')) {
                 setCategoryVisible('flex');
                 tempBoardId = 'user';
-            } else if(path.includes('amdin/order')){
+            } else if(path.includes('admin/order')){
                 setCategoryVisible('flex');
                 tempBoardId = 'adminOrder';
             } else {
@@ -92,9 +92,8 @@ const Menu = () => {
                         <tr>
                             {menu?.map(m => (
                                 <td style={{
-                                    display: m.name === '회원' && visible ? 'display'
-                                        : m.name === '관리자주문' && visible ? 'display'
-                                        : m.name !== '회원' && m.name !== '관리자주문' ? 'display'
+                                    display: visible && m.name === '관리자주문' ? 'display'
+                                            : !visible && m.name === '주문' ? 'display'
                                             : 'none'
                                 }} key={m.boardCode}>
                                     <Link to={`${visible ? 'admin/' : ''}${m.boardId}`}>{m.name}</Link>
