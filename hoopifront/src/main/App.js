@@ -87,7 +87,7 @@ function App() {
                                 <Route path='notice' element={<Notice/>}/>
                                 <Route path='notice/:articleCode/:articleTitle' element={<NoticeDetail/>}/>
                                 <Route path=':boardId/write' element={<Board/>}/>
-                                <Route path='order' element={<AdminOrder/>}/>
+                                <Route path='adminOrder' element={<AdminOrder/>}/>
                             </Route>
                             <Route path='/product' element={<Product/>}/>
                             <Route path='/product/:productCode/:name' element={<ProductDetail/>}/>
