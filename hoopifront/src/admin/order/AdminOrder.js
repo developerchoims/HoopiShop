@@ -59,7 +59,7 @@ const AdminOrder = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        {orderList?.map(order => (
+                        {orderList?.content?.map(order => (
                             <tr>
                                 <td>{order.id}</td>
                                 <td>{handleDate(order.orderDate)}</td>
