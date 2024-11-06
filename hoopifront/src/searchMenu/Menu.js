@@ -55,7 +55,7 @@ const Menu = () => {
             } else if (path.includes('admin/main')) {
                 setCategoryVisible('flex');
                 tempBoardId = 'user';
-            } else if(path.includes('admin/order')){
+            } else if(path.includes('admin/adminOrder')){
                 setCategoryVisible('flex');
                 tempBoardId = 'adminOrder';
             } else {
