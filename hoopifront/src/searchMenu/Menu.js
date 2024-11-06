@@ -92,9 +92,10 @@ const Menu = () => {
                         <tr>
                             {menu?.map(m => (
                                 <td style={{
-                                    display: visible && m.name === '관리자주문' ? 'display'
-                                            : !visible && m.name !== '관리자주문' ? 'display'
-                                            : 'none'
+                                    display: visible && m.name === '회원' ? 'display'
+                                           : visible && m.name === '관리자주문' ? 'display'
+                                            :!visible && m.name !== '회원' !== '관리자주문' ? 'display'
+                                            :'none'
                                 }} key={m.boardCode}>
                                     <Link to={`${visible ? 'admin/' : ''}${m.boardId}`}>{m.name}</Link>
                                 </td>
