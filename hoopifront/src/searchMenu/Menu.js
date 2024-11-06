@@ -96,7 +96,7 @@ const Menu = () => {
                                 <td style={{
                                     display: visible && m.name === '회원' ? 'display'
                                            : visible && m.name === '관리자주문' ? 'display'
-                                            :!visible && m.name !== '회원' !== '관리자주문' ? 'display'
+                                            :!visible && m.name !== '회원' && m.name !== '관리자주문' ? 'display'
                                             : visible && m.name !== '주문' ? 'display'
                                             :'none'
                                 }} key={m.boardCode}>
